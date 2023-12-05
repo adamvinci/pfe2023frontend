@@ -10,7 +10,10 @@
         </thead>
         <tbody>
           <tr v-for="(client, index) in clients" :key="index">
-            <td>{{ client }}</td>
+            <td>
+              <!-- Utilisation de router-link pour rendre la cellule cliquable -->
+              <router-link :to="{ path: '/' }">{{ client }}</router-link>
+            </td>
             <td>
               <button
                 @click="toggleLivraison(index)"
@@ -27,12 +30,10 @@
 </template>
 
 <script setup>
-import Home from '../components/Home.vue'
-
 import { ref } from 'vue';
 
-const clients = ref(['Client1', 'Client2', 'Client3']); // Ajoute tous tes clients ici
-const livraisons = ref(Array(clients.value.length).fill(false)); // Initialisation avec "Pas Livrée" pour tous les clients
+const clients = ref(['Client1', 'Client2', 'Client3']);
+const livraisons = ref(Array(clients.value.length).fill(false));
 
 const toggleLivraison = (index) => {
   livraisons.value[index] = !livraisons.value[index];
