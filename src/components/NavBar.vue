@@ -2,7 +2,6 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-orange-pastel">
     <div class="container">
       <router-link to="/">
-        <!-- Ajoute une classe à l'image pour styliser -->
         <img src="/src/assets/Snappies-removebg-preview.png" alt="Logo Mon Site" class="navbar-brand logo-navbar">
       </router-link>
 
@@ -23,6 +22,21 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/home">Mes livraisons</router-link>
           </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/">Liste Livreurs</router-link>
+          </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/">Liste Clients</router-link>
+          </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/">Ajouter Livreur</router-link>
+          </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/">Ajouter Client</router-link>
+          </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/">Assigner commande</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -31,21 +45,28 @@
 
 <script>
 export default {
-  // Composant de la navbar
-}
+  data() {
+    return {
+      isAdmin: true, //Remplacer Backend
+    };
+  },
+};
 </script>
 
 <style scoped>
-/* Ajoute ici des styles personnalisés si nécessaire */
-
-/* Couleur orange pastel très claire */
 .bg-orange-pastel {
-  background-color: rgba(255, 165, 0, 0.2); /* Ajuste l'opacité selon tes préférences */
+  background-color: #bd83da33;
 }
 
-/* Style pour réduire la taille du logo */
 .logo-navbar {
-  width: 50px; /* Ajuste la taille selon tes besoins */
-  height: auto; /* Maintient le rapport hauteur-largeur */
+  width: 50px;
+  height: auto;
+}
+.navbar-nav .nav-item {
+  color: #ffcc00; 
+  font-weight: bold; 
+  border: 1px solid black; 
+  border-radius: 5px; 
+  margin-right: 10px;
 }
 </style>
