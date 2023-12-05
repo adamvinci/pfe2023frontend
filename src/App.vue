@@ -1,12 +1,24 @@
 <template>
-  <router-link to="/"> Home</router-link>
-<router-view/>
+  <div id="app">
+    <Navbar />
+    <router-view />
+  </div>
 </template>
 
-<script setup>
+<script>
+import Navbar from "@/components/Navbar.vue";
+
+export default {
+  components: {
+    Navbar,
+  },
+};
 </script>
 
-
-
-<style scoped>
+<style>
+body {
+  background-color: #f4f1e4;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
 </style>
