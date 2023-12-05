@@ -32,7 +32,7 @@
             <router-link class="nav-link" to="/">Ajouter Livreur</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
-            <router-link class="nav-link" to="/">Ajouter Client</router-link>
+            <router-link class="nav-link" to="/addClient">Ajouter Client</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/">Assigner commande</router-link>
