@@ -29,11 +29,9 @@ export default {
 <style>
 body{
     background-image: url("../assets/pexels.jpg");
-
 }
-
 .login {
-    width: 100%;
+    width: 60%;
     margin: auto;
     text-align: center;
     padding: 50px; 
