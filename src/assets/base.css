@@ -32,7 +32,7 @@
     background-color: #D3CAF6;
   }
   
-  #boutonId {
+  /*#boutonId {
     width: 50%;
     height: 40px;
     border: 1px solid #C4B4FD;
@@ -45,7 +45,7 @@
   
   #boutonId:hover {
     background: #735DC6;
-  }
+  }*/
   
   h1 {
     width: 320px;
