@@ -2,26 +2,40 @@
   <div class="page-container">
     <!-- Bouton en haut à gauche -->
     <router-link to="/stockcamion">
-      <button class="btn-StockCamion">Stock camion</button>
+    <button v-if="!isadmin" class="btn-StockCamion">Stock camion</button>
     </router-link>
 
+    <div class="date-title">
+      <h1>{{ formattedDate }}</h1>
+      <h2>Aujourd'hui</h2>
+    </div>
+ 
     <div class="table-container" id="homeView">
+       <!-- Moteur de recherche -->
+        <div v-if="isadmin" class="container">
+          <input type="text" maxlength="12" placeholder="Rechercher" class="searchbar" />
+          <img src="https://images-na.ssl-images-amazon.com/images/I/41gYkruZM2L.png" alt="search icon" class="button" />
+        </div>
       <div class="table-wrapper" id="homeViewDiv">
+        
         <table id="tableHomeView">
           <thead>
             <tr>
               <!-- Aucun libellé pour la colonne ID -->
               <th>Client</th>
               <th>État de Livraison</th>
+              <th v-if="isadmin">Livreur</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(client, index) in clients" :key="index">
               <td class="hidden-id">{{ client.id }}</td>
               <td>
-                <!-- Utilisation de router-link pour rendre la cellule cliquable -->
-                <router-link :to="{ path: '/livraisonclient' }">{{ client.name }}</router-link>
-              </td>
+                  <!-- Utilisation de router-link pour rendre la cellule cliquable -->
+                  <router-link :to="{ path: '/livraisonclient' }">
+                    <button>{{ client.name }}</button>
+                  </router-link>
+                </td>
               <td>
                 <button id="livraisonCheck"
                   @click="toggleLivraison(index)"
@@ -30,6 +44,8 @@
                   {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
                 </button>
               </td>
+                <!-- Ajout de la colonne Livreur conditionnellement -->
+                <td v-if="isadmin">{{ client.livreur }}</td>
             </tr>
           </tbody>
         </table>
@@ -39,18 +55,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const clients = ref([
-  { id: 1, name: 'Client1' },
-  { id: 2, name: 'Client2' },
-  { id: 3, name: 'Client3' },
+{ id: 1, name: 'Client1', livreur: 'Livreur1' },
+  { id: 2, name: 'Client2', livreur: 'Livreur2' },
+  { id: 3, name: 'Client3', livreur: 'Livreur3' },
 ]);
 const livraisons = ref(Array(clients.value.length).fill(false));
+const isadmin = ref(false); // Set this value based on your logic
 
 const toggleLivraison = (index) => {
   livraisons.value[index] = !livraisons.value[index];
 };
+
+const formattedDate = ref('');
+
+onMounted(() => {
+  updateFormattedDate();
+  setInterval(updateFormattedDate, 1000); // Mettez à jour la date chaque seconde
+});
+
+const updateFormattedDate = () => {
+  const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  formattedDate.value = now.toLocaleDateString('fr-FR', options);
+};
+
 </script>
 
 <style scoped>
@@ -132,6 +163,54 @@ const toggleLivraison = (index) => {
 
 #livraisonCheck:hover {
   opacity: 0.8;
+}
+
+/* Styles pour le titre de la date */
+.date-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.date-title h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.date-title p {
+  margin: 0;
+}
+
+/* Styles pour la barre de recherche */   .container {
+  width: 10rem; /* Adjust the width */
+  height: 3rem; /* Adjust the height */
+  margin: 0 1rem;
+  position: relative;
+}
+
+.searchbar {
+  font-size: 1.4rem; /* Adjust the font size */
+  width: 10rem;
+  height: 2.5rem; /* Adjust the height */
+  border: none;
+  outline: none;
+  border-radius: 4rem; /* Adjust the border-radius */
+  padding: 1rem; /* Adjust the padding */
+  transition: all 0.1s;
+  transition-delay: 0.1s;
+}
+
+
+.button {
+  height: 1.2rem; /* Adjust the height of the icon */
+  position: absolute;
+  top: 0.7rem; /* Adjust the top position */
+  right: 0.3rem; /* Adjust the right position */
+  transition: all 0.1s;
+  transition-delay: 0.1s;
+}
+
+.searchbar::placeholder {
+  opacity: 0.3;
 }
 
 </style>
