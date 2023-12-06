@@ -1,5 +1,5 @@
 <template>
-   <div class="addCommand">
+  <div class="addCommand">
     <form @submit.prevent="submitCommand">
       <div class="table-container">
         <h1>Ajouter Commande</h1>
@@ -49,36 +49,49 @@
             </tr>
           </tbody>
         </table>
-        <button id="boutonId" type="submit" @click="submitCommand">Ajouter</button>
+        <Bouton @click="submitCommand"> Ajouter  </Bouton>
       </div>
     </form>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'addCommand',
-  data() {
-    return {
-      langesQuantity: 0,
-      insertsQuantity: 0,
-      sacsQuantity: 0,
-      gantsQuantity: 0,
-      selectedDay: 'lundi', // Valeur par défaut
-    };
-  },
-  methods: {
-    submitCommand() {
-      // Vous pouvez traiter les quantités et le jour ici
-      console.log('Jour de la semaine:', this.selectedDay);
-      console.log('Langes:', this.langesQuantity);
-      console.log('Inserts:', this.insertsQuantity);
-      console.log('Sacs:', this.sacsQuantity);
-      console.log('Gants:', this.gantsQuantity);
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import Bouton from '@/components/Bouton.vue';
 
-      // Rediriger vers /home
-      this.$router.push('/home');
-    },
-  },
+const langesQuantity = ref(0);
+const insertsQuantity = ref(0);
+const sacsQuantity = ref(0);
+const gantsQuantity = ref(0);
+const selectedDay = ref('lundi');
+const $router = useRouter();
+
+const submitCommand = () => {
+  console.log('Jour de la semaine:', selectedDay.value);
+  console.log('Langes:', langesQuantity.value);
+  console.log('Inserts:', insertsQuantity.value);
+  console.log('Sacs:', sacsQuantity.value);
+  console.log('Gants:', gantsQuantity.value);
+
+  $router.push('/home');
 };
-  </script>
+</script>
+
+<style scoped>
+/* Add command styles */
+#table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+#table table, th, td {
+  border: 1px solid #ddd;
+}
+
+#table th, td {
+  padding: 10px;
+  text-align: center;
+}
+</style>
