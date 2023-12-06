@@ -20,7 +20,16 @@
     margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
   
   }
-  
+  .login h1{
+    font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+    margin: auto;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+  }
   .login input {
     width: 70%;
     height: 40px;
@@ -46,12 +55,11 @@
   #boutonId:hover {
     background: #735DC6;
   }*/
-  
+ 
   h1 {
-    width: 320px;
+    font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
     margin: auto;
     text-align: center;
-    font-size: 36px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -131,7 +139,16 @@
     margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
 
   }
-
+.table-container h1{
+  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
   .assigner label {
     display: block;
     font-size: 14px;
@@ -167,6 +184,27 @@ body {
     background: #E1DAFB;
     margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
 
+}
+.addLivreur h1{
+  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+/* AddClientView */
+.addClient h1 {
+  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
 
 .addLivreur input {
