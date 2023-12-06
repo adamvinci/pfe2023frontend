@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-orange-pastel">
     <div class="container">
       <router-link to="/">
-        <img src="/src/assets/Snappies-removebg-preview.png" alt="Logo Mon Site" class="navbar-brand logo-navbar">
+        <img src="/src/assets/Snappies-removebg-preview.png" alt="Logo Mon Site" class="navbar-brand logo-navbar" >
       </router-link>
 
       <button
