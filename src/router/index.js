@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AddClientView from '../views/AddClientView.vue'
 import AddCommandView from '../views/AddCommandView.vue'
+import AssignerView from '../views/AssignerView.vue'
+import AddLivreurView from '../views/AddLivreurView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,6 +28,16 @@ const router = createRouter({
       path: '/addCommand',
       name: 'addCommand',
       component: AddCommandView
+    },
+    {
+      path: '/assigner',
+      name: 'assigner',
+      component: AssignerView
+    },
+    {
+      path: '/addLivreur',
+      name: 'addLivreur',
+      component: AddLivreurView
     },
   ]
 });

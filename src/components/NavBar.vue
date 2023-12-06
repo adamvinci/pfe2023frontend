@@ -29,13 +29,13 @@
             <router-link class="nav-link" to="/">Liste Clients</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
-            <router-link class="nav-link" to="/">Ajouter Livreur</router-link>
+            <router-link class="nav-link" to="/addLivreur">Ajouter Livreur</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/addClient">Ajouter Client</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
-            <router-link class="nav-link" to="/">Assigner commande</router-link>
+            <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
           </li>
         </ul>
       </div>
