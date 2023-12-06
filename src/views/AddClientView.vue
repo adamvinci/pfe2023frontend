@@ -6,13 +6,18 @@
       Adresse<input type="text" v-model="adresse" placeholder="Rue de bruxelles"/>
       Numero Adresse<input type="number" v-model="numAdresse" placeholder="1"/>
       Téléphone<input type="number" v-model="numTel" placeholder="0487014343"/>
-      <button id="boutonId" v-on:click="ajouterCommande"> Ajouter </button>
+      <Bouton @click="ajouterCommande"> Ajouter  </Bouton>
     </div>
   </template>
   
   <script>
+  import Bouton from '@/components/Bouton.vue';
+
 export default {
   name: 'AddClientView',
+  components: {
+    Bouton,
+  },
   data() {
     return {
       nom: '',

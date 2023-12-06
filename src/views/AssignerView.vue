@@ -13,15 +13,20 @@
             <option value="livreur1">Livreur1</option>
             <option value="livreur2">Livreur2</option>
           </select>
-          <button id="boutonId" type="submit">Assigner</button>
+          <Bouton @click="submitCommand"> Assigner </Bouton>
         </div>
       </form>
     </div>
   </template>
   
   <script>
+  import Bouton from '@/components/Bouton.vue';
+
   export default {
     name: 'assigner',
+    components: {
+    Bouton,
+  },
     data() {
       return {
         selectedClient: 'client1',

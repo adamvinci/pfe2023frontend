@@ -3,7 +3,7 @@
     <h1> Login Page </h1>
     <input type="text" v-model="email" placeholder="nom@hotmail.com"/>
     <input type="password" v-model="password" placeholder="*****"/>
-    <button id="boutonId" @click="login"> Login </button>
+    <Bouton @click="login"> Login </Bouton>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
@@ -11,6 +11,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Bouton from '@/components/Bouton.vue';
 
 const email = ref('');
 const password = ref('');
