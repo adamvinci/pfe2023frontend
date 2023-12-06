@@ -81,4 +81,57 @@ const toggleLivraison = (index) => {
 .page-container {
   position: relative;
 }
+/* Style pour HomeView*/
+#homeView {
+  overflow: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Correction ici */
+    align-items: center;
+    width: 40%;
+    margin: auto;
+    text-align: center;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #E1DAFB;
+    margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
+}
+
+/* Styles pour le wrapper du tableau */
+#homeViewDiv {
+  border: 2px solid #ddd; /* Bordure du carré */
+  padding: 20px; /* Espace intérieur du carré */
+  border-radius: 10px; /* Coins arrondis du carré */
+}
+
+/* Styles pour le tableau */
+#tableHomeView {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tableHomeView th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#tableHomeView th {
+  background-color: #f2f2f2;
+}
+
+/* Styles pour les boutons */
+#livraisonCheck {
+  padding: 6px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+#livraisonCheck:hover {
+  opacity: 0.8;
+}
+
 </style>

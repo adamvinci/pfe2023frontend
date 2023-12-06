@@ -20,6 +20,8 @@ const $router = useRouter();
 
 const login = async () => {
   try {
+    console.log('Email:', email.value);
+    console.log('Password:', password.value);
     const response = await fetch('http://localhost:3333/auth/login', {
       method: 'POST',
       headers: {
@@ -47,3 +49,57 @@ const login = async () => {
   }
 };
 </script>
+<style scoped>
+/* Style pour LoginView*/
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  padding: 50px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #E1DAFB;
+  margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
+
+}
+.login h1{
+  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+.login input {
+  width: 70%;
+  height: 40px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #D3CAF6;
+}
+h1 {
+  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+</style>

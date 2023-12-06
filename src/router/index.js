@@ -1,12 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import AddClientView from '../views/AddClientView.vue'
-import AddCommandView from '../views/AddCommandView.vue'
-import AssignerView from '../views/AssignerView.vue'
-import AddLivreurView from '../views/AddLivreurView.vue'
-import StockCamion from '../views/StockCamionView.vue'
-import LivraisonClient from '../views/LivraisonClientView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+
+import HomeView from '../views/HomeView.vue';
+import LoginView from '../views/LoginView.vue';
+import AddClientView from '../views/AddClientView.vue';
+import AddCommandView from '../views/AddCommandView.vue';
+import AssignerView from '../views/AssignerView.vue';
+import AddLivreurView from '../views/AddLivreurView.vue';
+import StockCamion from '../views/StockCamionView.vue';
+import LivraisonClient from '../views/LivraisonClientView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,4 +55,4 @@ const router = createRouter({
   ]
 });
 
-export default router
+export default router;
