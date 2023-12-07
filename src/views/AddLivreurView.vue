@@ -4,6 +4,8 @@
     Nom<input type="text" v-model="nom" placeholder="Michel"/>
     Mot de passe<input type="password" v-model="password" placeholder="*****"/>
     <Bouton @click="ajouterLivreur"> Ajouter </Bouton>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
   </div>
 </template>
 
@@ -14,6 +16,8 @@ import { useRouter } from 'vue-router';
 
 const nom = ref('');
 const password = ref('');
+const errorMessage = ref('');
+const successMessage = ref('');
 const $router = useRouter();
 
 const ajouterLivreur = async () => {
@@ -25,18 +29,23 @@ const ajouterLivreur = async () => {
       },
       mode: 'cors',
       body: JSON.stringify({
-        email: nom.value, // Utiliser le champ email pour stocker le nom
+        nom: nom.value,
         password: password.value,
       }),
     });
 
     if (response.ok) {
-      console.log('Livreur ajouté avec succès!');
+      successMessage.value = 'Livreur ajouté avec succès!';
+      errorMessage.value = ''; 
       $router.push('/');
     } else {
+      errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
+      successMessage.value = '';
       console.error('Erreur lors de l\'ajout du livreur:', response.status);
     }
   } catch (error) {
+    errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
+    successMessage.value = '';
     console.error('Erreur lors de l\'ajout du livreur:', error);
   }
 };
@@ -80,5 +89,17 @@ const ajouterLivreur = async () => {
   letter-spacing: 2px;
   margin-bottom: 20px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
 }
 </style>
