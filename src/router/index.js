@@ -8,6 +8,8 @@ import AssignerView from '../views/AssignerView.vue';
 import AddLivreurView from '../views/AddLivreurView.vue';
 import StockCamion from '../views/StockCamionView.vue';
 import LivraisonClient from '../views/LivraisonClientView.vue';
+import AllDeliver from '../views/AllDeliversView.vue'
+import AllClient from '../views/AllClientView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +53,16 @@ const router = createRouter({
       path: '/livraisonclient',
       name: 'livraisonclient',
       component: LivraisonClient
+    },
+    {
+      path: '/allclients',
+      name: 'allclients',
+      component: AllClient
+    },
+    {
+      path: '/alldelivers',
+      name: 'alldelivers',
+      component: AllDeliver
     },
   ]
 });
