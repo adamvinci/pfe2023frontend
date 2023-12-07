@@ -59,6 +59,7 @@
     editMode.value = !editMode.value;
   };
   
+  
   const saveChanges = () => {
     // Ajoutez ici la logique pour sauvegarder les modifications des livreurs
     console.log('Modifications enregistrées :', livreurs);
@@ -162,4 +163,3 @@
     opacity: 0.8;
   }
   </style>
-  
