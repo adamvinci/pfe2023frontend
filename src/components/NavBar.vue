@@ -58,11 +58,12 @@ export default {
   },
   methods: {
     logout() {
-      // Ajoutez ici la logique de déconnexion
-      // Par exemple, supprimez le token d'accès du localStorage et redirigez l'utilisateur vers la page de connexion
+      console.log('Déconnexion en cours...');
       localStorage.removeItem('accessToken');
-      this.$router.push('/'); // Remplacez '/login' par le chemin de votre page de connexion
+      this.$router.push('/');
+      console.log('Utilisateur déconnecté. Redirection vers la page d\'accueil.');
     },
+
   },
 };
 </script>
