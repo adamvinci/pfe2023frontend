@@ -23,10 +23,10 @@
             <router-link class="nav-link" to="/home">Mes livraisons</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
-            <router-link class="nav-link" to="/">Liste Livreurs</router-link>
+            <router-link class="nav-link" to="/alldelivers">Liste Livreurs</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
-            <router-link class="nav-link" to="/">Liste Clients</router-link>
+            <router-link class="nav-link" to="/allclients">Liste Clients</router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/addLivreur">Ajouter Livreur</router-link>

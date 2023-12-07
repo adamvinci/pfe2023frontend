@@ -17,6 +17,7 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const $router = useRouter();
+const accessToken = ref(''); // Variable pour stocker le token d'accès
 
 const login = async () => {
   try {
@@ -35,6 +36,14 @@ const login = async () => {
     });
 
     if (response.ok) {
+      const data = await response.json();
+      console.log('Réponse du serveur:', data);
+
+      accessToken.value = data.token;
+      console.log('Token d\'accès:', accessToken.value);
+
+      // Stocke le token dans le localStorage
+      localStorage.setItem('accessToken', accessToken.value);
       // Utilisation de la navigation avec la référence à $router
       $router.push('/home');
     } else {
