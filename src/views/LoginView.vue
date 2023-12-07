@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <h1> Login Page </h1>
-    <input type="text" v-model="email" placeholder="nom@hotmail.com"/>
-    <input type="password" v-model="password" placeholder="*****"/>
+    <input type="text" v-model="email" placeholder="nom@hotmail.com" />
+    <input type="password" v-model="password" placeholder="*****" />
     <Bouton @click="login"> Login </Bouton>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
@@ -23,12 +23,11 @@ const login = async () => {
   try {
     console.log('Email:', email.value);
     console.log('Password:', password.value);
-    const response = await fetch('http://localhost:3333/auth/login', {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      mode: 'cors',
       body: JSON.stringify({
         email: email.value,
         password: password.value,
@@ -67,7 +66,7 @@ const login = async () => {
 }
 
 .login {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 60%;
@@ -78,11 +77,14 @@ const login = async () => {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
+  margin-top: 4rem;
+  /* Ajuste la marge en haut pour rapprocher du navbar */
 
 }
-.login h1{
-  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+
+.login h1 {
+  font-size: 24px;
+  /* Vous pouvez ajuster la taille selon vos préférences */
   margin: auto;
   text-align: center;
   font-weight: bold;
@@ -91,6 +93,7 @@ const login = async () => {
   margin-bottom: 20px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
+
 .login input {
   width: 70%;
   height: 40px;
@@ -101,8 +104,10 @@ const login = async () => {
   box-sizing: border-box;
   background-color: #D3CAF6;
 }
+
 h1 {
-  font-size: 24px; /* Vous pouvez ajuster la taille selon vos préférences */
+  font-size: 24px;
+  /* Vous pouvez ajuster la taille selon vos préférences */
   margin: auto;
   text-align: center;
   font-weight: bold;
