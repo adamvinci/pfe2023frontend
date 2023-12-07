@@ -37,6 +37,9 @@
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
           </li>
+          <li class="nav-item" v-if="isAdmin">
+            <router-link class="nav-link" to="/tournees"> tournees</router-link>
+          </li>
         </ul>
       </div>
     </div>
