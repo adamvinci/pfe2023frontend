@@ -18,7 +18,7 @@ const $router = useRouter();
 
 const ajouterLivreur = async () => {
   try {
-    const response = await fetch('http://localhost:3333/auth/register', {
+    const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
