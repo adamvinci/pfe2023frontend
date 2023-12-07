@@ -4,8 +4,8 @@
       <router-link to="/home">
         <button class="btn-back">Retour</button>
       </router-link>
-  
       <div class="table-container" id="homeView">
+        <h1> Stock Total Camion</h1>
         <div class="table-wrapper" id="homeViewDiv">
           <table id="tableHomeView">
             <thead>

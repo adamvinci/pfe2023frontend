@@ -3,18 +3,6 @@
     <form @submit.prevent="submitCommand">
       <div class="table-container">
         <h1>Ajouter Commande</h1>
-
-        <label for="day">Jour de la semaine :</label>
-        <select v-model="selectedDay" id="day">
-          <option value="lundi">Lundi</option>
-          <option value="mardi">Mardi</option>
-          <option value="mercredi">Mercredi</option>
-          <option value="jeudi">Jeudi</option>
-          <option value="vendredi">Vendredi</option>
-          <option value="samedi">Samedi</option>
-          <option value="dimanche">Dimanche</option>
-        </select>
-
         <table id="table">
           <thead>
             <tr>
@@ -24,7 +12,19 @@
           </thead>
           <tbody>
             <tr>
-              <td>Langes</td>
+              <td>Langes -Petit-</td>
+              <td>
+                <input type="number" v-model="langesQuantity" />
+              </td>
+            </tr>
+            <tr>
+              <td>Langes -Moyenne-</td>
+              <td>
+                <input type="number" v-model="langesQuantity" />
+              </td>
+            </tr>
+            <tr>
+              <td>Langes -Grande-</td>
               <td>
                 <input type="number" v-model="langesQuantity" />
               </td>
@@ -47,6 +47,11 @@
                 <input type="number" v-model="gantsQuantity" />
               </td>
             </tr>
+            <label for="day">Tournées : </label>
+        <select v-model="selectTournees" id="day">
+          <option value="Tournee1">Tournee1</option>
+          <option value="Tournee2">Tournee2</option>
+        </select>
           </tbody>
         </table>
         <Bouton @click="submitCommand"> Ajouter  </Bouton>
@@ -64,11 +69,10 @@ const langesQuantity = ref(0);
 const insertsQuantity = ref(0);
 const sacsQuantity = ref(0);
 const gantsQuantity = ref(0);
-const selectedDay = ref('lundi');
 const $router = useRouter();
+const selectTournees = ref('tournee1');
 
 const submitCommand = () => {
-  console.log('Jour de la semaine:', selectedDay.value);
   console.log('Langes:', langesQuantity.value);
   console.log('Inserts:', insertsQuantity.value);
   console.log('Sacs:', sacsQuantity.value);
@@ -79,7 +83,6 @@ const submitCommand = () => {
 </script>
 
 <style scoped>
-/* Add command styles */
 #table {
   width: 100%;
   border-collapse: collapse;
