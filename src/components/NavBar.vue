@@ -40,6 +40,9 @@
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/tournees"> tournees</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/" @click="logout">Se déconnecter</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -50,11 +53,20 @@
 export default {
   data() {
     return {
-      isAdmin: true, //Remplacer Backend
+      isAdmin: true, // Remplacer Backend
     };
+  },
+  methods: {
+    logout() {
+      // Ajoutez ici la logique de déconnexion
+      // Par exemple, supprimez le token d'accès du localStorage et redirigez l'utilisateur vers la page de connexion
+      localStorage.removeItem('accessToken');
+      this.$router.push('/'); // Remplacez '/login' par le chemin de votre page de connexion
+    },
   },
 };
 </script>
+
 
 <style scoped>
 .bg-orange-pastel {
