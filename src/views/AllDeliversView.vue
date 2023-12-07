@@ -14,16 +14,17 @@
               <th class="hidden-id">Hidden ID</th>
               <th>Livreur</th>
               <th>Mot de Passe</th>
+              <th v-if="editMode">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(livraison, index) in livraisons" :key="index">
+            <tr v-for="(livraison, index) in livreurs" :key="index">
               <td class="hidden-id">{{ livraison.hiddenId }}</td>
               <td>
-                <span v-if="!editMode">{{ livraison.livreur }}</span>
+                <span v-if="!editMode">{{ livraison.nom }}</span>
                 <input
                   v-else
-                  v-model="livraisons[index].livreur"
+                  v-model="livreurs[index].livreur"
                   type="text"
                   :disabled="!editMode"
                 />
@@ -32,10 +33,13 @@
                 <span v-if="!editMode">{{ livraison.password }}</span>
                 <input
                   v-else
-                  v-model="livraisons[index].password"
+                  v-model="livreurs[index].password"
                   type="text"
                   :disabled="!editMode"
                 />
+              </td>
+              <td v-if="editMode">
+                <input type="checkbox" v-model="livreurs[index].selected" />
               </td>
             </tr>
           </tbody>
@@ -46,13 +50,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
-const livraisons = ref([
-  { hiddenId: 1, livreur: 'Livreur1', password: 'password1' },
-  { hiddenId: 2, livreur: 'Livreur2', password: 'password2' },
-  { hiddenId: 3, livreur: 'Livreur3', password: 'password3' },
-]);
+const livreurs = ref([]);
 const editMode = ref(false);
 
 const toggleEditMode = () => {
@@ -60,9 +60,38 @@ const toggleEditMode = () => {
 };
 
 const saveChanges = () => {
-  // Ajoutez ici la logique pour sauvegarder les modifications
-  console.log('Modifications enregistrées :', livraisons);
+  // Ajoutez ici la logique pour sauvegarder les modifications des livreurs
+  console.log('Modifications enregistrées :', livreurs);
 };
+const accessToken = localStorage.getItem('accessToken');
+
+
+const fetchData = async () => {
+  try {
+    const response = await fetch('/api/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    if (response.ok) {
+      livreurs.value = await response.json();
+      livreurs.value.forEach((livreur) => {
+        livreur.selected = false;
+      });
+      console.log('Livreurs data:', livreurs.value);
+    } else {
+      console.error('Error fetching data:', response.status);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <style scoped>

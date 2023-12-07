@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3333', // Replace with your API server URL
+        target: 'https://pfe-2023-backend-dev.azurewebsites.net/', // Replace with your API server URL
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
