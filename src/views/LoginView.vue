@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h1>Login Page</h1>
-    <input type="text" v-model="email" placeholder="nom@hotmail.com" />
+    <input type="text" v-model="nom" placeholder="nom" />
     <input type="password" v-model="password" placeholder="*****" />
     <div class="remember-me">
       <input type="checkbox" id="rememberMe" v-model="rememberMe" />
@@ -17,7 +17,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Bouton from '@/components/Bouton.vue';
 
-const email = ref('');
+const nom = ref('');
 const password = ref('');
 const rememberMe = ref(false); // Nouvelle référence pour "Se souvenir de moi"
 const errorMessage = ref('');
@@ -26,7 +26,7 @@ const accessToken = ref('');
 
 const login = async () => {
   try {
-    console.log('Email:', email.value);
+    console.log('nom:', nom.value);
     console.log('Password:', password.value);
     console.log('Remember Me:', rememberMe.value); // Ajout de la valeur de "Se souvenir de moi"
     
@@ -36,7 +36,7 @@ const login = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: email.value,
+        nom: nom.value,
         password: password.value,
       }),
     });
@@ -55,7 +55,9 @@ const login = async () => {
     } else {
       // Affichage du message d'erreur
       errorMessage.value = 'La connexion a échoué. Vérifiez vos identifiants.';
-      console.error('Erreur lors de la connexion:', response.status);
+console.error('Erreur lors de la connexion:', response.status);
+const responseData = await response.json();
+console.error('Détails de l\'erreur:', responseData);
     }
   } catch (error) {
     // Affichage du message d'erreur
