@@ -1,5 +1,12 @@
 <template>
     <div class="page-container">
+      <button @click="toggleEditMode" class="btn-modifier">
+        {{ editMode ? "Annuler" : "Modifier" }}
+      </button>
+      <button v-if="editMode" @click="saveChanges" class="btn-enregistrer">
+        Enregistrer
+      </button>
+  
       <div class="table-container" id="homeView">
         <div class="table-wrapper" id="homeViewDiv">
           <table id="tableHomeView">
@@ -7,20 +14,26 @@
               <tr>
                 <th class="hidden-id">Hidden ID</th>
                 <th>Client</th>
-                <th>Ville</th>
+                <th>Num tel</th>
                 <th>Adresse</th>
+                <th v-if="editMode">Action</th>
               </tr>
             </thead>
             <tbody>
-              <!-- Accédez à la propriété "creches" de l'objet réactif -->
               <tr v-for="(livraison, index) in livraisons.creches" :key="index">
                 <td class="hidden-id">{{ livraison.id }}</td>
                 <td>{{ livraison.nom }}</td>
                 <td>{{ livraison.gsm }}</td>
                 <td>{{ livraison.adresse }}</td>
+                <td v-if="editMode">
+                  <input type="checkbox" v-model="livraison.selected" />
+                </td>
               </tr>
             </tbody>
           </table>
+          <select v-if="editMode" v-model="selectedTournee">
+            <option v-for="tournee in tournees" :key="tournee">{{ tournee }}</option>
+          </select>
         </div>
       </div>
     </div>
@@ -29,7 +42,6 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   
-  // Utilisez la fonction ref pour déclarer la liste
   const livraisons = ref({});
   const accessToken = localStorage.getItem('accessToken');
   
@@ -43,15 +55,30 @@
         },
       });
       if (response.ok) {
-        // Mettez à jour la valeur de livraisons avec la nouvelle liste
         livraisons.value = await response.json();
-        console.log(livraisons.value);
+        livraisons.value.creches.forEach((creche) => {
+          creche.selected = false;
+        });
+        console.log('Livraisons data:', livraisons.value);
       } else {
-        console.error('Erreur lors de la récupération des données:', response.status);
+        console.error('Error fetching data:', response.status);
       }
     } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error);
+      console.error('Fetch error:', error);
     }
+  };
+  
+  const editMode = ref(false);
+  const selectedTournee = ref('');
+  const tournees = ["Tournee A", "Tournee B", "Tournee C"];
+  
+  const toggleEditMode = () => {
+    editMode.value = !editMode.value;
+  };
+  
+  const saveChanges = () => {
+    // Ajoute ici la logique pour sauvegarder les changements
+    console.log('Changements sauvegardés. Tournee sélectionnée:', selectedTournee.value);
   };
   
   onMounted(() => {
