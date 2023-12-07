@@ -16,8 +16,29 @@ const nom = ref('');
 const password = ref('');
 const $router = useRouter();
 
-const ajouterLivreur = () => {
-  $router.push('/');
+const ajouterLivreur = async () => {
+  try {
+    const response = await fetch('http://localhost:3333/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        email: nom.value, // Utiliser le champ email pour stocker le nom
+        password: password.value,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Livreur ajouté avec succès!');
+      $router.push('/');
+    } else {
+      console.error('Erreur lors de l\'ajout du livreur:', response.status);
+    }
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout du livreur:', error);
+  }
 };
 </script>
 
