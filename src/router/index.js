@@ -8,9 +8,12 @@ import AssignerView from '../views/AssignerView.vue';
 import AddLivreurView from '../views/AddLivreurView.vue';
 import StockCamion from '../views/StockCamionView.vue';
 import LivraisonClient from '../views/LivraisonClientView.vue';
+
 import AllDeliver from '../views/AllDeliversView.vue';
 import AllClient from '../views/AllClientView.vue';
 import Tournee from '../views/AllTournesView.vue';
+import StockCamionSuppl from '../views/StockCamionSuppl.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +72,11 @@ const router = createRouter({
       path: '/tournees',
       name: 'tournees',
       component: Tournee
+    },
+    {
+      path: '/stockCamionSupp',
+      name: 'stockCamionSupp',
+      component: StockCamionSuppl
     },
   ]
 });

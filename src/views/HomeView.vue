@@ -1,10 +1,13 @@
 <template>
   <div class="page-container">
+    <!-- Bouton StockCamion -->
+      <router-link to="/stockcamion">
+          <button v-if="!isadmin" class="btn-StockCamion">Stock Camion</button>
+      </router-link>
     <!-- Bouton en haut à gauche -->
-    <router-link to="/stockcamion">
-    <button v-if="!isadmin" class="btn-StockCamion">Stock camion</button>
-    </router-link>
-
+        <router-link to="/stockCamionSupp">
+          <button v-if="!isadmin" class="btn-StockCamion">Stock Supplémentaire</button>
+      </router-link>
     <div class="date-title">
       <h1>{{ formattedDate }}</h1>
       <h2>Aujourd'hui</h2>
@@ -16,40 +19,45 @@
           <input type="text" maxlength="12" placeholder="Rechercher" class="searchbar" />
           <img src="https://images-na.ssl-images-amazon.com/images/I/41gYkruZM2L.png" alt="search icon" class="button" />
         </div>
-      <div class="table-wrapper" id="homeViewDiv">
-        
-        <table id="tableHomeView">
-          <thead>
-            <tr>
-              <!-- Aucun libellé pour la colonne ID -->
-              <th>Client</th>
-              <th>État de Livraison</th>
-              <th v-if="isadmin">Livreur</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(client, index) in clients" :key="index">
-              <td class="hidden-id">{{ client.id }}</td>
-              <td>
-                  <!-- Utilisation de router-link pour rendre la cellule cliquable -->
-                  <router-link :to="{ path: '/livraisonclient' }">
-                    <button>{{ client.name }}</button>
-                  </router-link>
-                </td>
-              <td>
-                <button id="livraisonCheck"
-                  @click="toggleLivraison(index)"
-                  :style="{ color: livraisons[index] ? 'green' : 'red' }"
-                >
-                  {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
-                </button>
-              </td>
-                <!-- Ajout de la colonne Livreur conditionnellement -->
-                <td v-if="isadmin">{{ client.livreur }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="table-wrapper" id="homeViewDiv">
+      <table id="tableHomeView">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>État de Livraison</th>
+            <th v-if="isadmin">Livreur</th>
+            <th v-if="isadmin">Stock Camion</th>
+            <th>Adresse</th> <!-- Nouvelle colonne pour les adresses -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(client, index) in clients" :key="index">
+            <td class="hidden-id">{{ client.id }}</td>
+            <td>
+              <router-link :to="{ path: '/livraisonclient' }">
+                <button>{{ client.name }}</button>
+              </router-link>
+            </td>
+            <td>
+              <button
+                id="livraisonCheck"
+                @click="toggleLivraison(index)"
+                :style="{ color: livraisons[index] ? 'green' : 'red' }"
+              >
+                {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
+              </button>
+            </td>
+            <td v-if="isadmin">{{ client.livreur }}</td>
+            <td v-if="isadmin">
+              <router-link :to="{ path: '/stockcamion' }">
+                Stock Camion
+              </router-link>
+            </td>
+            <td>{{ client.address }}</td> <!-- Ajout de la colonne pour les adresses -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
     </div>
   </div>
 </template>
@@ -58,12 +66,13 @@
 import { ref, onMounted } from 'vue';
 
 const clients = ref([
-{ id: 1, name: 'Client1', livreur: 'Livreur1' },
-  { id: 2, name: 'Client2', livreur: 'Livreur2' },
-  { id: 3, name: 'Client3', livreur: 'Livreur3' },
+  { id: 1, name: 'Client1', livreur: 'Livreur1', address: 'Adresse1' },
+  { id: 2, name: 'Client2', livreur: 'Livreur2', address: 'Adresse2' },
+  { id: 3, name: 'Client3', livreur: 'Livreur3', address: 'Adresse3' },
 ]);
 const livraisons = ref(Array(clients.value.length).fill(false));
-const isadmin = ref(false); // Set this value based on your logic
+const user = JSON.parse(localStorage.getItem('user')) || {};
+const isadmin = ref(user.isAdmin || false);
 
 const toggleLivraison = (index) => {
   livraisons.value[index] = !livraisons.value[index];
@@ -73,7 +82,7 @@ const formattedDate = ref('');
 
 onMounted(() => {
   updateFormattedDate();
-  setInterval(updateFormattedDate, 1000); // Mettez à jour la date chaque seconde
+  setInterval(updateFormattedDate, 1000);
 });
 
 const updateFormattedDate = () => {
@@ -81,9 +90,7 @@ const updateFormattedDate = () => {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   formattedDate.value = now.toLocaleDateString('fr-FR', options);
 };
-
 </script>
-
 <style scoped>
 /* Styles pour masquer la colonne ID */
 .hidden-id {

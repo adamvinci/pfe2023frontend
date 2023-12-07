@@ -1,9 +1,13 @@
 <template>
   <div class="login">
-    <h1> Login Page </h1>
+    <h1>Login Page</h1>
     <input type="text" v-model="email" placeholder="nom@hotmail.com" />
     <input type="password" v-model="password" placeholder="*****" />
-    <Bouton @click="login"> Login </Bouton>
+    <div class="remember-me">
+      <input type="checkbox" id="rememberMe" v-model="rememberMe" />
+      <label for="rememberMe">Se souvenir de moi</label>
+    </div>
+    <Bouton @click="login">Login</Bouton>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
@@ -15,14 +19,17 @@ import Bouton from '@/components/Bouton.vue';
 
 const email = ref('');
 const password = ref('');
+const rememberMe = ref(false); // Nouvelle référence pour "Se souvenir de moi"
 const errorMessage = ref('');
 const $router = useRouter();
-const accessToken = ref(''); // Variable pour stocker le token d'accès
+const accessToken = ref('');
 
 const login = async () => {
   try {
     console.log('Email:', email.value);
     console.log('Password:', password.value);
+    console.log('Remember Me:', rememberMe.value); // Ajout de la valeur de "Se souvenir de moi"
+    
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
@@ -115,5 +122,20 @@ h1 {
   letter-spacing: 2px;
   margin-bottom: 20px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.login input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.login label {
+  font-size: 14px;
+  margin-left: 5px;
 }
 </style>

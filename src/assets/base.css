@@ -11,7 +11,7 @@ body{
   display: flex;
   flex-direction: column; /* Correction ici */
   align-items: center;
-  width: 40%;
+  width: 60%;
   margin: auto;
   text-align: center;
   padding: 50px;
