@@ -40,6 +40,9 @@
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/tournees"> tournees</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/" @click="logout">Se déconnecter</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -50,11 +53,21 @@
 export default {
   data() {
     return {
-      isAdmin: true, //Remplacer Backend
+      isAdmin: true, // Remplacer Backend
     };
+  },
+  methods: {
+    logout() {
+      console.log('Déconnexion en cours...');
+      localStorage.removeItem('accessToken');
+      this.$router.push('/');
+      console.log('Utilisateur déconnecté. Redirection vers la page d\'accueil.');
+    },
+
   },
 };
 </script>
+
 
 <style scoped>
 .bg-orange-pastel {
