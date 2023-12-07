@@ -14,7 +14,7 @@
               <tr v-for="(tournee, index) in tournees" :key="index">
                 <td><input type="checkbox" v-model="tournee.selected" class="styled-checkbox" /></td>
                 <td class="hidden-id">{{ tournee.id }}</td>
-                <td>{{ tournee.nomTournee }}</td>
+                <td>{{ tournee.nom }}</td>
               </tr>
             </tbody>
           </table>
@@ -27,14 +27,38 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   
-  const tournees = ref([
-    { id: 1, nomTournee: 'Tournee1', selected: false },
-    { id: 2, nomTournee: 'Tournee2', selected: false },
-    { id: 3, nomTournee: 'Tournee3', selected: false },
-  ]);
+  const tournees = ref({});
+  const accessToken = localStorage.getItem('accessToken');
   
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/tournees', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+      if (response.ok) {
+        tournees.value = await response.json();
+        tournees.value.forEach((tournee) => {
+            tournee.selected = false;
+        });
+        console.log('Livraisons data:', tournees.value);
+      } else {
+        console.error('Error fetching data:', response.status);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+  
+  onMounted(() => {
+    fetchData();
+  });
+  console.log(tournees);
   const enregistrer = () => {
     const tourneesSelectionnees = tournees.value.filter((tournee) => tournee.selected);
     console.log('Tournees sélectionnées:', tourneesSelectionnees);
