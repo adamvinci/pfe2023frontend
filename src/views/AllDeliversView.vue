@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <button @click="toggleEditMode" class="btn-modifier">
-      {{ editMode ? "Annuler" : "Modifier" }}
+      {{ editMode ? "Retour" : "Modifier" }}
     </button>
     <button v-if="editMode" @click="saveChanges" class="btn-enregistrer">
       Enregistrer

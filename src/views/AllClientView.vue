@@ -1,5 +1,9 @@
 <template>
   <div class="page-container">
+    <button @click="toggleEditMode" class="btn-modifier">
+      {{ editMode ? "retour" : "Modifier" }}
+    </button>
+    
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
         <table id="tableHomeView">
@@ -17,6 +21,9 @@
               <td>{{ livraison.nom }}</td>
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
+              <td>
+                <input v-if="editMode" type="checkbox" v-model="livraisons.creches[index].selected" />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -42,6 +49,10 @@ const fetchData = async () => {
     });
     if (response.ok) {
       livraisons.value = await response.json();
+      // Ajoutez la propriété "selected" à chaque creche
+      livraisons.value.creches.forEach((creche) => {
+        creche.selected = false;
+      });
       console.log('Livraisons data:', livraisons.value);
     } else {
       console.error('Error fetching data:', response.status);
@@ -50,7 +61,11 @@ const fetchData = async () => {
     console.error('Fetch error:', error);
   }
 };
+const editMode = ref(false);
 
+const toggleEditMode = () => {
+  editMode.value = !editMode.value;
+};
 onMounted(() => {
   fetchData();
 });
