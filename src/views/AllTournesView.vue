@@ -72,31 +72,29 @@ const enregistrer = () => {
   display: none;
 }
 
+/* Styles généraux pour la vue de la tournée */
 #tourneeView {
   overflow: auto;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 80%; /* Ajustez la largeur pour les petits écrans */
   margin: auto;
   text-align: center;
-  padding: 50px;
+  padding: 20px; /* Ajustez la taille du padding pour les petits écrans */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 /* Styles pour le wrapper du tableau */
 #tourneeViewDiv {
   border: 2px solid #ddd;
-  /* Bordure du carré */
-  padding: 20px;
-  /* Espace intérieur du carré */
+  padding: 10px; /* Ajustez la taille du padding pour les petits écrans */
   border-radius: 10px;
-  /* Coins arrondis du carré */
 }
 
 /* Styles pour le tableau */
@@ -106,7 +104,7 @@ const enregistrer = () => {
 }
 
 #tableTourneeView th,
-td {
+#tableTourneeView td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -126,5 +124,24 @@ td {
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Styles pour les smartphones */
+@media only screen and (max-width: 600px) {
+  #tourneeView {
+    width: 100%;
+    padding: 10px;
+  }
+
+  #tourneeViewDiv {
+    padding: 5px;
+  }
+
+  #tableTourneeView th,
+  #tableTourneeView td {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
+
 </style>
   
