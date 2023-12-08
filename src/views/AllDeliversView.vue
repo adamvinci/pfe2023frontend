@@ -97,21 +97,21 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 90%; /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
-  padding: 50px;
+  padding: 20px; /* Ajustement de l'espace intérieur pour les smartphones */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 /* Styles pour le wrapper du tableau */
 #homeViewDiv {
   border: 2px solid #ddd;
-  padding: 20px;
+  padding: 10px; /* Ajustement de l'espace intérieur pour les smartphones */
   border-radius: 10px;
 }
 
@@ -134,7 +134,9 @@ td {
 
 /* Styles pour le bouton Modifier et Enregistrer */
 button {
-  padding: 6px 10px;
+  width: 100%; /* Remplir la largeur pour les smartphones */
+  margin-bottom: 10px; /* Espace entre les boutons pour les smartphones */
+  padding: 10px; /* Ajustement de la taille des boutons pour les smartphones */
   cursor: pointer;
   border: none;
   border-radius: 4px;
@@ -152,5 +154,22 @@ button {
 
 button:hover {
   opacity: 0.8;
+}
+
+/* Styles spécifiques pour les smartphones */
+@media only screen and (max-width: 600px) {
+  #homeView {
+    width: 100%; /* Pleine largeur sur les smartphones */
+  }
+
+  #homeViewDiv {
+    padding: 5px; /* Ajustement de l'espace intérieur pour les smartphones */
+  }
+
+  #tableHomeView th,
+  td {
+    padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
+    font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
+  }
 }
 </style>

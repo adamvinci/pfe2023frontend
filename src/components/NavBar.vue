@@ -1,9 +1,13 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-orange-pastel">
     <div class="container">
-      <router-link to="/">
-        <img src="/src/assets/snappies-logo.webp" alt="Logo Mon Site" class="navbar-brand logo-navbar" loading="lazy">
-      </router-link>
+      <div class="d-flex align-items-center"> <!-- Utilisation de flexbox pour aligner les éléments horizontalement -->
+        <!-- "Mes livraisons" à gauche -->
+        <router-link to="/home" class="navbar-brand">
+          <img src="/src/assets/snappies-logo.webp" alt="Logo Mon Site" class="logo-navbar" loading="lazy">
+          Mes livraisons
+        </router-link>
+        </div>
 
       <button
         class="navbar-toggler"
@@ -17,11 +21,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/home">Mes livraisons</router-link>
-          </li>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav"> <!-- Utilisation de justify-content-end pour aligner à droite -->
+        <ul class="navbar-nav">
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/alldelivers">Liste Livreurs</router-link>
           </li>
@@ -63,11 +64,9 @@ export default {
       this.$router.push('/');
       console.log('Utilisateur déconnecté. Redirection vers la page d\'accueil.');
     },
-
   },
 };
 </script>
-
 
 <style scoped>
 .bg-orange-pastel {
@@ -81,8 +80,6 @@ export default {
 .navbar-nav .nav-item {
   color: #ffcc00; 
   font-weight: bold; 
-  border: 1px solid black; 
-  border-radius: 5px; 
   margin-right: 10px;
 }
 </style>
