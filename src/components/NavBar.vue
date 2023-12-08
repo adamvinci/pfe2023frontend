@@ -37,7 +37,7 @@
           <li class="nav-item" v-if="isAdmin">
             <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
           </li>
-          <li class="nav-item" v-if="isAdmin">
+          <li class="nav-item">
             <router-link class="nav-link" to="/tournees"> tournees</router-link>
           </li>
           <li class="nav-item">
@@ -50,22 +50,54 @@
 </template>
 
 <script>
+let savedUser = false;
+
+// Vérifie si 'user' existe dans le local storage
+const storedUser = localStorage.getItem('user');
+
+if (storedUser) {
+  const parsedUser = JSON.parse(storedUser);
+
+  // Vérifie si 'is_admin' existe dans l'objet parsé
+  if (parsedUser.is_admin !== undefined) {
+    savedUser = parsedUser.is_admin;
+  }
+}
 export default {
   data() {
     return {
-      isAdmin: true, // Remplacer Backend
+      user: JSON.parse(localStorage.getItem('user')) || {},
+      isAdmin: savedUser,
     };
+  },
+  watch: {
+    // Utilise un watcher pour détecter les changements dans la route
+    $route(to, from) {
+      this.updateUserStatus();
+    },
   },
   methods: {
     logout() {
       console.log('Déconnexion en cours...');
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+      this.isAdmin = false;
       this.$router.push('/');
       console.log('Utilisateur déconnecté. Redirection vers la page d\'accueil.');
     },
-
+    updateUserStatus() {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        this.isAdmin = parsedUser.is_admin || false;
+      }
+    },
+  },
+  created() {
+    this.updateUserStatus();
   },
 };
+
 </script>
 
 
