@@ -25,7 +25,7 @@ const $router = useRouter();
 const accessToken = ref('');
 
 const login = async () => {
-  console.log("url", process.env.VUE_APP_BASEURL)
+  console.log("urlr", process.env.VUE_APP_BASEURL)
   try {
     console.log('nom:', nom.value);
     console.log('Password:', password.value);
