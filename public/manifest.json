@@ -1,7 +1,7 @@
 {
-    "name": "Nom de votre application",
-    "short_name": "Nom court",
-    "description": "Description de votre application",
+    "name": "Snappies",
+    "short_name": "Snappies",
+    "description": "Louer des langes",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
