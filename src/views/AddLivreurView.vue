@@ -1,8 +1,8 @@
 <template>
   <div class="addLivreur">
     <h1> Ajouter un Livreur </h1>
-    Nom<input type="text" v-model="nom" placeholder="Michel"/>
-    Mot de passe<input type="password" v-model="password" placeholder="*****"/>
+    Nom<input type="text" v-model="nom" placeholder="Michel" />
+    Mot de passe<input type="password" v-model="password" placeholder="*****" />
     <Bouton @click="ajouterLivreur"> Ajouter </Bouton>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
@@ -36,7 +36,7 @@ const ajouterLivreur = async () => {
 
     if (response.ok) {
       successMessage.value = 'Livreur ajouté avec succès!';
-      errorMessage.value = ''; 
+      errorMessage.value = '';
       $router.push('/');
     } else {
       errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
@@ -54,7 +54,7 @@ const ajouterLivreur = async () => {
 <style scoped>
 /* AddLivreurView styles */
 .addLivreur {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 40%;
@@ -65,7 +65,8 @@ const ajouterLivreur = async () => {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 4rem; /* Ajuste la marge en haut pour rapprocher du navbar */
+  margin-top: 4rem;
+  /* Ajuste la marge en haut pour rapprocher du navbar */
 }
 
 .addLivreur input {
