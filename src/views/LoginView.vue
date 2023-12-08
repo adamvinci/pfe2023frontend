@@ -31,7 +31,7 @@ const login = async () => {
     console.log('Password:', password.value);
     console.log('Remember Me:', rememberMe.value); // Ajout de la valeur de "Se souvenir de moi"
 
-    const response = await fetch(`/api/auth/login`, {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
