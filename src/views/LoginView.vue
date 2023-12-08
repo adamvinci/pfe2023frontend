@@ -25,12 +25,13 @@ const $router = useRouter();
 const accessToken = ref('');
 
 const login = async () => {
+  console.log(process.env.VUE_APP_BASEURL)
   try {
     console.log('nom:', nom.value);
     console.log('Password:', password.value);
     console.log('Remember Me:', rememberMe.value); // Ajout de la valeur de "Se souvenir de moi"
-    
-    const response = await fetch('/api/auth/login', {
+
+    const response = await fetch(`/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,9 +56,9 @@ const login = async () => {
     } else {
       // Affichage du message d'erreur
       errorMessage.value = 'La connexion a échoué. Vérifiez vos identifiants.';
-console.error('Erreur lors de la connexion:', response.status);
-const responseData = await response.json();
-console.error('Détails de l\'erreur:', responseData);
+      console.error('Erreur lors de la connexion:', response.status);
+      const responseData = await response.json();
+      console.error('Détails de l\'erreur:', responseData);
     }
   } catch (error) {
     // Affichage du message d'erreur
@@ -125,6 +126,7 @@ h1 {
   margin-bottom: 20px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
+
 .remember-me {
   display: flex;
   align-items: center;
