@@ -23,6 +23,7 @@ const rememberMe = ref(false); // Nouvelle référence pour "Se souvenir de moi"
 const errorMessage = ref('');
 const $router = useRouter();
 const accessToken = ref('');
+const accessUser = ref('');
 
 const login = async () => {
   try {
@@ -45,11 +46,20 @@ const login = async () => {
       const data = await response.json();
       console.log('Réponse du serveur:', data);
 
-      accessToken.value = data.token;
+      accessToken.value = data.token.token;
       console.log('Token d\'accès:', accessToken.value);
+
+      accessUser.value = data.user;
+      console.log('user d\'accès:', accessUser.value);
+      console.log('user d\'accès:', accessUser.value.is_admin);
+      
 
       // Stocke le token dans le localStorage
       localStorage.setItem('accessToken', accessToken.value);
+      localStorage.setItem('user', JSON.stringify(accessUser.value));
+
+      //const savedUser = JSON.parse(localStorage.getItem('user'));
+      
       // Utilisation de la navigation avec la référence à $router
       $router.push('/home');
     } else {
