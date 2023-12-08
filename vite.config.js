@@ -13,15 +13,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
     ],
-    server: {
-      proxy: {
-        '/api': {
-          target: 'https://pfe-2023-backend-dev.azurewebsites.net',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
-    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
