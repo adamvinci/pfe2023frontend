@@ -22,7 +22,7 @@ const $router = useRouter();
 
 const ajouterLivreur = async () => {
   try {
-    const response = await fetch('/api/auth/register', {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

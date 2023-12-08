@@ -47,7 +47,8 @@
   
   const fetchData = async () => {
     try {
-      const response = await fetch('/api/creches', {
+      
+      const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
