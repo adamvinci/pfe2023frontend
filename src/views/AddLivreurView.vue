@@ -19,6 +19,7 @@ const password = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const $router = useRouter();
+const accessToken = localStorage.getItem('accessToken');
 
 const ajouterLivreur = async () => {
   try {
@@ -26,6 +27,7 @@ const ajouterLivreur = async () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
       },
       mode: 'cors',
       body: JSON.stringify({
