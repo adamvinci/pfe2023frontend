@@ -27,14 +27,15 @@
               <th v-if="isadmin">Livreur</th>
               <th v-if="isadmin">Stock Camion</th>
               <th>Adresse</th> <!-- Nouvelle colonne pour les adresses -->
+              <th>Tournee</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(client, index) in clients" :key="index">
-              <td class="hidden-id">{{ client.id }}</td>
+            <tr v-for="(creche, index) in creches" :key="index">
+              <td class="hidden-id">{{ creche.id }}</td>
               <td>
                 <router-link :to="{ path: '/livraisonclient' }">
-                  <button>{{ client.name }}</button>
+                  <button>{{ creche.nom }}</button>
                 </router-link>
               </td>
               <td>
@@ -46,13 +47,19 @@
                   {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
                 </button>
               </td>
-              <td v-if="isadmin">{{ client.livreur }}</td>
-              <td v-if="isadmin">
+             <!-- <td v-if="isadmin">{{ client.livreur }}</td>-->
+             <!-- <td v-if="isadmin">
                 <router-link :to="{ path: '/stockcamion' }">
                   Stock Camion
                 </router-link>
+              </td>-->
+              <td>{{ creche.adresse }}</td><!-- Ajout de la colonne pour les adresses -->
+              <td>
+              {{ 
+               tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom 
+              }}
               </td>
-              <td>{{ client.address }}</td> <!-- Ajout de la colonne pour les adresses -->
+              
             </tr>
           </tbody>
         </table>
@@ -64,14 +71,48 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const clients = ref([
-  { id: 1, name: 'Client1', livreur: 'Livreur1', address: 'Adresse1' },
-  { id: 2, name: 'Client2', livreur: 'Livreur2', address: 'Adresse2' },
-  { id: 3, name: 'Client3', livreur: 'Livreur3', address: 'Adresse3' },
-]);
-const livraisons = ref(Array(clients.value.length).fill(false));
+const tournees = ref([]);
+const creches = ref([]);
+const accessToken = localStorage.getItem('accessToken');
+
+const livraisons = ref(Array(tournees.value.length).fill(false));
 const user = JSON.parse(localStorage.getItem('user')) || {};
-const isadmin = ref(user.isAdmin || true);
+const isadmin = ref(user.isAdmin || false);
+
+
+const fetchData = async () => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/delivery`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      
+      if (Array.isArray(data)) {
+        tournees.value = data;
+        tournees.value.forEach((tournee) => {
+          tournee.creches.forEach((creche) => {
+            creches.value.push(creche);
+          });
+          tournee.selected = false;
+        });
+        console.log('Livraisons data:', tournees.value);
+      } else {
+        console.warn('Data received is not an array:', data);
+      }
+    } else {
+      console.error('Error fetching data:', response.status);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
+
+
 
 const toggleLivraison = (index) => {
   livraisons.value[index] = !livraisons.value[index];
@@ -80,6 +121,7 @@ const toggleLivraison = (index) => {
 const formattedDate = ref('');
 
 onMounted(() => {
+  fetchData();
   updateFormattedDate();
   setInterval(updateFormattedDate, 1000);
 });
