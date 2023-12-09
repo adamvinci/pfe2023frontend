@@ -47,19 +47,19 @@
                   {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
                 </button>
               </td>
-             <!-- <td v-if="isadmin">{{ client.livreur }}</td>-->
-             <!-- <td v-if="isadmin">
+              <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}</td>
+             <td v-if="isadmin">
                 <router-link :to="{ path: '/stockcamion' }">
                   Stock Camion
                 </router-link>
-              </td>-->
+              </td>
               <td>{{ creche.adresse }}</td><!-- Ajout de la colonne pour les adresses -->
               <td>
               {{ 
                tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom 
               }}
               </td>
-              
+
             </tr>
           </tbody>
         </table>
@@ -77,7 +77,10 @@ const accessToken = localStorage.getItem('accessToken');
 
 const livraisons = ref(Array(tournees.value.length).fill(false));
 const user = JSON.parse(localStorage.getItem('user')) || {};
-const isadmin = ref(user.isAdmin || false);
+const isadmin = user.is_admin || false;
+
+      
+    
 
 
 const fetchData = async () => {
