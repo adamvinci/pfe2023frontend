@@ -36,9 +36,10 @@
             <li class="nav-item" v-if="isAdmin">
               <router-link class="nav-link" to="/addClient">Ajouter Client</router-link>
             </li>
-            <li class="nav-item" v-if="isAdmin">
+           <!-- <li class="nav-item" v-if="isAdmin">
               <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
             </li>
+            -->
             <li class="nav-item">
               <router-link class="nav-link" to="/tournees">Tournees</router-link>
             </li>
