@@ -1,41 +1,74 @@
 <template>
   <div class="addClient">
     <h1> Ajouter Client </h1>
-    Nom<input type="text" v-model="nom" placeholder="Les Bisounours"/>
-    Adresse<input type="text" v-model="adresse" placeholder="Rue de Bruxelles"/>
-    Téléphone<input type="number" v-model="numTel" placeholder="0487014343"/>
-    <Bouton @click="ajouterCommande"> Ajouter  </Bouton>
+    Nom <input type="text" v-model="nom" />
+    Ville <input type="text" v-model="ville" />
+    Adresse <input type="text" v-model="adresse" />
+    Téléphone <input type="text" v-model="gsm" />
+    <button @click="ajouterClient">Ajouter</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';  // Assurez-vous d'importer depuis 'vue-router' ici
-import Bouton from '@/components/Bouton.vue';
+import { useRouter } from 'vue-router';
 
 const $router = useRouter();
+
 
 const nom = ref('');
 const ville = ref('');
 const adresse = ref('');
-const numAdresse = ref('');
-const numTel = ref('');
+const gsm = ref('');
+const accessToken = localStorage.getItem('accessToken');
 
-const ajouterCommande = () => {
-  $router.push('/addCommand');
+const crècheId = ref(null);
+
+
+const ajouterClient = async () => {
+  try {
+    const clientData = {
+      nom: nom.value,
+      ville: ville.value,
+      adresse: adresse.value,
+      gsm: gsm.value,
+    };
+
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(clientData),
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log('Client ajouté avec succès:', responseData);
+      crècheId.value = responseData.id; // Stockez l'ID de la crèche associée au client
+      console.log('Crèche ID:', crècheId.value); // Déboguez la valeur de crècheId
+      $router.push(`/addCommand/${crècheId.value}`); // Utilisez l'ID dans l'URL
+    } else {
+      const errorData = await response.json();
+      console.error('Échec de l\'ajout du client. Réponse de l\'API:', response.status, response.statusText, errorData);
+    }
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout du client:', error);
+  }
 };
 </script>
 
 <style scoped>
-/* AddClientView */
+/* Styles pour le composant AddClient */
 .addClient {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; /* Ajustement de la largeur pour les smartphones */
+  width: 90%;
   margin: auto;
   text-align: center;
-  padding: 20px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -44,10 +77,10 @@ const ajouterCommande = () => {
 }
 
 .addClient input {
-  width: 100%; /* Remplir la largeur pour les smartphones */
+  width: 100%;
   height: 40px;
-  padding: 10px; /* Ajustement de la taille du padding pour les smartphones */
-  margin-bottom: 10px; /* Espace entre les champs pour les smartphones */
+  padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 15px;
   box-sizing: border-box;
@@ -56,26 +89,24 @@ const ajouterCommande = () => {
 }
 
 .addClient h1 {
-  font-size: 20px; /* Ajustement de la taille de la police pour les smartphones */
+  font-size: 20px;
   margin: auto;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 10px; /* Réduction de la marge en bas pour les smartphones */
+  margin-bottom: 10px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
 
 @media only screen and (max-width: 600px) {
-  /* Ajustements spécifiques pour les smartphones */
   .addClient input {
-    padding: 8px; /* Ajustement de la taille du padding pour les smartphones */
+    padding: 8px;
   }
 
   .addClient h1 {
-    font-size: 18px; /* Ajustement de la taille de la police pour les smartphones */
-    margin-bottom: 8px; /* Réduction de la marge en bas pour les smartphones */
+    font-size: 18px;
+    margin-bottom: 8px;
   }
 }
-
 </style>

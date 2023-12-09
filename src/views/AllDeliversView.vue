@@ -21,8 +21,7 @@
             <tr v-for="(livraison, index) in livreurs" :key="index">
               <td class="hidden-id">{{ livraison.hiddenId }}</td>
               <td>
-                <span v-if="!editMode">{{ livraison.nom }}</span>
-                <input v-else v-model="livreurs[index].livreur" type="text" :disabled="!editMode" />
+                <span>{{ livraison.nom }}</span>
               </td>
               <td>
                 <span v-if="!editMode">{{ livraison.password }}</span>

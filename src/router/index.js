@@ -34,7 +34,7 @@ const router = createRouter({
       component: AddClientView
     },
     {
-      path: '/addCommand',
+      path: '/addCommand/:clientId',
       name: 'addCommand',
       component: AddCommandView
     },

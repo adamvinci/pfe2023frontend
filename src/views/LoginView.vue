@@ -51,8 +51,6 @@ const login = async () => {
       // Stocke le token dans le localStorage
       localStorage.setItem('accessToken', accessToken.value);
       localStorage.setItem('user', JSON.stringify(accessUser.value));
-
-      //const savedUser = JSON.parse(localStorage.getItem('user'));
       
       // Utilisation de la navigation avec la référence à $router
       $router.push('/home');
