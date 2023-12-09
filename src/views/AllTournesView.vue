@@ -11,12 +11,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(tournee, index) in tournees" :key="index">
-              <td><input type="checkbox" v-model="tournee.selected" class="styled-checkbox" /></td>
-              <td class="hidden-id">{{ tournee.id }}</td>
-              <td>{{ tournee.nom }}</td>
-            </tr>
-          </tbody>
+    <tr v-for="(tournee, index) in tournees" :key="index">
+      <td>
+        <input
+  type="checkbox"
+  v-model="tournee.selected"
+  class="styled-checkbox"
+  @change="() => selectionnerTournee(tournee.id)"
+/>
+      </td>
+      <td class="hidden-id">{{ tournee.id }}</td>
+      <td>{{ tournee.nom }}</td>
+    </tr>
+  </tbody>
         </table>
 
         <!-- Bouton Enregistrer avec la classe btn-enregistrer -->
@@ -29,8 +36,28 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const tournees = ref({});
+ const tournees = ref([]);;
 const accessToken = localStorage.getItem('accessToken');
+const iduser = localStorage.getItem('user');
+const parseduser = JSON.parse(iduser);
+
+let selectedTourneeId = null;
+
+
+const selectionnerTournee = (tourneeId) => {
+  console.log('Selectionner tournee:', selectedTourneeId);
+  selectedTourneeId = tourneeId;
+  console.log('Selectionner tournee:', selectedTourneeId);
+
+};
+const enregistrer = () => {
+  console.log('Tournee sélectionnée:', selectedTourneeId);
+  
+  if (selectedTourneeId !== null) {
+    fetchData2(selectedTourneeId);
+  }
+};
+
 
 const fetchData = async () => {
   try {
@@ -54,16 +81,45 @@ const fetchData = async () => {
     console.error('Fetch error:', error);
   }
 };
+const fetchData2 = async () => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/assignDelivery`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        idDelivery: selectedTourneeId,
+        idDeliveryMan: parseduser.id,
+      }),
+    });
+    if (response.ok) {
+      // Trouver la tournee sélectionnée dans le tableau et la mettre à jour
+      const updatedTournees = [...tournees.value];
+      const index = updatedTournees.findIndex(tournee => tournee.id === selectedTourneeId);
+      if (index !== -1) {
+        updatedTournees.splice(index, 1);
+      }
+      tournees.value = updatedTournees;
+      console.log('Livraisons data:', tournees.value);
+    } else {
+      console.error('Error fetching data:', response.status);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
 
+
+console.log('idDelivery:', selectedTourneeId);
+console.log('idDeliveryMan:', parseduser.id);
 onMounted(() => {
   fetchData();
 });
 console.log(tournees);
-const enregistrer = () => {
-  const tourneesSelectionnees = tournees.value.filter((tournee) => tournee.selected);
-  console.log('Tournees sélectionnées:', tourneesSelectionnees);
-  // Ajoute ici la logique pour enregistrer les tournees sélectionnées
-};
+
 </script>
   
 <style scoped>
