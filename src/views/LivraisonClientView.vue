@@ -73,20 +73,16 @@ const enregistrer = () => {
 };
 </script>
 
-<style scoped>
-/* Styles pour masquer la colonne ID */
-.hidden-id {
-  display: none;
-}
 
+<style scoped>
 /* Styles pour la page-container */
 .page-container {
   position: relative;
 }
 
-/* Styles pour le bouton Enregistrer */
-.btn-enregistrer {
-  width: 20%;
+/* Styles pour le bouton Modifier */
+.btn-modifier {
+  width: 100%;
   height: 40px;
   border: 1px solid #C4B4FD;
   background: #B09CFB;
@@ -94,11 +90,96 @@ const enregistrer = () => {
   cursor: pointer;
   border-radius: 3px;
   border-radius: 15px;
-  margin-top: 30px;
-  margin-left: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-modifier:hover {
+  background: #735DC6;
+}
+
+/* Styles pour le titre du client */
+.clientName {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Styles pour la table-container */
+.table-container {
+  width: 100%;
+  padding: 10px;
+  margin-top: 1rem;
+}
+
+/* Styles pour le wrapper du tableau */
+.table-wrapper {
+  border: 2px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Styles pour le tableau */
+#tableHomeView {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tableHomeView th,
+#tableHomeView td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#tableHomeView th {
+  background-color: #f2f2f2;
+}
+
+/* Styles pour les boutons Enregistrer */
+.btn-enregistrer {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #C4B4FD;
+  background: #B09CFB;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  border-radius: 15px;
+  margin-top: 10px;
 }
 
 .btn-enregistrer:hover {
   background: #735DC6;
+}
+
+/* Styles pour les champs de saisie */
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Media queries pour les smartphones */
+@media only screen and (max-width: 600px) {
+  .btn-modifier,
+  .btn-enregistrer {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .clientName {
+    font-size: 16px;
+  }
+
+  #tableHomeView th,
+  #tableHomeView td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .table-container {
+    padding: 5px;
+  }
 }
 </style>
