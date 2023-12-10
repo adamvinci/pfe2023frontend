@@ -3,7 +3,7 @@
     <h1> Ajouter un Livreur </h1>
     Nom<input type="text" v-model="nom" placeholder="Michel" />
     Mot de passe<input type="password" v-model="password" placeholder="*****" />
-    <Bouton @click="ajouterLivreur"> Ajouter </Bouton>
+    <button @click="ajouterLivreur"> Ajouter </button>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
   </div>
@@ -19,6 +19,7 @@ const password = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const $router = useRouter();
+const accessToken = localStorage.getItem('accessToken');
 
 const ajouterLivreur = async () => {
   try {
@@ -26,8 +27,8 @@ const ajouterLivreur = async () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
       },
-      mode: 'cors',
       body: JSON.stringify({
         nom: nom.value,
         password: password.value,
@@ -37,11 +38,11 @@ const ajouterLivreur = async () => {
     if (response.ok) {
       successMessage.value = 'Livreur ajouté avec succès!';
       errorMessage.value = '';
-      $router.push('/');
     } else {
-      errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
+      const errors = await response.json();
+      errorMessage.value = errors;
+      // errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
       successMessage.value = '';
-      console.error('Erreur lors de l\'ajout du livreur:', response.status);
     }
   } catch (error) {
     errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
@@ -57,10 +58,12 @@ const ajouterLivreur = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 90%;
+  /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
-  padding: 50px;
+  padding: 20px;
+  /* Ajustement de l'espace intérieur pour les smartphones */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
