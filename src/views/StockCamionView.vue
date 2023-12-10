@@ -17,7 +17,7 @@
           <tbody>
             <tr v-for="(article, index) in articles" :key="index">
               <td>{{ article.name }}</td>
-              <td>{{ getQuantitySupplementaire(article.name) }}</td>
+              <td>{{ article.quantite }}</td>
             </tr>
           </tbody>
         </table>
@@ -27,31 +27,41 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
-const articles = ref([
-  { name: 'langes_s' },
-  { name: 'langes_m' },
-  { name: 'langes_l' },
-  { name: 'inserts' },
-  { name: 'sacs_poubelles' },
-  { name: 'gants_de_toilette' },
-]);
+
 
 const userId = 1; // replace with your actual user ID
 const tournées = ref([]);
+const langes_s = ref(0) || 0;
+const langes_m = ref(0) || 0;
+const langes_l = ref(0) || 0;
+const inserts = ref(0) || 0;
+const sacs_poubelles = ref(0) || 0;
+const gants_de_toilette = ref(0) || 0;
+const accessToken = localStorage.getItem('accessToken');
 
-const getQuantitySupplementaire = (articleName) => {
-  const tournée = tournées.value.find(t => t.userId === userId);
-  return tournée ? tournée[articleName] : 0;
-};
+const articles = ref([
+  { name: 'langes_s', quantite :langes_s },
+  { name: 'langes_m', quantite :langes_m },
+  { name: 'langes_l', quantite :langes_l },
+  { name: 'inserts', quantite :inserts },
+  { name: 'sacs_poubelles', quantite :sacs_poubelles },
+  { name: 'gants_de_toilette', quantite :gants_de_toilette },
+]);
+
+ //const getQuantitySupplementaire = (articleName) => {
+  //const tournée = tournées.value.find(t => t.userId === userId);
+  //return tournée ? tournée[articleName] : 0;
+//};
 
 const fetchData = async () => {
   try {
-    const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/delivery`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
         // Add your authorization header if needed
       },
     });
@@ -59,6 +69,7 @@ const fetchData = async () => {
     if (response.ok) {
       const data = await response.json();
       tournées.value = data;
+      console.log(tournées.value)
     } else {
       console.error('Error fetching tournées data:', response.status);
     }
@@ -66,6 +77,25 @@ const fetchData = async () => {
     console.error('Fetch error:', error);
   }
 };
+watch(tournées, () => {
+  // Reset quantities
+  langes_s.value = 0;
+  langes_m.value = 0;
+  langes_l.value = 0;
+  inserts.value = 0;
+  sacs_poubelles.value = 0;
+  gants_de_toilette.value = 0;
+
+  // Iterate through tournées and update quantities
+  tournées.value.forEach((tournee) => {
+    langes_s.value += tournee.nombre_caisse_linge_s_aprendre || 0;
+    langes_m.value += tournee.nombre_caisse_linge_m_aprendre || 0;
+    langes_l.value += tournee.nombre_caisse_linge_l_aprendre || 0;
+    inserts.value += tournee.nombre_caisse_insert_a_prendre || 0;
+    sacs_poubelles.value += tournee.nombre_caisse_sac_poubelle_a_prendre|| 0;
+    gants_de_toilette.value += tournee.nombre_caisse_gant_a_prendre || 0;
+  });
+});
 
 onMounted(() => {
   fetchData();

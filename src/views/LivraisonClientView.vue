@@ -12,7 +12,8 @@
             <tr>
               <th>Article</th>
               <th>Quantité Commande</th>
-              <th v-if="!isAdmin && editMode">Quantité Livrée</th>
+              <th v-if="!isAdmin">Quantité Livrée</th>
+             
             </tr>
           </thead>
 
@@ -22,6 +23,15 @@
               <td>
                 <input
                   v-if="editMode"
+                  v-model="crecheDetails.nombre_caisse_linge_s"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_linge_s }}</span>
+              </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
                   v-model="crecheDetails.nombre_caisse_linge_s"
                   type="number"
                   min="0"
@@ -41,6 +51,15 @@
                 />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
               </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
+                  v-model="crecheDetails.nombre_caisse_linge_m"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
+              </td>
             </tr>
 
             <tr>
@@ -48,6 +67,15 @@
               <td>
                 <input
                   v-if="editMode"
+                  v-model="crecheDetails.nombre_caisse_linge_l"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_linge_l }}</span>
+              </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
                   v-model="crecheDetails.nombre_caisse_linge_l"
                   type="number"
                   min="0"
@@ -67,6 +95,15 @@
                 />
                 <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
               </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
+                  v-model="crecheDetails.nombre_caisse_gant"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
+              </td>
             </tr>
 
             <tr>
@@ -80,6 +117,16 @@
                 />
                 <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
               </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
+                  v-model="crecheDetails.nombre_caisse_sac_poubelle"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
+              </td>
+              
             </tr>
 
             <tr>
@@ -93,8 +140,20 @@
                 />
                 <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
               </td>
+              <td>
+                <input
+                  v-if="!isAdmin"
+                  v-model="crecheDetails.nombre_caisse_insert"
+                  type="number"
+                  min="0"
+                />
+                <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
+              </td>
             </tr>
           </tbody>
+          <button @click="enregistrer" class="btn-enregistrer" v-if="!isAdmin">
+          Enregistrer
+        </button>
         </table>
         <button @click="enregistrer" class="btn-enregistrer" v-if="isAdmin && editMode">
           Enregistrer
