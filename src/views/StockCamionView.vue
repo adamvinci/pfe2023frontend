@@ -28,7 +28,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 const articles = ref([
   { name: 'langes_s' },
