@@ -3,9 +3,7 @@
     <button @click="toggleEditMode" class="btn-modifier">
       {{ editMode ? "Annuler" : "Modifier" }}
     </button>
-    <button v-if="editMode" @click="saveChanges" class="btn-enregistrer">
-      Enregistrer
-    </button>
+
     <div v-if="editMode" class="form-container">
       <h3>Créer une nouvelle tournée</h3>
       
@@ -14,8 +12,17 @@
         <input v-model="newTournee" type="text" required />
         <button type="submit">Créer</button>
       </form>
+      <h3>Ajouter un client à une tournée</h3>
+      <select v-if="editMode" v-model="selectedTournee">
+        <option value="" disabled selected>Choisissez une tournée</option>
+        <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
+          {{ tournee.nom }}
+        </option>
+      </select>
+        <button @click="addToTournee" type="button">Ajouter</button>
 
     </div>
+
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
         <table id="tableHomeView">
@@ -27,7 +34,6 @@
               <th>Adresse</th>
               <th v-if="editMode">Choix</th>
               <th>Tournee</th>
-
             </tr>
           </thead>
           <tbody>
@@ -40,24 +46,12 @@
                 <input type="checkbox" v-model="livraison.selected" />
               </td>
               <td>
-                {{
-                  (livraison.id &&
-                    apiTournees.find(
-                      (tournee) => tournee.creches.some((c) => c.id === livraison.id)
-                    )?.nom) ||
-                  ''
-                }}
+                {{ getTourneeName(livraison.id) }}
               </td>
             </tr>
           </tbody>
-
         </table>
-        <select v-if="editMode" v-model="selectedTournee">
-          <option value="" disabled selected>Choisissez une tournée</option>
-          <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
-            {{ tournee.nom }}
-          </option>
-        </select>
+
       </div>
     </div>
   </div>
@@ -68,35 +62,30 @@ import { ref, onMounted } from 'vue';
 
 const livraisons = ref({});
 const accessToken = localStorage.getItem('accessToken');
-const apiTournees = ref([]); // Ajout de la référence pour les tournées de l'API
-
-const tournees = ref([]);
-const livraisonss = ref(Array(tournees.value.length).fill(false));
-
+const apiTournees = ref([]);
 const newTournee = ref('');
-
-const selectedCrecheId = ref(null);
+const editMode = ref(false);
+const selectedTournee = ref('');
+const errorMessage = ref('');
 
 const fetchData = async () => {
   try {
-    // Chargement des creches
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
     });
+
     if (response.ok) {
       livraisons.value = await response.json();
       livraisons.value.creches.forEach((creche) => {
         creche.selected = false;
       });
-      console.log('Livraisons data:', livraisons.value);
     } else {
       console.error('Error fetching data:', response.status);
     }
 
-    // Chargement des tournées depuis l'API
     const tourneesResponse = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
       method: 'GET',
       headers: {
@@ -106,12 +95,8 @@ const fetchData = async () => {
 
     if (tourneesResponse.ok) {
       apiTournees.value = await tourneesResponse.json();
-      console.log('Tournées data:', apiTournees.value);
+      console.log('tournees:', apiTournees.value);
 
-      // Ajoute cette boucle pour afficher chaque tournée détaillée dans la console
-      for (const tournee of apiTournees.value) {
-        console.log('Nombre de tournées:', apiTournees.value.length);
-      }
     } else {
       console.error('Error fetching tournees:', tourneesResponse.status);
     }
@@ -120,35 +105,22 @@ const fetchData = async () => {
   }
 };
 
-const editMode = ref(false);
-const selectedTournee = ref('');
-const errorMessage = ref('');
-const successMessage = ref('');
-
 const toggleEditMode = () => {
   editMode.value = !editMode.value;
 };
 
-const saveChanges = () => {
-  // Ajoute ici la logique pour sauvegarder les changements
-  console.log('Changements sauvegardés. Tournee sélectionnée:', selectedTournee.value);
-};
 
-onMounted(() => {
-  fetchData();
-});
 
 const createTournee = async () => {
   try {
     const selectedCreches = livraisons.value.creches.filter(creche => creche.selected);
 
     if (selectedCreches.length === 0) {
-      // Gérer le cas où aucun élément n'est sélectionné
       console.error('Aucune crèche sélectionnée.');
       return;
     }
 
-    const crecheIds = selectedCreches.map(creche => creche.id); // Obtenir uniquement les IDs
+    const crecheIds = selectedCreches.map(creche => creche.id);
 
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
       method: 'POST',
@@ -158,17 +130,12 @@ const createTournee = async () => {
       },
       body: JSON.stringify({
         nom: newTournee.value,
-        creches: crecheIds, // Utiliser uniquement les IDs
+        creches: crecheIds,
       }),
     });
 
-    console.log('Données envoyées:', JSON.stringify({
-      nom: newTournee.value,
-      creches: crecheIds, // Utiliser uniquement les IDs
-    }));
-
     if (response.ok) {
-      // Le reste de votre logique de traitement en cas de succès
+      // Handle success if needed
     } else {
       console.error('Erreur lors de la création de la tournée:', response.status);
       const errors = await response.json();
@@ -179,8 +146,57 @@ const createTournee = async () => {
   }
 };
 
+const getTourneeName = (crecheId) => {
+  const foundTournee = apiTournees.value.find(
+    (tournee) => tournee.creches.some((c) => c.id === crecheId)
+  );
+
+  return foundTournee ? foundTournee.nom : '';
+};
+
+const addToTournee = async () => {
+  try {
+    const selectedClients = livraisons.value.creches.filter((creche) => creche.selected);
+
+    if (selectedClients.length === 0 || !selectedTournee.value) {
+      console.error('Aucun client sélectionné ou aucune tournée choisie.');
+      return;
+    }
+
+    const clientIds = selectedClients.map((creche) => creche.id);
+
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/updateOne`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        id: selectedTournee.value,  // Assurez-vous que le nom du champ est correct
+        creches: clientIds,
+      }),
+    });
+
+    if (response.ok) {
+      // Gérer le succès si nécessaire
+      console.log('Clients ajoutés à la tournée avec succès.');
+    } else {
+      console.error('Erreur lors de l\'ajout des clients à la tournée:', response.status);
+      const errors = await response.json();
+      errorMessage.value = errors;
+    }
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout des clients à la tournée:', error);
+  }
+};
+
+
+onMounted(() => {
+  fetchData();
+});
 
 </script>
+
 <style scoped>
 .hidden-id {
   display: none;
