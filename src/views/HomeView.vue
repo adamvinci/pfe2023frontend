@@ -34,10 +34,10 @@
             <tr v-for="(creche, index) in creches" :key="index">
               <td class="hidden-id">{{ creche.id }}</td>
               <td @click="navigateToCrecheDetails(creche.id)">
-  <router-link :to="{ name: 'creche-details', params: { id: creche.id } }">
-    {{ creche.nom }}
-  </router-link>
-</td>
+            <router-link :to="{ name: 'creche-details', params: { id: creche.id } }">
+               {{ creche.nom }}
+                    </router-link>
+               </td>
               <td>
                 <button
                   id="livraisonCheck"
@@ -49,7 +49,7 @@
               </td>
               <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}</td>
              <td v-if="isadmin">
-                <router-link :to="{ path: '/stockcamion' }">
+              <router-link :to="{ name: 'stockCamionSuppForDeliver', params: { id: tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user_id } }">
                   Stock Camion
                 </router-link>
               </td>

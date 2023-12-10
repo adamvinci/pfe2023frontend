@@ -84,6 +84,11 @@ const router = createRouter({
       name: 'creche-details',
       component: LivraisonClient // Assure-toi d'ajuster le chemin correctement
     },
+    {
+      path: '/stockCamionSupp/:id',
+      name: 'stockCamionSuppForDeliver',
+      component: StockCamionSuppl
+    },
   ]
 });
 
