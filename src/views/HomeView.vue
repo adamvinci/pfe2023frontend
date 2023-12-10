@@ -33,11 +33,11 @@
           <tbody>
             <tr v-for="(creche, index) in creches" :key="index">
               <td class="hidden-id">{{ creche.id }}</td>
-              <td>
-                <router-link :to="{ path: '/livraisonclient' }">
-                  <button>{{ creche.nom }}</button>
-                </router-link>
-              </td>
+              <td @click="navigateToCrecheDetails(creche.id)">
+  <router-link :to="{ name: 'creche-details', params: { id: creche.id } }">
+    {{ creche.nom }}
+  </router-link>
+</td>
               <td>
                 <button
                   id="livraisonCheck"
@@ -70,6 +70,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const tournees = ref([]);
 const creches = ref([]);
@@ -80,7 +83,10 @@ const user = JSON.parse(localStorage.getItem('user')) || {};
 const isadmin = user.is_admin || false;
 
       
-    
+const navigateToCrecheDetails = (crecheId) => {
+  router.push({ name: 'creche-details', params: { id: crecheId } });
+};
+
 
 
 const fetchData = async () => {

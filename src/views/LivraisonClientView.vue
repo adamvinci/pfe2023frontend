@@ -43,30 +43,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-const isAdmin = ref(false); // Définissez-le à false par défaut
-const storedUser = localStorage.getItem('user');
+const route = useRoute();
+const accessToken = localStorage.getItem('accessToken');
 
-if (storedUser) {
-  const parsedUser = JSON.parse(storedUser);
-  isAdmin.value = parsedUser.is_admin || false;
-}
-const editMode = ref(false);
+const crecheDetails = ref({});
+console.log('blblblbllblb :', crecheDetails);
 
-const articles = ref([
-  { name: 'langes_s', quantity: 10 },
-  { name: 'langes_m', quantity: 15 },
-  { name: 'langes_l', quantity: 20 },
-  { name: 'inserts', quantity: 5 },
-  { name: 'sacs_poubelles', quantity: 8 },
-  { name: 'gants_de_toilette', quantity: 12 },
-]);
+const fetchData = async () => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches/${route.params.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
 
-const livraisons = ref(articles.value.map((article) => article.quantity));
-
-const toggleEditMode = () => {
-  editMode.value = !editMode.value;
+    if (response.ok) {
+      const data = await response.json();
+      crecheDetails.value = data;
+      console.log('blblblbllblb :', crecheDetails);
+    } else {
+      console.error('Erreur lors du chargement des détails de la crèche:', response.status);
+    }
+  } catch (error) {
+    console.error('Erreur fetch:', error);
+  }
 };
 
 const enregistrer = () => {
@@ -74,4 +79,7 @@ const enregistrer = () => {
   console.log('Modifications enregistrées :', livraisons.value);
   editMode.value = false; // Désactive le mode édition après l'enregistrement
 };
+onMounted(() => {
+  fetchData();
+});
 </script>

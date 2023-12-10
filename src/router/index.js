@@ -15,6 +15,7 @@ import Tournee from '../views/AllTournesView.vue';
 import StockCamionSuppl from '../views/StockCamionSuppl.vue'
 
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -77,6 +78,11 @@ const router = createRouter({
       path: '/stockCamionSupp',
       name: 'stockCamionSupp',
       component: StockCamionSuppl
+    },
+    {
+      path: '/creches/:id',
+      name: 'creche-details',
+      component: LivraisonClient // Assure-toi d'ajuster le chemin correctement
     },
   ]
 });
