@@ -6,7 +6,16 @@
     <button v-if="editMode" @click="saveChanges" class="btn-enregistrer">
       Enregistrer
     </button>
+    <div v-if="editMode" class="form-container">
+      <h3>Créer une nouvelle tournée</h3>
+      
+      <form @submit.prevent="createTournee">
+        <label>Nom de la tournée:</label>
+        <input v-model="newTournee" type="text" required />
+        <button type="submit">Créer</button>
+      </form>
 
+    </div>
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
         <table id="tableHomeView">
@@ -16,7 +25,9 @@
               <th>Client</th>
               <th>Num tel</th>
               <th>Adresse</th>
-              <th v-if="editMode">Action</th>
+              <th v-if="editMode">Choix</th>
+              <th>Tournee</th>
+
             </tr>
           </thead>
           <tbody>
@@ -28,11 +39,24 @@
               <td v-if="editMode">
                 <input type="checkbox" v-model="livraison.selected" />
               </td>
+              <td>
+                {{
+                  (livraison.id &&
+                    apiTournees.find(
+                      (tournee) => tournee.creches.some((c) => c.id === livraison.id)
+                    )?.nom) ||
+                  ''
+                }}
+              </td>
             </tr>
           </tbody>
+
         </table>
         <select v-if="editMode" v-model="selectedTournee">
-          <option v-for="tournee in tournees" :key="tournee">{{ tournee }}</option>
+          <option value="" disabled selected>Choisissez une tournée</option>
+          <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
+            {{ tournee.nom }}
+          </option>
         </select>
       </div>
     </div>
@@ -44,13 +68,21 @@ import { ref, onMounted } from 'vue';
 
 const livraisons = ref({});
 const accessToken = localStorage.getItem('accessToken');
+const apiTournees = ref([]); // Ajout de la référence pour les tournées de l'API
+
+const tournees = ref([]);
+const livraisonss = ref(Array(tournees.value.length).fill(false));
+
+const newTournee = ref('');
+
+const selectedCrecheId = ref(null);
 
 const fetchData = async () => {
   try {
+    // Chargement des creches
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
     });
@@ -63,6 +95,26 @@ const fetchData = async () => {
     } else {
       console.error('Error fetching data:', response.status);
     }
+
+    // Chargement des tournées depuis l'API
+    const tourneesResponse = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+
+    if (tourneesResponse.ok) {
+      apiTournees.value = await tourneesResponse.json();
+      console.log('Tournées data:', apiTournees.value);
+
+      // Ajoute cette boucle pour afficher chaque tournée détaillée dans la console
+      for (const tournee of apiTournees.value) {
+        console.log('Nombre de tournées:', apiTournees.value.length);
+      }
+    } else {
+      console.error('Error fetching tournees:', tourneesResponse.status);
+    }
   } catch (error) {
     console.error('Fetch error:', error);
   }
@@ -70,7 +122,8 @@ const fetchData = async () => {
 
 const editMode = ref(false);
 const selectedTournee = ref('');
-const tournees = ["Tournee A", "Tournee B", "Tournee C"];
+const errorMessage = ref('');
+const successMessage = ref('');
 
 const toggleEditMode = () => {
   editMode.value = !editMode.value;
@@ -84,8 +137,50 @@ const saveChanges = () => {
 onMounted(() => {
   fetchData();
 });
-</script>
 
+const createTournee = async () => {
+  try {
+    const selectedCreches = livraisons.value.creches.filter(creche => creche.selected);
+
+    if (selectedCreches.length === 0) {
+      // Gérer le cas où aucun élément n'est sélectionné
+      console.error('Aucune crèche sélectionnée.');
+      return;
+    }
+
+    const crecheIds = selectedCreches.map(creche => creche.id); // Obtenir uniquement les IDs
+
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        nom: newTournee.value,
+        creches: crecheIds, // Utiliser uniquement les IDs
+      }),
+    });
+
+    console.log('Données envoyées:', JSON.stringify({
+      nom: newTournee.value,
+      creches: crecheIds, // Utiliser uniquement les IDs
+    }));
+
+    if (response.ok) {
+      // Le reste de votre logique de traitement en cas de succès
+    } else {
+      console.error('Erreur lors de la création de la tournée:', response.status);
+      const errors = await response.json();
+      errorMessage.value = errors;
+    }
+  } catch (error) {
+    console.error('Erreur lors de la création de la tournée:', error);
+  }
+};
+
+
+</script>
 <style scoped>
 .hidden-id {
   display: none;
@@ -97,20 +192,20 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; /* Ajustement de la largeur pour les smartphones */
+  width: 40%;
   margin: auto;
   text-align: center;
-  padding: 20px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 50px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 
 #homeViewDiv {
   border: 2px solid #ddd;
-  padding: 10px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 20px;
   border-radius: 10px;
 }
 
@@ -129,22 +224,16 @@ td {
 #tableHomeView th {
   background-color: #f2f2f2;
 }
+.form-container {
+  margin-top: 20px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
 
-/* Styles spécifiques pour les smartphones */
-@media only screen and (max-width: 600px) {
-  #homeView {
-    width: 100%; /* Pleine largeur sur les smartphones */
-    padding-bottom: 10px; /* Ajout de marge inférieure pour séparer les boutons du tableau */
-  }
-
-  #homeViewDiv {
-    padding: 5px; /* Ajustement de l'espace intérieur pour les smartphones */
-  }
-
-  #tableHomeView th,
-  td {
-    padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
-    font-size: 14px; /* Ajustement de la taille de la police pour les smartphones */
-  }
+.form-container label {
+  margin-right: 10px;
 }
 </style>
+  

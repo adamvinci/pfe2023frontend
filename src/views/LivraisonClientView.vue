@@ -75,5 +75,3 @@ const enregistrer = () => {
   editMode.value = false; // Désactive le mode édition après l'enregistrement
 };
 </script>
-
-

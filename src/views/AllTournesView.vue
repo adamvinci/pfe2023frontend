@@ -64,7 +64,6 @@ const fetchData = async () => {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
     });
