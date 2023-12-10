@@ -3,7 +3,7 @@
     <button v-if="isAdmin" @click="toggleEditMode" class="btn-modifier">
       {{ editMode ? "Annuler" : "Modifier" }}
     </button>
-    <router-link to="/home">
+    <router-link to="/allclients">
         <button class="btn-back">Retour</button>
       </router-link>
     <h2 class="clientName">{{ crecheDetails.nom }}</h2>

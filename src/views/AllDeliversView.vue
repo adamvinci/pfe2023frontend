@@ -26,8 +26,13 @@
               </td>
               
               <td v-if="editMode">
-                <button @click="editLivreur(livreur.id)" class="btn-modifier">
+                <button @click="confirmEditLivreur(livreur.id)" class="btn-modifier">
                   Modifier
+                </button>
+              </td>
+              <td v-if="editMode">
+                <button @click="confirmDeleteLivreur(livreur.id)" class="btn-supprimer">
+                  Supprimer
                 </button>
               </td>
             </tr>
@@ -124,6 +129,49 @@ const fetchData2 = async () => {
 onMounted(() => {
   fetchData();
 });
+const deleteLivreur = async (hiddenId) => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/${hiddenId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      // Supprime le livreur de la liste locale
+      const index = livreurs.value.findIndex((livreur) => livreur.id === hiddenId);
+      livreurs.value.splice(index, 1);
+
+      successMessage.value = 'Livreur supprimé avec succès!';
+      errorMessage.value = '';
+    } else {
+      const errors = await response.json();
+      errorMessage.value = errors;
+      // errorMessage.value = 'Erreur lors de la suppression du livreur. Veuillez réessayer.';
+      successMessage.value = '';
+    }
+  } catch (error) {
+    console.error('Delete error:', error);
+  }
+};
+const confirmEditLivreur = (hiddenId) => {
+  const confirmed = window.confirm('Êtes-vous sûr de vouloir modifier ce livreur ?');
+
+  if (confirmed) {
+    // Appeler votre fonction d'édition ici
+    editLivreur(hiddenId);
+  }
+};
+
+const confirmDeleteLivreur = (hiddenId) => {
+  const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce livreur ?');
+
+  if (confirmed) {
+    // Appeler votre fonction de suppression ici
+    deleteLivreur(hiddenId);
+  }
+};
 </script>
 
 
@@ -213,5 +261,9 @@ button:hover {
     padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
     font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
   }
+}
+.btn-supprimer {
+  background-color: #ff3333;
+  color: white;
 }
 </style>
