@@ -1,9 +1,12 @@
 <template>
   <div class="page-container">
     <button @click="toggleEditMode" class="btn-modifier">
-      {{ editMode ? "Annuler" : "Modifier" }}
+      {{ editMode ? "Annuler" : "Assigner commande à tournée" }}
     </button>
-
+    
+    <button @click="toggleDeleteMode" v-if="!editMode" class="btn-supprimer">
+      {{ deleteMode ? "Retour" : "Supprimer" }}
+    </button>
     <div v-if="editMode" class="form-container">
       <h3>Créer une nouvelle tournée</h3>
       
@@ -33,13 +36,18 @@
               <th>Num tel</th>
               <th>Adresse</th>
               <th v-if="editMode">Choix</th>
+              <th v-if="deleteMode">Supprimer</th>
               <th>Tournee</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(livraison, index) in livraisons.creches" :key="index">
               <td class="hidden-id">{{ livraison.id }}</td>
-              <td>{{ livraison.nom }}</td>
+              <td @click="navigateToCrecheDetails(livraison.id)">
+              <router-link :to="{ name: 'creche-details', params: { id: livraison.id } }">
+                {{ livraison.nom }}
+              </router-link>
+            </td>
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
               <td v-if="editMode">
@@ -47,6 +55,11 @@
               </td>
               <td>
                 {{ getTourneeName(livraison.id) }}
+              </td>
+              <td v-if="deleteMode">
+                <button @click="confirmDelete(livraison.id)" class="btn-supprimer">
+                  Supprimer
+                </button>
               </td>
             </tr>
           </tbody>
@@ -59,7 +72,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const livraisons = ref({});
 const accessToken = localStorage.getItem('accessToken');
 const apiTournees = ref([]);
@@ -67,8 +82,11 @@ const newTournee = ref('');
 const editMode = ref(false);
 const selectedTournee = ref('');
 const errorMessage = ref('');
+const successMessage = ref('');
 
 const fetchData = async () => {
+  console.log('Avant la requête API');
+
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
       method: 'GET',
@@ -81,6 +99,7 @@ const fetchData = async () => {
       livraisons.value = await response.json();
       livraisons.value.creches.forEach((creche) => {
         creche.selected = false;
+        console.log(livraisons.value);
       });
     } else {
       console.error('Error fetching data:', response.status);
@@ -103,8 +122,8 @@ const fetchData = async () => {
   } catch (error) {
     console.error('Fetch error:', error);
   }
+  console.log('Après la requête API');
 };
-
 const toggleEditMode = () => {
   editMode.value = !editMode.value;
 };
@@ -136,6 +155,9 @@ const createTournee = async () => {
 
     if (response.ok) {
       // Handle success if needed
+      console.log('Tournée créée avec succès:', response); // Ajout de ce log
+      window.location.reload();
+
     } else {
       console.error('Erreur lors de la création de la tournée:', response.status);
       const errors = await response.json();
@@ -179,7 +201,9 @@ const addToTournee = async () => {
 
     if (response.ok) {
       // Gérer le succès si nécessaire
-      console.log('Clients ajoutés à la tournée avec succès.');
+      console.log('Clients ajoutés à la tournée avec succès:', response); // Ajout de ce log
+      window.location.reload();
+
     } else {
       console.error('Erreur lors de l\'ajout des clients à la tournée:', response.status);
       const errors = await response.json();
@@ -190,14 +214,59 @@ const addToTournee = async () => {
   }
 };
 
+const navigateToCrecheDetails = (crecheId) => {
+  router.push({ name: 'creche-details', params: { id: crecheId } });
+};
+
 
 onMounted(() => {
   fetchData();
 });
 
-</script>
+const deleteClient = async (crecheId) => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/creche/${crecheId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
 
+    if (response.ok) {
+      // Supprime le client de la liste locale
+      const index = livraisons.value.creches.findIndex((creche) => creche.id === crecheId);
+      livraisons.value.creches.splice(index, 1);
+
+      successMessage.value = 'Client supprimé avec succès!';
+      errorMessage.value = '';
+    } else {
+      const errors = await response.json();
+      errorMessage.value = errors;
+      // errorMessage.value = 'Erreur lors de la suppression du client. Veuillez réessayer.';
+      successMessage.value = '';
+    }
+  } catch (error) {
+    console.error('Delete error:', error);
+  }
+};
+const deleteMode = ref(false);
+
+const toggleDeleteMode = () => {
+  deleteMode.value = !deleteMode.value;
+};
+const confirmDelete = (crecheId) => {
+  const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce client ?');
+
+  if (confirmed) {
+    deleteClient(crecheId);
+  }
+};
+</script>
 <style scoped>
+.btn-supprimer {
+  background-color: #ff3333;
+  color: white;
+}
 .hidden-id {
   display: none;
 }
