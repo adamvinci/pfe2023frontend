@@ -22,7 +22,7 @@ const adresse = ref('');
 const gsm = ref('');
 const accessToken = localStorage.getItem('accessToken');
 
-const crècheId = ref(null);
+const crecheId = ref(null);
 
 
 const ajouterClient = async () => {
@@ -46,9 +46,9 @@ const ajouterClient = async () => {
     if (response.ok) {
       const responseData = await response.json();
       console.log('Client ajouté avec succès:', responseData);
-      crècheId.value = responseData.id; // Stockez l'ID de la crèche associée au client
-      console.log('Crèche ID:', crècheId.value); // Déboguez la valeur de crècheId
-      $router.push(`/addCommand/${crècheId.value}`); // Utilisez l'ID dans l'URL
+      crecheId.value = responseData.id; // Stockez l'ID de la crèche associée au client
+      console.log('Crèche ID:', crecheId.value); // Déboguez la valeur de crecheId
+      $router.push(`/addCommand/${crecheId.value}`); // Utilisez l'ID dans l'URL
     } else {
       const errorData = await response.json();
       console.error('Échec de l\'ajout du client. Réponse de l\'API:', response.status, response.statusText, errorData);

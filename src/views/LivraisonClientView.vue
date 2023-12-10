@@ -74,11 +74,12 @@ const fetchData = async () => {
   }
 };
 
+const enregistrer = () => {
+  // Ajoute la logique pour enregistrer les modifications
+  console.log('Modifications enregistrées :', livraisons.value);
+  editMode.value = false; // Désactive le mode édition après l'enregistrement
+};
 onMounted(() => {
   fetchData();
 });
 </script>
-
-
-
-
