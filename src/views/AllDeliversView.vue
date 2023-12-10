@@ -3,9 +3,6 @@
     <button @click="toggleEditMode" class="btn-modifier">
       {{ editMode ? "Retour" : "Modifier" }}
     </button>
-    <button v-if="editMode" @click="saveChanges" class="btn-enregistrer">
-      Enregistrer
-    </button>
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
         <table id="tableHomeView">
@@ -18,17 +15,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(livraison, index) in livreurs" :key="index">
-              <td class="hidden-id">{{ livraison.hiddenId }}</td>
+            <tr v-for="(livreur, index) in livreurs" :key="index">
+              <td class="hidden-id">{{ livreur.id }}</td>
               <td>
-                <span>{{ livraison.nom }}</span>
+                <span>{{ livreur.nom }}</span>
               </td>
               <td>
-                <span v-if="!editMode">{{ livraison.password }}</span>
-                <input v-else v-model="livreurs[index].password" type="text" :disabled="!editMode" />
+                <span v-if="!editMode">{{ livreur.password }}</span>
+                <input v-else v-model="livreurPasswords[index]" type="password" :disabled="!editMode" />
               </td>
+              
               <td v-if="editMode">
-                <input type="checkbox" v-model="livreurs[index].selected" />
+                <button @click="editLivreur(livreur.id)" class="btn-modifier">
+                  Modifier
+                </button>
               </td>
             </tr>
           </tbody>
@@ -37,24 +37,19 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
 import { ref, onMounted } from 'vue';
 
 const livreurs = ref([]);
 const editMode = ref(false);
+const livreurPasswords = ref([]);
 
 const toggleEditMode = () => {
   editMode.value = !editMode.value;
 };
 
-
-const saveChanges = () => {
-  // Ajoutez ici la logique pour sauvegarder les modifications des livreurs
-  console.log('Modifications enregistrées :', livreurs);
-};
 const accessToken = localStorage.getItem('accessToken');
-
 
 const fetchData = async () => {
   try {
@@ -66,9 +61,7 @@ const fetchData = async () => {
     });
     if (response.ok) {
       livreurs.value = await response.json();
-      livreurs.value.forEach((livreur) => {
-        livreur.selected = false;
-      });
+      livreurPasswords.value = livreurs.value.map(() => ''); // Initialiser les mots de passe
       console.log('Livreurs data:', livreurs.value);
     } else {
       console.error('Error fetching data:', response.status);
@@ -78,11 +71,62 @@ const fetchData = async () => {
   }
 };
 
+
+const errorMessage = ref('');
+const successMessage = ref('');
+
+const selectedLivreurHiddenId = ref(null);
+
+const editLivreur = (hiddenId) => {
+  // Mettre à jour le hiddenId du livreur sélectionné
+  selectedLivreurHiddenId.value = hiddenId;
+  console.log('id à envoyer:', selectedLivreurHiddenId.value);
+
+  // Appeler fetchData pour mettre à jour les données si nécessaire
+  fetchData2();
+};
+
+const fetchData2 = async () => {
+  try {
+    const hiddenId = selectedLivreurHiddenId.value;
+    const index = livreurs.value.findIndex((livreur) => livreur.id === hiddenId);
+    const passwordToUpdate = livreurPasswords.value[index];
+    console.log('id à envoyer:', hiddenId);
+    console.log('Mot de passe à envoyer:', passwordToUpdate);
+    
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/updatePassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        idUser: hiddenId,
+        password: passwordToUpdate,
+      }),
+    });
+    if (response.ok) {
+      successMessage.value = 'mdp changé avec succès!';
+      errorMessage.value = '';
+    } else {
+      const errors = await response.json();
+      console.log(errors)
+      errorMessage.value = errors;
+      // errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
+      successMessage.value = '';
+    }
+
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
+
 onMounted(() => {
   fetchData();
 });
 </script>
-  
+
+
 <style scoped>
 /* Styles pour masquer la colonne Hidden ID */
 .hidden-id {
