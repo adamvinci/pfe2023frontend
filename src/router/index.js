@@ -54,9 +54,9 @@ const router = createRouter({
       component: StockCamion
     },
     {
+      name: 'livraisonClient',
       path: '/livraisonclient',
-      name: 'livraisonclient',
-      component: LivraisonClient
+      component: LivraisonClient,
     },
     {
       path: '/allclients',

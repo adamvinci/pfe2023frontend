@@ -38,7 +38,7 @@
     </div>
   </div>
 </template>
-
+  
 <script setup>
 import { ref, onMounted } from 'vue';
 
@@ -85,7 +85,7 @@ onMounted(() => {
   fetchData();
 });
 </script>
-
+  
 <style scoped>
 .hidden-id {
   display: none;
@@ -97,20 +97,20 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; /* Ajustement de la largeur pour les smartphones */
+  width: 40%;
   margin: auto;
   text-align: center;
-  padding: 20px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 50px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #E1DAFB;
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 
 #homeViewDiv {
   border: 2px solid #ddd;
-  padding: 10px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 20px;
   border-radius: 10px;
 }
 
@@ -129,22 +129,5 @@ td {
 #tableHomeView th {
   background-color: #f2f2f2;
 }
-
-/* Styles spécifiques pour les smartphones */
-@media only screen and (max-width: 600px) {
-  #homeView {
-    width: 100%; /* Pleine largeur sur les smartphones */
-    padding-bottom: 10px; /* Ajout de marge inférieure pour séparer les boutons du tableau */
-  }
-
-  #homeViewDiv {
-    padding: 5px; /* Ajustement de l'espace intérieur pour les smartphones */
-  }
-
-  #tableHomeView th,
-  td {
-    padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
-    font-size: 14px; /* Ajustement de la taille de la police pour les smartphones */
-  }
-}
 </style>
+  
