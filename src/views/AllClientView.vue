@@ -7,6 +7,7 @@
     <button @click="toggleDeleteMode" v-if="!editMode" class="btn-supprimer">
       {{ deleteMode ? "Retour" : "Supprimer" }}
     </button>
+
     <div v-if="editMode" class="form-container">
       <h3>Créer une nouvelle tournée</h3>
       
@@ -15,16 +16,23 @@
         <input v-model="newTournee" type="text" required />
         <button type="submit">Créer</button>
       </form>
+
       <h3>Ajouter un client à une tournée</h3>
       <select v-if="editMode" v-model="selectedTournee">
-        <option value="" disabled selected>Choisissez une tournée</option>
-        <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
-          {{ tournee.nom }}
-        </option>
-      </select>
-        <button @click="addToTournee" type="button">Ajouter</button>
+  <option value="" disabled selected>Choisissez une tournée</option>
+  <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
+    {{ tournee.nom }}
+  </option>
+</select>
 
+<button @click="confirmDeleteTournee(selectedTournee)" v-if="editMode" class="btn-supprimer">
+  Supprimer
+</button>
+
+      <button @click="addToTournee" type="button">Ajouter</button>
     </div>
+
+
 
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
@@ -186,6 +194,7 @@ const addToTournee = async () => {
     }
 
     const clientIds = selectedClients.map((creche) => creche.id);
+    console.log('clientIds:', clientIds);
 
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/updateOne`, {
       method: 'POST',
@@ -194,25 +203,27 @@ const addToTournee = async () => {
         'Authorization': `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        id: selectedTournee.value,  // Assurez-vous que le nom du champ est correct
+        deliveryId: selectedTournee.value,  // Assurez-vous que le nom du champ est correct
         creches: clientIds,
       }),
     });
 
-    if (response.ok) {
-      // Gérer le succès si nécessaire
-      console.log('Clients ajoutés à la tournée avec succès:', response); // Ajout de ce log
-      window.location.reload();
 
+    if (response.ok) {
+      console.log('Clients ajoutés à la tournée avec succès:', response);
+      window.location.reload();
     } else {
       console.error('Erreur lors de l\'ajout des clients à la tournée:', response.status);
       const errors = await response.json();
-      errorMessage.value = errors;
+      console.error('Errors from server:', errors); // Ajout de ce log
+      errorMessage.value = errors.message; // Assurez-vous que le champ 'message' est correct
     }
   } catch (error) {
     console.error('Erreur lors de l\'ajout des clients à la tournée:', error);
   }
 };
+
+
 
 const navigateToCrecheDetails = (crecheId) => {
   router.push({ name: 'creche-details', params: { id: crecheId } });
@@ -261,8 +272,46 @@ const confirmDelete = (crecheId) => {
     deleteClient(crecheId);
   }
 };
+const confirmDeleteTournee = (tourneeId) => {
+  console.log('tourneeId:', tourneeId); // Add this line to check the value
+  const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette tournée ?');
+
+  if (confirmed) {
+    deleteTournee(tourneeId);
+  }
+};
+
+const deleteTournee = async (tourneeId) => {
+  try {
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/${tourneeId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      // Supprime la tournée de la liste locale
+      const index = apiTournees.value.findIndex((tournee) => tournee.id === tourneeId);
+      apiTournees.value.splice(index, 1);
+
+      successMessage.value = 'Tournée supprimée avec succès!';
+      errorMessage.value = '';
+    } else {
+      const errors = await response.json();
+      errorMessage.value = errors;
+      successMessage.value = '';
+    }
+  } catch (error) {
+    console.error('Delete error:', error);
+  }
+};
+
 </script>
+
+
 <style scoped>
+/* Common styles for both desktop and mobile */
 .btn-supprimer {
   background-color: #ff3333;
   color: white;
@@ -277,10 +326,8 @@ const confirmDelete = (crecheId) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
-  margin: auto;
   text-align: center;
-  padding: 50px;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -309,6 +356,7 @@ td {
 #tableHomeView th {
   background-color: #f2f2f2;
 }
+
 .form-container {
   margin-top: 20px;
   background: #fff;
@@ -320,5 +368,21 @@ td {
 .form-container label {
   margin-right: 10px;
 }
+
+/* Media query for screens smaller than 600px (adjust as needed) */
+@media (max-width: 600px) {
+  #homeView {
+    width: 90%; /* Adjust the width for smaller screens */
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  #homeViewDiv {
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  #tableHomeView th,
+  td {
+    font-size: 12px; /* Adjust font size for smaller screens */
+  }
+}
 </style>
-  
