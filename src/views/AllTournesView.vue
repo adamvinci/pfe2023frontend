@@ -11,19 +11,15 @@
             </tr>
           </thead>
           <tbody>
-    <tr v-for="(tournee, index) in tournees" :key="index">
-      <td>
-        <input
-  type="checkbox"
-  v-model="tournee.selected"
-  class="styled-checkbox"
-  @change="() => selectionnerTournee(tournee.id)"
-/>
-      </td>
-      <td class="hidden-id">{{ tournee.id }}</td>
-      <td>{{ tournee.nom }}</td>
-    </tr>
-  </tbody>
+            <tr v-for="(tournee, index) in tournees" :key="index">
+              <td>
+                <input type="checkbox" v-model="tournee.selected" class="styled-checkbox"
+                  @change="() => selectionnerTournee(tournee.id)" />
+              </td>
+              <td class="hidden-id">{{ tournee.id }}</td>
+              <td>{{ tournee.nom }}</td>
+            </tr>
+          </tbody>
         </table>
 
         <!-- Bouton Enregistrer avec la classe btn-enregistrer -->
@@ -35,8 +31,9 @@
   
 <script setup>
 import { ref, onMounted } from 'vue';
-
- const tournees = ref([]);;
+import swal from 'sweetalert2';
+const Swal = ref(swal);
+const tournees = ref([]);;
 const accessToken = localStorage.getItem('accessToken');
 const iduser = localStorage.getItem('user');
 const parseduser = JSON.parse(iduser);
@@ -52,7 +49,7 @@ const selectionnerTournee = (tourneeId) => {
 };
 const enregistrer = () => {
   console.log('Tournee sélectionnée:', selectedTourneeId);
-  
+
   if (selectedTourneeId !== null) {
     fetchData2(selectedTourneeId);
   }
@@ -72,9 +69,15 @@ const fetchData = async () => {
       tournees.value.forEach((tournee) => {
         tournee.selected = false;
       });
-      console.log('Livraisons data:', tournees.value);
     } else {
-      console.error('Error fetching data:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -88,7 +91,6 @@ const fetchData2 = async () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      mode: 'cors',
       body: JSON.stringify({
         idDelivery: selectedTourneeId,
         idDeliveryMan: parseduser.id,
@@ -102,9 +104,21 @@ const fetchData2 = async () => {
         updatedTournees.splice(index, 1);
       }
       tournees.value = updatedTournees;
-      console.log('Livraisons data:', tournees.value);
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Delivery A successfully",
+        timer: 1500,
+      });
     } else {
-      console.error('Error fetching data:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -134,10 +148,12 @@ console.log(tournees);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%; /* Ajustez la largeur pour les petits écrans */
+  width: 80%;
+  /* Ajustez la largeur pour les petits écrans */
   margin: auto;
   text-align: center;
-  padding: 20px; /* Ajustez la taille du padding pour les petits écrans */
+  padding: 20px;
+  /* Ajustez la taille du padding pour les petits écrans */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -148,7 +164,8 @@ console.log(tournees);
 /* Styles pour le wrapper du tableau */
 #tourneeViewDiv {
   border: 2px solid #ddd;
-  padding: 10px; /* Ajustez la taille du padding pour les petits écrans */
+  padding: 10px;
+  /* Ajustez la taille du padding pour les petits écrans */
   border-radius: 10px;
 }
 
@@ -197,6 +214,5 @@ console.log(tournees);
     font-size: 12px;
   }
 }
-
 </style>
   

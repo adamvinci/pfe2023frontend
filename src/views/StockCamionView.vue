@@ -29,6 +29,8 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 
 
 const userId = 1; // replace with your actual user ID
@@ -42,17 +44,17 @@ const gants_de_toilette = ref(0) || 0;
 const accessToken = localStorage.getItem('accessToken');
 
 const articles = ref([
-  { name: 'langes_s', quantite :langes_s },
-  { name: 'langes_m', quantite :langes_m },
-  { name: 'langes_l', quantite :langes_l },
-  { name: 'inserts', quantite :inserts },
-  { name: 'sacs_poubelles', quantite :sacs_poubelles },
-  { name: 'gants_de_toilette', quantite :gants_de_toilette },
+  { name: 'langes_s', quantite: langes_s },
+  { name: 'langes_m', quantite: langes_m },
+  { name: 'langes_l', quantite: langes_l },
+  { name: 'inserts', quantite: inserts },
+  { name: 'sacs_poubelles', quantite: sacs_poubelles },
+  { name: 'gants_de_toilette', quantite: gants_de_toilette },
 ]);
 
- //const getQuantitySupplementaire = (articleName) => {
-  //const tournée = tournées.value.find(t => t.userId === userId);
-  //return tournée ? tournée[articleName] : 0;
+//const getQuantitySupplementaire = (articleName) => {
+//const tournée = tournées.value.find(t => t.userId === userId);
+//return tournée ? tournée[articleName] : 0;
 //};
 
 const fetchData = async () => {
@@ -71,7 +73,14 @@ const fetchData = async () => {
       tournées.value = data;
       console.log(tournées.value)
     } else {
-      console.error('Error fetching tournées data:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -92,7 +101,7 @@ watch(tournées, () => {
     langes_m.value += tournee.nombre_caisse_linge_m_aprendre || 0;
     langes_l.value += tournee.nombre_caisse_linge_l_aprendre || 0;
     inserts.value += tournee.nombre_caisse_insert_a_prendre || 0;
-    sacs_poubelles.value += tournee.nombre_caisse_sac_poubelle_a_prendre|| 0;
+    sacs_poubelles.value += tournee.nombre_caisse_sac_poubelle_a_prendre || 0;
     gants_de_toilette.value += tournee.nombre_caisse_gant_a_prendre || 0;
   });
 });

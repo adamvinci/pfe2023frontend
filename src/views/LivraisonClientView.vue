@@ -4,8 +4,8 @@
       {{ editMode ? "Annuler" : "Modifier" }}
     </button>
     <router-link to="/allclients">
-        <button class="btn-back">Retour</button>
-      </router-link>
+      <button class="btn-back">Retour</button>
+    </router-link>
     <h2 class="clientName">{{ crecheDetails.nom }}</h2>
 
     <div class="table-container" id="homeView">
@@ -16,7 +16,7 @@
               <th>Article</th>
               <th>Quantité Commande</th>
               <th v-if="!isAdmin">Quantité Livrée</th>
-             
+
             </tr>
           </thead>
 
@@ -24,21 +24,11 @@
             <tr>
               <td>Nombre caisse lange S</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_linge_s"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_linge_s" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_s }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_linge_s"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_s" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_s }}</span>
               </td>
             </tr>
@@ -46,21 +36,11 @@
             <tr>
               <td>Nombre caisse lange M</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_linge_m"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_linge_m" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_linge_m"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_m" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
               </td>
             </tr>
@@ -68,21 +48,11 @@
             <tr>
               <td>Nombre caisse lange L</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_linge_l"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_linge_l" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_l }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_linge_l"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_l" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_l }}</span>
               </td>
             </tr>
@@ -90,21 +60,11 @@
             <tr>
               <td>Nombre caisse gants</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_gant"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_gant" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_gant"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_gant" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
               </td>
             </tr>
@@ -112,51 +72,31 @@
             <tr>
               <td>Nombre sac poubelle</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_sac_poubelle"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_sac_poubelle" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_sac_poubelle"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_sac_poubelle" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
               </td>
-              
+
             </tr>
 
             <tr>
               <td>Nombre caisses insert</td>
               <td>
-                <input
-                  v-if="editMode"
-                  v-model="crecheDetails.nombre_caisse_insert"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="editMode" v-model="crecheDetails.nombre_caisse_insert" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
               </td>
               <td>
-                <input
-                  v-if="!isAdmin"
-                  v-model="crecheDetails.nombre_caisse_insert"
-                  type="number"
-                  min="0"
-                />
+                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_insert" type="number" min="0" />
                 <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
               </td>
             </tr>
           </tbody>
           <button @click="enregistrer" class="btn-enregistrer" v-if="!isAdmin">
-          Enregistrer
-        </button>
+            Enregistrer
+          </button>
         </table>
         <button @click="enregistrer" class="btn-enregistrer" v-if="isAdmin && editMode">
           Enregistrer
@@ -169,6 +109,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 
 const route = useRoute();
 const accessToken = localStorage.getItem('accessToken');
@@ -209,12 +151,19 @@ const fetchData = async () => {
         console.error('Invalid data structure:', data);
       }
     } else {
-      console.error('Error loading creche details:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
-  console.error('Erreur lors de la requête POST:', error);
-  console.log('Response Text:', await error.text());
-}
+    console.error('Erreur lors de la requête POST:', error);
+    console.log('Response Text:', await error.text());
+  }
 };
 
 
@@ -249,9 +198,9 @@ const enregistrer = async () => {
       console.error('Erreur lors de l\'enregistrement des modifications:', response.status);
     }
   } catch (error) {
-  console.error('Erreur lors de la requête POST:', error);
-  console.log('Response Text:', await error.text());
-}
+    console.error('Erreur lors de la requête POST:', error);
+    console.log('Response Text:', await error.text());
+  }
 
   editMode.value = false; // Disable edit mode after saving
 };

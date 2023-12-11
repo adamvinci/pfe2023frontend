@@ -34,30 +34,29 @@
             <tr v-for="(creche, index) in creches" :key="index">
               <td class="hidden-id">{{ creche.id }}</td>
               <td @click="navigateToCrecheDetails(creche.id)">
-            <router-link :to="{ name: 'creche-details', params: { id: creche.id } }">
-               {{ creche.nom }}
-                    </router-link>
-               </td>
+                <router-link :to="{ name: 'creche-details', params: { id: creche.id } }">
+                  {{ creche.nom }}
+                </router-link>
+              </td>
               <td>
-                <button
-                  id="livraisonCheck"
-                  @click="toggleLivraison(index)"
-                  :style="{ color: livraisons[index] ? 'green' : 'red' }"
-                >
+                <button id="livraisonCheck" @click="toggleLivraison(index)"
+                  :style="{ color: livraisons[index] ? 'green' : 'red' }">
                   {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
                 </button>
               </td>
-              <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}</td>
-             <td v-if="isadmin">
-              <router-link :to="{ name: 'stockCamionSuppForDeliver', params: { id: tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user_id } }">
+              <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}
+              </td>
+              <td v-if="isadmin">
+                <router-link
+                  :to="{ name: 'stockCamionSuppForDeliver', params: { id: tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user_id } }">
                   Stock Camion
                 </router-link>
               </td>
               <td>{{ creche.adresse }}</td><!-- Ajout de la colonne pour les adresses -->
               <td>
-              {{ 
-               tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom 
-              }}
+                {{
+                  tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom
+                }}
               </td>
 
             </tr>
@@ -71,7 +70,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const router = useRouter();
 
 const tournees = ref([]);
@@ -82,7 +82,7 @@ const livraisons = ref(Array(tournees.value.length).fill(false));
 const user = JSON.parse(localStorage.getItem('user')) || {};
 const isadmin = user.is_admin || false;
 
-      
+
 const navigateToCrecheDetails = (crecheId) => {
   router.push({ name: 'creche-details', params: { id: crecheId } });
 };
@@ -100,7 +100,7 @@ const fetchData = async () => {
     });
     if (response.ok) {
       const data = await response.json();
-      
+
       if (Array.isArray(data)) {
         tournees.value = data;
         tournees.value.forEach((tournee) => {
@@ -114,7 +114,14 @@ const fetchData = async () => {
         console.warn('Data received is not an array:', data);
       }
     } else {
-      console.error('Error fetching data:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -153,8 +160,10 @@ const updateFormattedDate = () => {
   cursor: pointer;
   border-radius: 3px;
   border-radius: 15px;
-  margin-top: 10px; /* Réduction de la marge en haut */
-  margin-bottom: 10px; /* Réduction de la marge en bas */
+  margin-top: 10px;
+  /* Réduction de la marge en haut */
+  margin-bottom: 10px;
+  /* Réduction de la marge en bas */
   margin-left: auto;
   margin-right: auto;
 }
@@ -162,14 +171,16 @@ const updateFormattedDate = () => {
 /* Style pour HomeView */
 #homeView {
   overflow: auto;
-  margin-bottom: 10px; /* Réduction de la marge en bas */
+  margin-bottom: 10px;
+  /* Réduction de la marge en bas */
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
   margin: auto;
   text-align: center;
-  padding: 20px; /* Réduction de la taille du padding */
+  padding: 20px;
+  /* Réduction de la taille du padding */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -180,7 +191,8 @@ const updateFormattedDate = () => {
 /* Styles pour le wrapper du tableau */
 #homeViewDiv {
   border: 2px solid #ddd;
-  padding: 10px; /* Réduction de la taille du padding */
+  padding: 10px;
+  /* Réduction de la taille du padding */
   border-radius: 10px;
 }
 
@@ -216,11 +228,13 @@ const updateFormattedDate = () => {
 /* Styles pour le titre de la date */
 .date-title {
   text-align: center;
-  margin-bottom: 10px; /* Réduction de la taille de la marge */
+  margin-bottom: 10px;
+  /* Réduction de la taille de la marge */
 }
 
 .date-title h2 {
-  font-size: 16px; /* Réduction de la taille de la police */
+  font-size: 16px;
+  /* Réduction de la taille de la police */
   margin: 0;
 }
 
@@ -231,7 +245,8 @@ const updateFormattedDate = () => {
 }
 
 .searchbar {
-  font-size: 1rem; /* Réduction de la taille de la police */
+  font-size: 1rem;
+  /* Réduction de la taille de la police */
   width: 100%;
   height: 2.5rem;
   border: none;
@@ -243,7 +258,8 @@ const updateFormattedDate = () => {
 }
 
 .button {
-  height: 1rem; /* Réduction de la taille de l'icône */
+  height: 1rem;
+  /* Réduction de la taille de l'icône */
   position: absolute;
   top: 0.7rem;
   right: 0.3rem;
@@ -254,6 +270,7 @@ const updateFormattedDate = () => {
 .searchbar::placeholder {
   opacity: 0.3;
 }
+
 .hidden-id {
   display: none;
 }
@@ -262,38 +279,49 @@ const updateFormattedDate = () => {
 @media only screen and (max-width: 600px) {
   .table-container {
     width: 100%;
-    padding: 20px; /* Ajustement de la taille du padding */
+    padding: 20px;
+    /* Ajustement de la taille du padding */
   }
 
   .date-title h1 {
-    font-size: 18px; /* Ajustement de la taille de la police */
-    margin-bottom: 10px; /* Ajustement de la taille de la marge */
+    font-size: 18px;
+    /* Ajustement de la taille de la police */
+    margin-bottom: 10px;
+    /* Ajustement de la taille de la marge */
   }
 
   #homeView {
     width: 100%;
-    padding: 10px; /* Ajustement de la taille du padding */
-    margin-top: 1rem; /* Ajustement de la taille de la marge en haut */
+    padding: 10px;
+    /* Ajustement de la taille du padding */
+    margin-top: 1rem;
+    /* Ajustement de la taille de la marge en haut */
   }
 
   #homeViewDiv {
-    padding: 5px; /* Ajustement de la taille du padding */
+    padding: 5px;
+    /* Ajustement de la taille du padding */
   }
 
   #tableHomeView th,
   #tableHomeView td {
-    padding: 6px; /* Ajustement de la taille du padding */
-    font-size: 12px; /* Ajustement de la taille de la police */
+    padding: 6px;
+    /* Ajustement de la taille du padding */
+    font-size: 12px;
+    /* Ajustement de la taille de la police */
   }
 
   .searchbar {
-    font-size: 0.9rem; /* Ajustement de la taille de la police */
+    font-size: 0.9rem;
+    /* Ajustement de la taille de la police */
   }
 
   .button {
-    height: 0.8rem; /* Ajustement de la taille de l'icône */
-    top: 0.5rem; /* Ajustement de la position de l'icône */
-    right: 0.2rem; /* Ajustement de la position de l'icône */
+    height: 0.8rem;
+    /* Ajustement de la taille de l'icône */
+    top: 0.5rem;
+    /* Ajustement de la position de l'icône */
+    right: 0.2rem;
+    /* Ajustement de la position de l'icône */
   }
-}
-</style>
+}</style>

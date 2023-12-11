@@ -3,8 +3,13 @@
     <h1>Login Page</h1>
     <input type="text" v-model="nom" placeholder="nom" />
     <input type="password" v-model="password" placeholder="*****" />
-    <Bouton @click="login">Login</Bouton>
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <div>
+      <a href="#" @click="forgotPasswordHandler">Forgot Password?</a>
+    </div>
+    <div>
+      <Bouton @click="login">Login</Bouton>
+    </div>
+
   </div>
 </template>
 
@@ -12,14 +17,46 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Bouton from '@/components/Bouton.vue';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const nom = ref('');
 const password = ref('');
-const errorMessage = ref('');
 const $router = useRouter();
 const accessToken = ref('');
 const accessUser = ref('');
+const forgotPasswordHandler = async async => {
+  const { value: email } = await Swal.value.fire({
+    title: "Input email address",
+    input: "email",
+    inputLabel: "Your email address",
+    inputPlaceholder: "Enter your email address"
+  });
+  const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/resetPasswordAdmin`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+  const responseData = await response.json();
+  if (response.ok) {
+    Swal.value.fire({
+      icon: "success",
+      title: "Success",
+      html: `${responseData.message}`,
+      timer: 1500,
+    });
 
+  } else {
+    const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+    Swal.value.fire({
+      icon: "error",
+      title: "Oops...",
+      html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+    });
+  }
+}
 const login = async () => {
   try {
     console.log('nom:', nom.value);
@@ -46,20 +83,24 @@ const login = async () => {
       accessUser.value = data.user;
       console.log('user d\'accès:', accessUser.value);
       console.log('user d\'accès:', accessUser.value.is_admin);
-      
+
 
       // Stocke le token dans le localStorage
       localStorage.setItem('accessToken', accessToken.value);
       localStorage.setItem('user', JSON.stringify(accessUser.value));
-      
+
       // Utilisation de la navigation avec la référence à $router
       $router.push('/home');
     } else {
-      // Affichage du message d'erreur
-      errorMessage.value = 'La connexion a échoué. Vérifiez vos identifiants.';
-      console.error('Erreur lors de la connexion:', response.status);
-      const responseData = await response.json();
-      console.error('Détails de l\'erreur:', responseData);
+
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     // Affichage du message d'erreur

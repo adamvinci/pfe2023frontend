@@ -4,7 +4,7 @@
     Nom <input type="text" v-model="nom" />
     Ville <input type="text" v-model="ville" />
     Adresse <input type="text" v-model="adresse" />
-    Téléphone <input type="text" v-model="gsm" />
+    Téléphone <input type="text" placeholder="optional" v-model="gsm" />
     <button @click="ajouterClient">Ajouter</button>
   </div>
 </template>
@@ -12,7 +12,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const $router = useRouter();
 
 
@@ -45,13 +46,24 @@ const ajouterClient = async () => {
 
     if (response.ok) {
       const responseData = await response.json();
-      console.log('Client ajouté avec succès:', responseData);
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Nursery Added successfully",
+        timer: 1500,
+      });
       crecheId.value = responseData.id; // Stockez l'ID de la crèche associée au client
       console.log('Crèche ID:', crecheId.value); // Déboguez la valeur de crecheId
       $router.push(`/addCommand/${crecheId.value}`); // Utilisez l'ID dans l'URL
     } else {
-      const errorData = await response.json();
-      console.error('Échec de l\'ajout du client. Réponse de l\'API:', response.status, response.statusText, errorData);
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Erreur lors de l\'ajout du client:', error);

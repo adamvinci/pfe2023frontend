@@ -3,13 +3,13 @@
     <button @click="toggleEditMode" class="btn-modifier">
       {{ editMode ? "Annuler" : "Assigner commande à tournée" }}
     </button>
-    
+
     <button @click="toggleDeleteMode" v-if="!editMode" class="btn-supprimer">
       {{ deleteMode ? "Retour" : "Supprimer" }}
     </button>
     <div v-if="editMode" class="form-container">
       <h3>Créer une nouvelle tournée</h3>
-      
+
       <form @submit.prevent="createTournee">
         <label>Nom de la tournée:</label>
         <input v-model="newTournee" type="text" required />
@@ -22,7 +22,7 @@
           {{ tournee.nom }}
         </option>
       </select>
-        <button @click="addToTournee" type="button">Ajouter</button>
+      <button @click="addToTournee" type="button">Ajouter</button>
 
     </div>
 
@@ -44,10 +44,10 @@
             <tr v-for="(livraison, index) in livraisons.creches" :key="index">
               <td class="hidden-id">{{ livraison.id }}</td>
               <td @click="navigateToCrecheDetails(livraison.id)">
-              <router-link :to="{ name: 'creche-details', params: { id: livraison.id } }">
-                {{ livraison.nom }}
-              </router-link>
-            </td>
+                <router-link :to="{ name: 'creche-details', params: { id: livraison.id } }">
+                  {{ livraison.nom }}
+                </router-link>
+              </td>
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
               <td v-if="editMode">
@@ -73,7 +73,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const router = useRouter();
 const livraisons = ref({});
 const accessToken = localStorage.getItem('accessToken');
@@ -81,8 +82,6 @@ const apiTournees = ref([]);
 const newTournee = ref('');
 const editMode = ref(false);
 const selectedTournee = ref('');
-const errorMessage = ref('');
-const successMessage = ref('');
 
 const fetchData = async () => {
   console.log('Avant la requête API');
@@ -99,10 +98,16 @@ const fetchData = async () => {
       livraisons.value = await response.json();
       livraisons.value.creches.forEach((creche) => {
         creche.selected = false;
-        console.log(livraisons.value);
       });
     } else {
-      console.error('Error fetching data:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
 
     const tourneesResponse = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
@@ -117,7 +122,14 @@ const fetchData = async () => {
       console.log('tournees:', apiTournees.value);
 
     } else {
-      console.error('Error fetching tournees:', tourneesResponse.status);
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -155,13 +167,23 @@ const createTournee = async () => {
 
     if (response.ok) {
       // Handle success if needed
-      console.log('Tournée créée avec succès:', response); // Ajout de ce log
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Tournee has been added",
+        timer: 1500,
+      });
       window.location.reload();
 
     } else {
-      console.error('Erreur lors de la création de la tournée:', response.status);
-      const errors = await response.json();
-      errorMessage.value = errors;
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Erreur lors de la création de la tournée:', error);
@@ -200,14 +222,23 @@ const addToTournee = async () => {
     });
 
     if (response.ok) {
-      // Gérer le succès si nécessaire
-      console.log('Clients ajoutés à la tournée avec succès:', response); // Ajout de ce log
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Tournee updated successfully",
+        timer: 1500,
+      });
       window.location.reload();
 
     } else {
-      console.error('Erreur lors de l\'ajout des clients à la tournée:', response.status);
-      const errors = await response.json();
-      errorMessage.value = errors;
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Erreur lors de l\'ajout des clients à la tournée:', error);
@@ -237,13 +268,22 @@ const deleteClient = async (crecheId) => {
       const index = livraisons.value.creches.findIndex((creche) => creche.id === crecheId);
       livraisons.value.creches.splice(index, 1);
 
-      successMessage.value = 'Client supprimé avec succès!';
-      errorMessage.value = '';
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Nursery Deleted successfully",
+        timer: 1500,
+      });
     } else {
-      const errors = await response.json();
-      errorMessage.value = errors;
-      // errorMessage.value = 'Erreur lors de la suppression du client. Veuillez réessayer.';
-      successMessage.value = '';
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
+
     }
   } catch (error) {
     console.error('Delete error:', error);
@@ -267,6 +307,7 @@ const confirmDelete = (crecheId) => {
   background-color: #ff3333;
   color: white;
 }
+
 .hidden-id {
   display: none;
 }
@@ -309,6 +350,7 @@ td {
 #tableHomeView th {
   background-color: #f2f2f2;
 }
+
 .form-container {
   margin-top: 20px;
   background: #fff;

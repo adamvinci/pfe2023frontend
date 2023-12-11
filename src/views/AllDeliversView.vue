@@ -24,7 +24,7 @@
                 <span v-if="!editMode">{{ livreur.password }}</span>
                 <input v-else v-model="livreurPasswords[index]" type="password" :disabled="!editMode" />
               </td>
-              
+
               <td v-if="editMode">
                 <button @click="confirmEditLivreur(livreur.id)" class="btn-modifier">
                   Modifier
@@ -45,7 +45,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const livreurs = ref([]);
 const editMode = ref(false);
 const livreurPasswords = ref([]);
@@ -69,7 +70,14 @@ const fetchData = async () => {
       livreurPasswords.value = livreurs.value.map(() => ''); // Initialiser les mots de passe
       console.log('Livreurs data:', livreurs.value);
     } else {
-      console.error('Error fetching data:', response.status);
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Fetch error:', error);
@@ -77,8 +85,6 @@ const fetchData = async () => {
 };
 
 
-const errorMessage = ref('');
-const successMessage = ref('');
 
 const selectedLivreurHiddenId = ref(null);
 
@@ -98,7 +104,7 @@ const fetchData2 = async () => {
     const passwordToUpdate = livreurPasswords.value[index];
     console.log('id à envoyer:', hiddenId);
     console.log('Mot de passe à envoyer:', passwordToUpdate);
-    
+
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/updatePassword`, {
       method: 'POST',
       headers: {
@@ -111,14 +117,21 @@ const fetchData2 = async () => {
       }),
     });
     if (response.ok) {
-      successMessage.value = 'mdp changé avec succès!';
-      errorMessage.value = '';
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "User Password successfully updated",
+        timer: 1500,
+      });
     } else {
-      const errors = await response.json();
-      console.log(errors)
-      errorMessage.value = errors;
-      // errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
-      successMessage.value = '';
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
 
   } catch (error) {
@@ -139,18 +152,26 @@ const deleteLivreur = async (hiddenId) => {
     });
 
     if (response.ok) {
-      // Supprime le livreur de la liste locale
       const index = livreurs.value.findIndex((livreur) => livreur.id === hiddenId);
       livreurs.value.splice(index, 1);
-
-      successMessage.value = 'Livreur supprimé avec succès!';
-      errorMessage.value = '';
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "User Deleted successfully",
+        timer: 1500,
+      });
     } else {
-      const errors = await response.json();
-      errorMessage.value = errors;
-      // errorMessage.value = 'Erreur lors de la suppression du livreur. Veuillez réessayer.';
-      successMessage.value = '';
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
+
+
   } catch (error) {
     console.error('Delete error:', error);
   }
@@ -187,10 +208,12 @@ const confirmDeleteLivreur = (hiddenId) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; /* Ajustement de la largeur pour les smartphones */
+  width: 90%;
+  /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
-  padding: 20px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 20px;
+  /* Ajustement de l'espace intérieur pour les smartphones */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -201,7 +224,8 @@ const confirmDeleteLivreur = (hiddenId) => {
 /* Styles pour le wrapper du tableau */
 #homeViewDiv {
   border: 2px solid #ddd;
-  padding: 10px; /* Ajustement de l'espace intérieur pour les smartphones */
+  padding: 10px;
+  /* Ajustement de l'espace intérieur pour les smartphones */
   border-radius: 10px;
 }
 
@@ -224,9 +248,12 @@ td {
 
 /* Styles pour le bouton Modifier et Enregistrer */
 button {
-  width: 100%; /* Remplir la largeur pour les smartphones */
-  margin-bottom: 10px; /* Espace entre les boutons pour les smartphones */
-  padding: 10px; /* Ajustement de la taille des boutons pour les smartphones */
+  width: 100%;
+  /* Remplir la largeur pour les smartphones */
+  margin-bottom: 10px;
+  /* Espace entre les boutons pour les smartphones */
+  padding: 10px;
+  /* Ajustement de la taille des boutons pour les smartphones */
   cursor: pointer;
   border: none;
   border-radius: 4px;
@@ -249,19 +276,24 @@ button:hover {
 /* Styles spécifiques pour les smartphones */
 @media only screen and (max-width: 600px) {
   #homeView {
-    width: 100%; /* Pleine largeur sur les smartphones */
+    width: 100%;
+    /* Pleine largeur sur les smartphones */
   }
 
   #homeViewDiv {
-    padding: 5px; /* Ajustement de l'espace intérieur pour les smartphones */
+    padding: 5px;
+    /* Ajustement de l'espace intérieur pour les smartphones */
   }
 
   #tableHomeView th,
   td {
-    padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
-    font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
+    padding: 6px;
+    /* Ajustement de la taille du padding pour les smartphones */
+    font-size: 12px;
+    /* Ajustement de la taille de la police pour les smartphones */
   }
 }
+
 .btn-supprimer {
   background-color: #ff3333;
   color: white;

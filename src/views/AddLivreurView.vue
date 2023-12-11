@@ -4,8 +4,6 @@
     Nom<input type="text" v-model="nom" placeholder="Michel" />
     Mot de passe<input type="password" v-model="password" placeholder="*****" />
     <button @click="ajouterLivreur"> Ajouter </button>
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-    <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
   </div>
 </template>
 
@@ -13,11 +11,10 @@
 import Bouton from '@/components/Bouton.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const nom = ref('');
 const password = ref('');
-const errorMessage = ref('');
-const successMessage = ref('');
 const $router = useRouter();
 const accessToken = localStorage.getItem('accessToken');
 
@@ -36,13 +33,22 @@ const ajouterLivreur = async () => {
     });
 
     if (response.ok) {
-      successMessage.value = 'Livreur ajouté avec succès!';
-      errorMessage.value = '';
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "User Added successfully",
+        timer: 1500,
+      });
+
     } else {
-      const errors = await response.json();
-      errorMessage.value = errors;
-      // errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';
-      successMessage.value = '';
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     errorMessage.value = 'Erreur lors de l\'ajout du livreur. Veuillez réessayer.';

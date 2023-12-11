@@ -35,7 +35,8 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Bouton from '@/components/Bouton.vue';
-
+import swal from 'sweetalert2';
+const Swal = ref(swal);
 const $router = useRouter();
 const { params } = useRoute(); // Utilisez useRoute pour accéder aux paramètres de l'URL
 const clientId = ref(params.clientId); // Accédez aux paramètres de l'URL
@@ -62,7 +63,7 @@ const submitCommand = async () => {
       nombreCaisseLingeS: nombreCaisseLingeS.value,
       nombreCaisseLingeM: nombreCaisseLingeM.value,
       nombreCaisseLingeL: nombreCaisseLingeL.value,
-  
+
       nombreCaisseInsert: nombreCaisseInsert.value,
       nombreCaisseSacPoubelle: nombreCaisseSacPoubelle.value,
       nombreCaisseGant: nombreCaisseGant.value,
@@ -78,12 +79,22 @@ const submitCommand = async () => {
     });
 
     if (response.ok) {
-      const responseData = await response.json();
-      console.log('Commande ajoutée avec succès:', responseData);
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Nursery Command Added successfully",
+        timer: 1500,
+      });
       $router.push('/home');
     } else {
       const errorData = await response.json();
-      console.error('Échec de l\'ajout de la commande. Réponse de l\'API:', response.status, response.statusText, errorData);
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Erreur lors de l\'ajout de la commande:', error);
@@ -134,5 +145,4 @@ select {
   background-color: #D3CAF6;
   text-align: center;
 }
-
 </style>
