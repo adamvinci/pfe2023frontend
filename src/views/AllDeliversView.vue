@@ -292,6 +292,12 @@ button:hover {
     font-size: 12px;
     /* Ajustement de la taille de la police pour les smartphones */
   }
+
+  .btn-modifier,
+  .btn-enregistrer,
+  .btn-supprimer {
+    font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
+  }
 }
 
 .btn-supprimer {

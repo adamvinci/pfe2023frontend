@@ -3,7 +3,7 @@
     <button v-if="isAdmin" @click="toggleEditMode" class="btn-modifier">
       {{ editMode ? "Annuler" : "Modifier" }}
     </button>
-    <router-link to="/allclients">
+    <router-link to="/home">
       <button class="btn-back">Retour</button>
     </router-link>
     <h2 class="clientName">{{ crecheDetails.nom }}</h2>
@@ -205,3 +205,66 @@ const enregistrer = async () => {
   editMode.value = false; // Disable edit mode after saving
 };
 </script>
+
+<style scoped>
+/* Styles pour masquer la colonne Hidden ID */
+.hidden-id {
+  display: none;
+}
+
+body {
+  background-image: url("../assets/background.webp");
+}
+
+/* Le tableau de base */
+.table-container {
+  overflow: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  /* Ajustement de la largeur pour les smartphones */
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #E1DAFB;
+  margin-top: 4rem;
+}
+
+.table-container h1 {
+  font-size: 24px;
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles pour le bouton Modifier et Enregistrer */
+button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn-modifier,
+.btn-enregistrer,
+.btn-back {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
