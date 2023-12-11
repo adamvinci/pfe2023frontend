@@ -4,7 +4,6 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import AddClientView from '../views/AddClientView.vue';
 import AddCommandView from '../views/AddCommandView.vue';
-import AssignerView from '../views/AssignerView.vue';
 import AddLivreurView from '../views/AddLivreurView.vue';
 import StockCamion from '../views/StockCamionView.vue';
 import LivraisonClient from '../views/LivraisonClientView.vue';
@@ -38,11 +37,6 @@ const router = createRouter({
       path: '/addCommand/:clientId',
       name: 'addCommand',
       component: AddCommandView
-    },
-    {
-      path: '/assigner',
-      name: 'assigner',
-      component: AssignerView
     },
     {
       path: '/addLivreur',

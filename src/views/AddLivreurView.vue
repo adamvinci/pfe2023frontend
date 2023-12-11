@@ -3,7 +3,7 @@
     <h1> Ajouter un Livreur </h1>
     Nom<input type="text" v-model="nom" placeholder="Michel" />
     Mot de passe<input type="password" v-model="password" placeholder="*****" />
-    <button @click="ajouterLivreur"> Ajouter </button>
+    <Bouton @click="ajouterLivreur"> Ajouter </Bouton>
   </div>
 </template>
 

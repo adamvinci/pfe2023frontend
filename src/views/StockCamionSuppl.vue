@@ -1,11 +1,10 @@
 <template>
   <div class="page-container">
-    <!-- Bouton en haut à gauche -->
     <router-link to="/home">
       <button class="btn-back">Retour</button>
     </router-link>
     <div class="table-container" id="homeView">
-      <h1> Stock Total Camion</h1>
+      <h1> Stock Camion Supplémentaire</h1>
       <div class="table-wrapper" id="homeViewDiv">
         <table id="tableHomeView">
           <thead>
@@ -34,7 +33,6 @@ const Swal = ref(swal);
 
 const route = useRoute();
 
-const userId = 1; // replace with your actual user ID
 const tournées = ref([]);
 const langes_s = ref(0) || 0;
 const langes_m = ref(0) || 0;
@@ -57,19 +55,12 @@ const articles = ref([
   { name: 'gants_de_toilette', quantite: gants_de_toilette },
 ]);
 
-//const getQuantitySupplementaire = (articleName) => {
-//const tournée = tournées.value.find(t => t.userId === userId);
-//return tournée ? tournée[articleName] : 0;
-//};
-
 const fetchData = async () => {
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/delivery`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
-        // Add your authorization header if needed
       },
     });
 
@@ -99,7 +90,6 @@ const fetchData = async () => {
   }
 };
 watch(tournées, () => {
-  // Reset quantities
   langes_s.value = 0;
   langes_m.value = 0;
   langes_l.value = 0;
@@ -124,12 +114,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Styles pour masquer la colonne ID */
 .hidden-id {
   display: none;
 }
 
-/* Styles pour le bouton de retour */
 .btn-back {
   width: 20%;
   height: 40px;

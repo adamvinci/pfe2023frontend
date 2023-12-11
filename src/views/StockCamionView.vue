@@ -11,7 +11,7 @@
           <thead>
             <tr>
               <th>Article</th>
-              <th>Quantité supplémentaire</th>
+              <th>Quantité à prendre</th>
             </tr>
           </thead>
           <tbody>
