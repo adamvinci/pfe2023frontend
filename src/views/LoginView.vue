@@ -104,7 +104,6 @@ const login = async () => {
     }
   } catch (error) {
     // Affichage du message d'erreur
-    errorMessage.value = 'Erreur lors de la connexion. Veuillez réessayer.';
     console.error('Erreur lors de la connexion:', error);
   }
 };
