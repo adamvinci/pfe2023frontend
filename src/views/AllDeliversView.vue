@@ -261,6 +261,12 @@ button:hover {
     padding: 6px; /* Ajustement de la taille du padding pour les smartphones */
     font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
   }
+
+  .btn-modifier,
+  .btn-enregistrer,
+  .btn-supprimer {
+    font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
+  }
 }
 .btn-supprimer {
   background-color: #ff3333;
