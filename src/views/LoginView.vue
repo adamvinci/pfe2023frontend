@@ -4,7 +4,7 @@
     <input type="text" v-model="nom" placeholder="nom" />
     <input type="password" v-model="password" placeholder="*****" />
     <div>
-      <a href="#" @click="forgotPasswordHandler">Forgot Password?</a>
+      <a href="#" @click="forgotPasswordHandler">Forgoooot Password?</a>
     </div>
     <div>
       <Bouton @click="login">Login</Bouton>
