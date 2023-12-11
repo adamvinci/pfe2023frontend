@@ -64,7 +64,7 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="nombreCaisseInsert" type="number" min="0" />
+                <input v-if="!isAdmin" v-model="nombreCaisseGant" type="number" min="0" />
                 
               </td>
             </tr>
@@ -89,7 +89,7 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="nombreCaisseGant" type="number" min="0" />
+                <input v-if="!isAdmin" v-model="nombreCaisseInsert" type="number" min="0" />
                 
               </td>
             </tr>
@@ -156,9 +156,9 @@ const fetchData = async () => {
         nombreCaisseLingeS.value = crecheDetails.value.nombre_caisse_linge_s;
         nombreCaisseLingeM.value = crecheDetails.value.nombre_caisse_linge_m;
         nombreCaisseLingeL.value = crecheDetails.value.nombre_caisse_linge_l;
-        nombreCaisseInsert.value = crecheDetails.value.nombre_caisse_gant;
+        nombreCaisseInsert.value = crecheDetails.value.nombre_caisse_insert;
         nombreCaisseSacPoubelle.value = crecheDetails.value.nombre_caisse_sac_poubelle;
-        nombreCaisseGant.value = crecheDetails.value.nombre_caisse_insert;
+        nombreCaisseGant.value = crecheDetails.value.nombre_caisse_gant ;
         console.log(crecheDetails.value);
         console.log('ououe', nombreCaisseLingeS.value);
 
@@ -203,9 +203,9 @@ const enregistrer = async () => {
         nombreCaisseLingeS: crecheDetails.value.nombre_caisse_linge_s,
         nombreCaisseLingeM: crecheDetails.value.nombre_caisse_linge_m,
         nombreCaisseLingeL: crecheDetails.value.nombre_caisse_linge_l,
-        nombreCaisseInsert: crecheDetails.value.nombre_caisse_gant,
+        nombreCaisseInsert: crecheDetails.value.nombre_caisse_insert,
         nombreCaisseSacPoubelle: crecheDetails.value.nombre_caisse_sac_poubelle,
-        nombreCaisseGant: crecheDetails.value.nombre_caisse_insert,
+        nombreCaisseGant: crecheDetails.value.nombre_caisse_gant,
       }),
     });
 
