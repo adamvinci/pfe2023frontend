@@ -434,4 +434,22 @@ td {
     font-size: 12px;
     /* Adjust font size for smaller screens */
   }
-}</style>
+
+  .form-container {
+    padding: 10px;
+    /* Adjust padding for smaller screens */
+  }
+
+  .form-container label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-container input,
+  .form-container select,
+  .form-container button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+</style>
