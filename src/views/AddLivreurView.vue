@@ -3,12 +3,11 @@
     <h1> Ajouter un Livreur </h1>
     Nom<input type="text" v-model="nom" placeholder="Michel" />
     Mot de passe<input type="password" v-model="password" placeholder="*****" />
-    <Bouton @click="ajouterLivreur"> Ajouter </Bouton>
+    <button @click="ajouterLivreur"> Ajouter </button>
   </div>
 </template>
 
 <script setup>
-import Bouton from '@/components/Bouton.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import swal from 'sweetalert2';
@@ -111,5 +110,19 @@ const ajouterLivreur = async () => {
   color: green;
   font-size: 14px;
   margin-top: 10px;
+}
+button {
+  width: 50%;
+  height: 40px;
+  border: 1px solid #C4B4FD;
+  background: #B09CFB;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  border-radius: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

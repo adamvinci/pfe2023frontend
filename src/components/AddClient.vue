@@ -109,7 +109,20 @@ const ajouterClient = async () => {
   margin-bottom: 10px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
-
+button {
+  width: 50%;
+  height: 40px;
+  border: 1px solid #C4B4FD;
+  background: #B09CFB;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  border-radius: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
 @media only screen and (max-width: 600px) {
   .addClient input {
     padding: 8px;
