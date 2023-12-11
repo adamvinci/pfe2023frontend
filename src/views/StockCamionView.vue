@@ -52,19 +52,12 @@ const articles = ref([
   { name: 'gants_de_toilette', quantite: gants_de_toilette },
 ]);
 
-//const getQuantitySupplementaire = (articleName) => {
-//const tournée = tournées.value.find(t => t.userId === userId);
-//return tournée ? tournée[articleName] : 0;
-//};
-
 const fetchData = async () => {
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/users/delivery`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
-        // Add your authorization header if needed
       },
     });
 
