@@ -17,7 +17,7 @@ import StockCamionSuppl from '../views/StockCamionSuppl.vue'
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/home',
