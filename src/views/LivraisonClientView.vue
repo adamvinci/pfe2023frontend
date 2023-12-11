@@ -28,8 +28,8 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_s }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_s" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_linge_s }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseLingeS" type="number" min="0" />
+                
               </td>
             </tr>
 
@@ -40,8 +40,8 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_m" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_linge_m }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseLingeM" type="number" min="0" />
+                
               </td>
             </tr>
 
@@ -52,8 +52,8 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_linge_l }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_linge_l" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_linge_l }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseLingeL" type="number" min="0" />
+               
               </td>
             </tr>
 
@@ -64,8 +64,8 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_gant" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_gant }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseInsert" type="number" min="0" />
+                
               </td>
             </tr>
 
@@ -76,8 +76,8 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_sac_poubelle" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_sac_poubelle }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseSacPoubelle" type="number" min="0" />
+                
               </td>
 
             </tr>
@@ -89,12 +89,12 @@
                 <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
               </td>
               <td>
-                <input v-if="!isAdmin" v-model="crecheDetails.nombre_caisse_insert" type="number" min="0" />
-                <span v-else>{{ crecheDetails.nombre_caisse_insert }}</span>
+                <input v-if="!isAdmin" v-model="nombreCaisseGant" type="number" min="0" />
+                
               </td>
             </tr>
           </tbody>
-          <button @click="enregistrer" class="btn-enregistrer" v-if="!isAdmin">
+          <button @click="enregistrer2" class="btn-enregistrer" v-if="!isAdmin">
             Enregistrer
           </button>
         </table>
@@ -127,6 +127,14 @@ const editMode = ref(false);
 const crecheDetails = ref({});
 const livraisons = ref({})
 
+const nombreCaisseLingeS = ref(0);
+const nombreCaisseLingeM = ref(0);
+const nombreCaisseLingeL = ref(0);
+const nombreCaisseInsert = ref(0);
+const nombreCaisseSacPoubelle = ref(0);
+const nombreCaisseGant = ref(0);
+
+
 const fetchData = async () => {
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches/${route.params.id}`, {
@@ -145,7 +153,14 @@ const fetchData = async () => {
         // Assuming crecheDetails.value has the necessary properties
         crecheDetails.value.selected = false;
         crecheDetails.value.quantiteLivre = 0;
+        nombreCaisseLingeS.value = crecheDetails.value.nombre_caisse_linge_s;
+        nombreCaisseLingeM.value = crecheDetails.value.nombre_caisse_linge_m;
+        nombreCaisseLingeL.value = crecheDetails.value.nombre_caisse_linge_l;
+        nombreCaisseInsert.value = crecheDetails.value.nombre_caisse_gant;
+        nombreCaisseSacPoubelle.value = crecheDetails.value.nombre_caisse_sac_poubelle;
+        nombreCaisseGant.value = crecheDetails.value.nombre_caisse_insert;
         console.log(crecheDetails.value);
+        console.log('ououe', nombreCaisseLingeS.value);
 
       } else {
         console.error('Invalid data structure:', data);
@@ -166,6 +181,8 @@ const fetchData = async () => {
   }
 };
 
+console.log('test', nombreCaisseGant.value)
+
 
 const toggleEditMode = () => {
   editMode.value = !editMode.value;
@@ -183,12 +200,12 @@ const enregistrer = async () => {
       },
       body: JSON.stringify({
         // Add the properties you want to update on the backend
-        nombre_caisse_linge_s: crecheDetails.value.nombre_caisse_linge_s,
-        nombre_caisse_linge_m: crecheDetails.value.nombre_caisse_linge_m,
-        nombre_caisse_linge_l: crecheDetails.value.nombre_caisse_linge_l,
-        nombre_caisse_gant: crecheDetails.value.nombre_caisse_gant,
-        nombre_caisse_sac_poubelle: crecheDetails.value.nombre_caisse_sac_poubelle,
-        nombre_caisse_insert: crecheDetails.value.nombre_caisse_insert,
+        nombreCaisseLingeS: crecheDetails.value.nombre_caisse_linge_s,
+        nombreCaisseLingeM: crecheDetails.value.nombre_caisse_linge_m,
+        nombreCaisseLingeL: crecheDetails.value.nombre_caisse_linge_l,
+        nombreCaisseInsert: crecheDetails.value.nombre_caisse_gant,
+        nombreCaisseSacPoubelle: crecheDetails.value.nombre_caisse_sac_poubelle,
+        nombreCaisseGant: crecheDetails.value.nombre_caisse_insert,
       }),
     });
 
@@ -204,6 +221,51 @@ const enregistrer = async () => {
 
   editMode.value = false; // Disable edit mode after saving
 };
+
+console.log('blablblala',crecheDetails.id);
+        
+const enregistrer2 = async () => {
+  
+    const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/updateState`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        // Add the properties you want to update on the backend
+        nurseryId : crecheDetails.value.id,
+        deliveryId: crecheDetails.value.tournee_id,
+        nombreCaisseGantLivre:nombreCaisseGant.value,
+        nombreCaisseSacPoubelleLivre: nombreCaisseSacPoubelle.value,
+        nombreCaisseInsertLivre: nombreCaisseInsert.value,
+        nombreCaisseLingeLLivre: nombreCaisseLingeL.value,
+        nombreCaisseLingeMLivre: nombreCaisseLingeM.value,
+        nombreCaisseLingeSLivre: nombreCaisseLingeS.value,
+      }),
+    });
+   
+  
+
+    if(response.ok){
+      Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Nursery Added successfully",
+        timer: 1500,
+      });
+
+    }else{
+      const errorData = await response.json();
+      const errorMessages2 = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages2 || errorData.message || errorData.error || 'An unknown error occurred',
+      });
+    }
+  }
 </script>
 
 <style scoped>

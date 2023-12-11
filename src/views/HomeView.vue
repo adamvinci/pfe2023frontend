@@ -39,10 +39,10 @@
                 </router-link>
               </td>
               <td>
-                <button id="livraisonCheck" @click="toggleLivraison(index)"
-                  :style="{ color: livraisons[index] ? 'green' : 'red' }">
-                  {{ livraisons[index] ? 'Livrée' : 'Pas Livrée' }}
-                </button>
+              <span
+                :style="{ color: creche.is_delivered ? 'green' : 'red' }">
+                 {{ creche.is_delivered ? 'Livrée' : 'Pas Livrée' }}
+              </span>
               </td>
               <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}
               </td>
