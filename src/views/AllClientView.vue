@@ -331,12 +331,21 @@ const deleteTournee = async (tourneeId) => {
       const index = apiTournees.value.findIndex((tournee) => tournee.id === tourneeId);
       apiTournees.value.splice(index, 1);
 
-      successMessage.value = 'Tournée supprimée avec succès!';
-      errorMessage.value = '';
+     Swal.value.fire({
+        icon: "success",
+        title: "Success",
+        html: "Delivery Deleted successfully",
+        timer: 1500,
+      });
     } else {
-      const errors = await response.json();
-      errorMessage.value = errors;
-      successMessage.value = '';
+      const responseData = await response.json();
+      const errorMessages = (responseData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+      });
     }
   } catch (error) {
     console.error('Delete error:', error);
