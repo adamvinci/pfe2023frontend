@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
 
-<ButtonStockCamion></ButtonStockCamion>
+    <ButtonStockCamion></ButtonStockCamion>
     <div class="table-container" id="homeView">
 
       <div class="table-wrapper" id="homeViewDiv">
@@ -25,10 +25,9 @@
                 </router-link>
               </td>
               <td>
-              <span
-                :style="{ color: creche.is_delivered ? 'green' : 'red' }">
-                 {{ creche.is_delivered ? 'Livrée' : 'Pas Livrée' }}
-              </span>
+                <span :style="{ color: creche.is_delivered ? 'green' : 'red' }">
+                  {{ creche.is_delivered ? 'Livrée' : 'Pas Livrée' }}
+                </span>
               </td>
               <td v-if="isadmin">{{ tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).user.nom }}
               </td>
@@ -84,6 +83,7 @@ const fetchData = async () => {
         'Authorization': `Bearer ${accessToken}`,
       },
     });
+    console.log(response)
     if (response.ok) {
       const data = await response.json();
 
@@ -97,7 +97,11 @@ const fetchData = async () => {
         });
         console.log('Livraisons data:', tournees.value);
       } else {
-        console.warn('Data received is not an array:', data);
+        Swal.value.fire({
+          icon: "info",
+          title: `${data.message}`,
+        });
+
       }
     } else {
       const errorData = await response.json();
@@ -135,7 +139,6 @@ const updateFormattedDate = () => {
 };
 </script>
 <style scoped>
-
 /* Style pour HomeView */
 #homeView {
   overflow: auto;
@@ -216,4 +219,5 @@ const updateFormattedDate = () => {
     padding: 6px;
     font-size: 12px;
   }
-}</style>
+}
+</style>

@@ -6,19 +6,12 @@
           <!-- "Mes livraisons" à gauche -->
           <router-link to="/home" class="navbar-brand">
             <img src="/src/assets/snappies-logo.webp" alt="Logo Mon Site" class="logo-navbar" loading="lazy">
-            Mes livraisons
+            {{ isAdmin ? 'Livraisons du jour' : 'Mes Livraisons' }}
           </router-link>
         </div>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -28,7 +21,7 @@
               <router-link class="nav-link" to="/alldelivers">Liste Livreurs</router-link>
             </li>
             <li class="nav-item" v-if="isAdmin">
-              <router-link class="nav-link" to="/allclients">Liste Clients</router-link>
+              <router-link class="nav-link" to="/allclients">Modifier/Ajouter tournée</router-link>
             </li>
             <li class="nav-item" v-if="isAdmin">
               <router-link class="nav-link" to="/addLivreur">Ajouter Livreur</router-link>
@@ -36,12 +29,12 @@
             <li class="nav-item" v-if="isAdmin">
               <router-link class="nav-link" to="/addClient">Ajouter Client</router-link>
             </li>
-           <!-- <li class="nav-item" v-if="isAdmin">
+            <!-- <li class="nav-item" v-if="isAdmin">
               <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
             </li>
             -->
             <li class="nav-item">
-              <router-link class="nav-link" to="/tournees">Tournees</router-link>
+              <router-link class="nav-link" to="/tournees">Choisir une tournée</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/" @click="logout">Se déconnecter</router-link>
@@ -100,6 +93,7 @@ export default {
   width: 50px;
   height: auto;
 }
+
 .navbar-nav .nav-item {
   color: #ffcc00;
   font-weight: bold;

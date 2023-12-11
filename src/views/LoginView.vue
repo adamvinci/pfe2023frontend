@@ -1,13 +1,15 @@
 <template>
   <div class="login">
+    <img src="../assets/snappies-logo.webp" alt="Login Image" class="login-image" />
+
     <h1>Login Page</h1>
     <input type="text" v-model="nom" placeholder="nom" />
     <input type="password" v-model="password" placeholder="*****" />
     <div>
-      <a href="#" @click="forgotPasswordHandler">Mot de passe oublié ?</a>
+      <a href="#" @click="forgotPasswordHandler">Mot de passe oublié?</a>
     </div>
     <div>
-      <Bouton @click="login">Login</Bouton>
+      <Bouton id="button" @click="login">Login</Bouton>
     </div>
 
   </div>
@@ -124,15 +126,20 @@ body {
 }
 
 .login {
+
   width: 80%;
   margin: auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
-  margin-top: 4rem;
+  background: white;
+  margin-top: 8rem;
   /* Ajuste la marge en haut pour rapprocher du navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .login h1 {
@@ -142,6 +149,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: 2px 1px 0px #fff, 4px 3px 0px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
 .login input {
@@ -163,5 +171,10 @@ body {
 .login label {
   font-size: 14px;
   margin-left: 5px;
+}
+
+#button {
+  margin-top: 20px;
+  width: 200px;
 }
 </style>

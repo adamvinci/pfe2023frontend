@@ -1,4 +1,4 @@
-body{
+body {
   background-image: url("../assets/background.webp");
 
 }
@@ -31,11 +31,14 @@ body{
   margin-bottom: 20px;
   text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
 }
+
 /* Styles spécifiques pour les smartphones */
 @media only screen and (max-width: 600px) {
   .table-container {
-    width: 100%; /* Pleine largeur sur les smartphones */
-    padding: 10px; /* Ajustement de l'espace intérieur pour les smartphones */
+    width: 100%;
+    /* Pleine largeur sur les smartphones */
+    padding: 10px;
+    /* Ajustement de l'espace intérieur pour les smartphones */
   }
 
   /* Ajustement de la taille de la police pour les smartphones */
@@ -44,12 +47,14 @@ body{
   }
 
   button {
-    font-size: 14px; /* Ajustement de la taille de la police pour les smartphones */
+    font-size: 14px;
+    /* Ajustement de la taille de la police pour les smartphones */
   }
 
   .btn-modifier,
   .btn-enregistrer,
   .btn-back {
-    font-size: 14px; /* Ajustement de la taille de la police pour les smartphones */
+    font-size: 14px;
+    /* Ajustement de la taille de la police pour les smartphones */
   }
 }
