@@ -62,7 +62,7 @@ const ajouterClient = async () => {
       Swal.value.fire({
         icon: "error",
         title: "Oops...",
-        html: errorMessages || responseData.message || responseData.error || 'An unknown error occurred',
+        html: errorMessages || responseData.message || responseData.error || 'An unknown  error occurred',
       });
     }
   } catch (error) {
