@@ -270,10 +270,6 @@ const enregistrer2 = async () => {
   display: none;
 }
 
-body {
-  background-image: url("../assets/background.webp");
-}
-
 /* Le tableau de base */
 .table-container {
   overflow: auto;
@@ -289,20 +285,11 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979;
   margin-top: 4rem;
+  color:white;
 }
 
-.table-container h1 {
-  font-size: 24px;
-  margin: auto;
-  text-align: center;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
-}
 
 /* Styles pour le bouton Modifier et Enregistrer */
 button {
@@ -324,5 +311,21 @@ button {
 
 button:hover {
   opacity: 0.8;
+}
+#tableHomeView thead {
+  background-color: #00549a ; /* Set your desired background color */
+  color: white; /* Set the text color for the header */
+}
+.clientName {
+  font-size: 20px;
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  background-color: #F6BA4E; /* Nouvelle couleur de fond */
+  padding: 10px;
+  border-radius: 10px;
 }
 </style>

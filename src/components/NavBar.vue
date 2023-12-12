@@ -86,7 +86,8 @@ export default {
 
 <style scoped>
 .bg-orange-pastel {
-  background-color: #bd83da33;
+  background-color: #213979;
+  opacity: 0.8;
 }
 
 .logo-navbar {
@@ -94,9 +95,17 @@ export default {
   height: auto;
 }
 
-.navbar-nav .nav-item {
-  color: #ffcc00;
+.navbar-nav .nav-item,
+.navbar-brand {
+  color: white ;
   font-weight: bold;
   margin-right: 10px;
 }
+
+/* Set the text color to white for all links in the navbar */
+.navbar-nav .nav-link {
+  color: white ;
+}
+
+
 </style>

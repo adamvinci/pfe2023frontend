@@ -1,6 +1,6 @@
 <template>
   <div class="addLivreur">
-    <h1> Ajouter un Livreur </h1>
+    <h1> Ajouter Livreur </h1>
     Nom<input type="text" v-model="nom" placeholder="Michel" />
     Mot de passe<input type="password" v-model="password" placeholder="*****" />
     <button @click="ajouterLivreur"> Ajouter </button>
@@ -64,17 +64,15 @@ const ajouterLivreur = async () => {
   flex-direction: column;
   align-items: center;
   width: 90%;
-  /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
   padding: 20px;
-  /* Ajustement de l'espace intérieur pour les smartphones */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979;
   margin-top: 4rem;
-  /* Ajuste la marge en haut pour rapprocher du navbar */
+  color:white;
 }
 
 .addLivreur input {
@@ -85,19 +83,21 @@ const ajouterLivreur = async () => {
   border: 1px solid #ddd;
   border-radius: 15px;
   box-sizing: border-box;
-  background-color: #D3CAF6;
+  background-color: white;
   text-align: center;
 }
 
 .addLivreur h1 {
-  font-size: 24px;
+  font-size: 20px;
   margin: auto;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 20px;
-  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  background-color: #F6BA4E; /* Nouvelle couleur de fond */
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .error-message {
@@ -115,8 +115,8 @@ const ajouterLivreur = async () => {
 button {
   width: 50%;
   height: 40px;
-  border: 1px solid #C4B4FD;
-  background: #B09CFB;
+  border: 1px solid black;
+  background: #F6BA4E ;
   color: #fff;
   cursor: pointer;
   border-radius: 3px;

@@ -8,8 +8,8 @@
   .custom-button {
     width: 50%;
     height: 40px;
-    border: 1px solid #C4B4FD;
-    background: #B09CFB;
+    border: 1px solid black;
+    background: #F6BA4E;
     color: #fff;
     cursor: pointer;
     border-radius: 3px;
@@ -17,7 +17,7 @@
   }
   
   .custom-button:hover {
-    background: #735DC6;
+    background: #f0c300;
   }
   </style>
   

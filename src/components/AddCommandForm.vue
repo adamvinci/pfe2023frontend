@@ -115,10 +115,22 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: #E1DAFB;
+    background: #213979;
     margin-top: 4rem;
+    color:white;
   }
-  
+  .addCommand h1{
+    font-size: 20px;
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  background-color: #F6BA4E; /* Nouvelle couleur de fond */
+  padding: 10px;
+  border-radius: 10px;
+  }
   form {
     width: 100%;
   }
@@ -141,7 +153,7 @@
     border: 1px solid #ddd;
     border-radius: 15px;
     box-sizing: border-box;
-    background-color: #D3CAF6;
+    background-color: white;
     text-align: center;
   }
   </style>

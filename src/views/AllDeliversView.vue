@@ -209,7 +209,6 @@ const confirmDeleteLivreur = (hiddenId) => {
   flex-direction: column;
   align-items: center;
   width: 90%;
-  /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
   padding: 20px;
@@ -217,15 +216,15 @@ const confirmDeleteLivreur = (hiddenId) => {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979;
   margin-top: 2rem;
+  color:white;
 }
 
 /* Styles pour le wrapper du tableau */
 #homeViewDiv {
   border: 2px solid #ddd;
   padding: 10px;
-  /* Ajustement de l'espace intérieur pour les smartphones */
   border-radius: 10px;
 }
 
@@ -243,7 +242,7 @@ td {
 }
 
 #tableHomeView th {
-  background-color: #f2f2f2;
+  background-color: #00549a;
 }
 
 /* Styles pour le bouton Modifier et Enregistrer */
