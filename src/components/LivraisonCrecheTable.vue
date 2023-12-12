@@ -328,4 +328,20 @@ button:hover {
   padding: 10px;
   border-radius: 10px;
 }
+@media only screen and (max-width: 600px) {
+  .table-container {
+    width: 100%;
+  }
+
+  #tableHomeView {
+    overflow-x: auto;
+  }
+  
+  /* Adjust the width of input fields in editMode for better visibility */
+  input {
+    width: 80%;
+    margin: 5px 0; /* Add some margin to separate inputs */
+  }
+}
+
 </style>
