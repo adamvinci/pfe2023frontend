@@ -149,23 +149,21 @@ console.log(tournees);
   flex-direction: column;
   align-items: center;
   width: 80%;
-  /* Ajustez la largeur pour les petits écrans */
   margin: auto;
   text-align: center;
   padding: 20px;
-  /* Ajustez la taille du padding pour les petits écrans */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979;
   margin-top: 2rem;
+  color:white;
 }
 
 /* Styles pour le wrapper du tableau */
 #tourneeViewDiv {
   border: 2px solid #ddd;
   padding: 10px;
-  /* Ajustez la taille du padding pour les petits écrans */
   border-radius: 10px;
 }
 
@@ -183,7 +181,7 @@ console.log(tournees);
 }
 
 #tableTourneeView th {
-  background-color: #f2f2f2;
+  background-color: #00549a;
 }
 
 /* Styles pour le bouton Enregistrer */

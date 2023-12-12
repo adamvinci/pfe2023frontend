@@ -58,11 +58,11 @@
           <tbody>
             <tr v-for="(livraison, index) in livraisons.creches" :key="index">
               <td class="hidden-id">{{ livraison.id }}</td>
-              <td @click="navigateToCrecheDetails(livraison.id)">
+              <td @click="navigateToCrecheDetails(livraison.id)" class="nomClient">
                 <router-link :to="{ name: 'creche-details', params: { id: livraison.id } }">
-                  {{ livraison.nom }}
+                    {{ livraison.nom }}
                 </router-link>
-              </td>
+                </td>
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
               <td v-if="editMode">
@@ -381,26 +381,17 @@ const deleteTournee = async (tourneeId) => {
 /* Common styles for both desktop and mobile */
 .btn-supprimer {
   background-color: red;
-  /* Set your desired red color */
   color: white;
-  /* Text color */
   border: none;
-  /* Remove button border if needed */
   padding: 10px 15px;
-  /* Adjust padding as needed */
   border-radius: 5px;
-  /* Add border radius for rounded corners */
   cursor: pointer;
-  /* Add pointer cursor for better UX */
 }
 
 button {
   width: 100%;
-  /* Remplir la largeur pour les smartphones */
   margin-bottom: 10px;
-  /* Espace entre les boutons pour les smartphones */
   padding: 10px;
-  /* Ajustement de la taille des boutons pour les smartphones */
   cursor: pointer;
   border: none;
   border-radius: 4px;
@@ -410,7 +401,6 @@ button {
 .btn-enregistrer,
 .btn-supprimer {
   font-size: 12px;
-  /* Ajustement de la taille de la police pour les smartphones */
 }
 
 .hidden-id {
@@ -428,8 +418,9 @@ button {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979;
   margin-top: 4rem;
+  color:white;
 }
 
 #homeViewDiv {
@@ -442,16 +433,15 @@ button {
   width: 100%;
   border-collapse: collapse;
 }
-
+#tableHomeView thead {
+  background-color: #00549a; /* Set your desired background color */
+  color: white; /* Set the text color for the header */
+}
 #tableHomeView th,
 td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-}
-
-#tableHomeView th {
-  background-color: #f2f2f2;
 }
 
 .form-container {

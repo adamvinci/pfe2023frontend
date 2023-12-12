@@ -91,9 +91,9 @@ const updateFormattedDate = () => {
 .btn-StockCamion {
   width: 80%;
   height: 40px;
-  border: 1px solid #C4B4FD;
-  background: #B09CFB;
-  color: #fff;
+  border: 1px solid ;
+  background: #F6BA4E ;
+  color: black;
   cursor: pointer;
   border-radius: 3px;
   border-radius: 15px;
@@ -106,20 +106,27 @@ const updateFormattedDate = () => {
 /* Styles pour le titre de la date */
 .date-title {
   text-align: center;
-  margin-bottom: 10px;
-  /* Réduction de la taille de la marge */
+  margin-bottom: 20px; /* Increased margin for better separation */
+  background-color: #F6BA4E; /* Background color */
+  padding: 20px; /* Increased padding for more space */
+  border-radius: 15px; /* Rounded corners */
+  color: #213979; /* Text color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slightly adjusted box shadow for a subtle effect */
+}
+
+.date-title h1 {
+  font-size: 28px; /* Slightly increased font size */
+  margin: 0;
+  font-weight: bold; /* Added bold font weight for emphasis */
 }
 
 .date-title h2 {
-  font-size: 16px;
-  /* Réduction de la taille de la police */
+  font-size: 18px; /* Slightly increased font size */
   margin: 0;
 }
 
-
 .button {
   height: 1rem;
-  /* Réduction de la taille de l'icône */
   position: absolute;
   top: 0.7rem;
   right: 0.3rem;
@@ -134,16 +141,11 @@ const updateFormattedDate = () => {
 @media only screen and (max-width: 600px) {
   .date-title h1 {
     font-size: 18px;
-    /* Ajustement de la taille de la police */
     margin-bottom: 10px;
-    /* Ajustement de la taille de la marge */
   }
   .button {
     height: 0.8rem;
-    /* Ajustement de la taille de l'icône */
     top: 0.5rem;
-    /* Ajustement de la position de l'icône */
     right: 0.2rem;
-    /* Ajustement de la position de l'icône */
   }
 }</style>

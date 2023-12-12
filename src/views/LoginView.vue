@@ -160,7 +160,8 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
-  background-color: #D3CAF6;
+  background-color: #F6BA4E;
+  opacity: 0.6;
 }
 
 .login input[type="checkbox"] {

@@ -1,5 +1,5 @@
 body {
-  background-image: url("../assets/background.webp");
+  background-image: url("../assets/backgroundWhite.webp");
 
 }
 
@@ -17,19 +17,21 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #454D7C ;
   margin-top: 4rem;
 }
 
 .table-container h1 {
-  font-size: 24px;
+  font-size: 20px;
   margin: auto;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 20px;
-  text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  background-color: #F6BA4E; /* Nouvelle couleur de fond */
+  padding: 10px;
+  border-radius: 10px;
 }
 
 /* Styles spécifiques pour les smartphones */

@@ -143,7 +143,6 @@ const updateFormattedDate = () => {
 #homeView {
   overflow: auto;
   margin-bottom: 10px;
-  /* Réduction de la marge en bas */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,12 +150,12 @@ const updateFormattedDate = () => {
   margin: auto;
   text-align: center;
   padding: 20px;
-  /* Réduction de la taille du padding */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #E1DAFB;
+  background: #213979  ;
   margin-top: 2rem;
+  color:white;
 }
 
 #homeViewDiv {
@@ -178,10 +177,6 @@ const updateFormattedDate = () => {
   text-align: left;
 }
 
-#tableHomeView th {
-  background-color: #f2f2f2;
-}
-
 
 .container {
   width: 100%;
@@ -191,7 +186,10 @@ const updateFormattedDate = () => {
 .hidden-id {
   display: none;
 }
-
+#tableHomeView thead {
+  background-color: #00549a ; /* Set your desired background color */
+  color: white; /* Set the text color for the header */
+}
 /* Styles pour la table-container sur les smartphones */
 @media only screen and (max-width: 600px) {
   .table-container {
@@ -219,5 +217,6 @@ const updateFormattedDate = () => {
     padding: 6px;
     font-size: 12px;
   }
+  
 }
 </style>
