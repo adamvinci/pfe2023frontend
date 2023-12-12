@@ -65,7 +65,7 @@ const fetchData = async () => {
       },
     });
     if (response.ok) {
-      tournees.value = await response.json();
+      tournees.value = (await response.json()).filter(tournee => tournee.user_id === null);
       tournees.value.forEach((tournee) => {
         tournee.selected = false;
       });
