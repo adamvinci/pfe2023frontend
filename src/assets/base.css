@@ -40,8 +40,8 @@ body {
     width: 100%;
     /* Pleine largeur sur les smartphones */
     padding: 10px;
-    /* Ajustement de l'espace intérieur pour les smartphones */
-  }
+      overflow-x: auto;
+   }
 
   /* Ajustement de la taille de la police pour les smartphones */
   .table-container h1 {
