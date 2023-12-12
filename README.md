@@ -1,29 +1,28 @@
-#  pfefrontend
+# Snappies Frontend Project
 
-This template should help get you started developing with Vue 3 in Vite.
+## Introduction
+This project is a frontend application developed using Vue.js to streamline the rental process for Snappies, making it easier for customers to rent articles. Additionally, it provides tools for administrators to visualize customer information and manage deliveries efficiently. Delivery personnel can also access their routes, customer orders, and related information directly through this application.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### Technology Stack
+- **Vue.js:** A progressive JavaScript framework for building user interfaces.
+- **Vite:** A fast frontend build tool that enhances the development experience.
 
-## Customize configuration
+### Recommended IDE Setup
+For the best development experience, it is recommended to use the following IDE setup:
+- [VSCode](https://code.visualstudio.com/)
+- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (disable Vetur)
+- [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Getting Started
 
-## Project Setup
-
-```sh
+### Project Setup
+To set up the project, run the following command in the terminal:
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+## Development Server
+To run the development server with hot-reload, use the following command : 
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
+### Production build
+To compile and minify the project for production, use the following command :
 npm run build
-```

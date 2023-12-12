@@ -4,8 +4,8 @@
       {{ editMode ? "Retour" : "Modifier" }}
     </button>
     <div class="table-container" id="homeView">
-      <div class="table-wrapper" id="homeViewDiv">
-        <table id="tableHomeView">
+      <div class="table-wrapper" :class="{ 'edit-mode': editMode }" id="homeViewDiv">
+        <table :class="{ 'edit-mode': editMode }" id="tableHomeView">
           <thead>
             <tr>
               <th class="hidden-id">Hidden ID</th>
@@ -32,7 +32,7 @@
               </td>
               <td v-if="editMode">
                 <button @click="confirmDeleteLivreur(livreur.id)" class="btn-supprimer">
-                  Supprimer
+                  X
                 </button>
               </td>
             </tr>
@@ -271,31 +271,32 @@ button {
 button:hover {
   opacity: 0.8;
 }
-
+.edit-mode #tableHomeView {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 /* Styles spécifiques pour les smartphones */
 @media only screen and (max-width: 600px) {
   #homeView {
     width: 100%;
-    /* Pleine largeur sur les smartphones */
   }
 
   #homeViewDiv {
     padding: 5px;
-    /* Ajustement de l'espace intérieur pour les smartphones */
   }
 
   #tableHomeView th,
   td {
     padding: 6px;
-    /* Ajustement de la taille du padding pour les smartphones */
-    font-size: 12px;
-    /* Ajustement de la taille de la police pour les smartphones */
+    font-size: 12px; 
   }
 
   .btn-modifier,
   .btn-enregistrer,
   .btn-supprimer {
-    font-size: 12px; /* Ajustement de la taille de la police pour les smartphones */
+    font-size: 12px; 
   }
 }
 
