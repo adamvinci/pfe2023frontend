@@ -121,10 +121,11 @@
               </td>
             </tr>
           </tbody>
-          <button @click="enregistrer2" class="btn-enregistrer" v-if="!isAdmin">
-            Enregistrer
-          </button>
+
         </table>
+        <button @click="enregistrer2" class="btn-enregistrer" v-if="!isAdmin">
+          Enregistrer
+        </button>
         <button @click="enregistrer" class="btn-enregistrer" v-if="isAdmin && editMode">
           Enregistrer
         </button>
@@ -405,5 +406,9 @@ button:hover {
   /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
+}
+
+input {
+  width: 80px;
 }
 </style>

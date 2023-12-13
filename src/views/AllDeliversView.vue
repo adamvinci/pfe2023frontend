@@ -29,12 +29,15 @@
                 <button @click="confirmEditLivreur(livreur.id)" class="btn-modifier">
                   Modifier
                 </button>
+                <div>
+                  <button @click="confirmDeleteLivreur(livreur.id)" class="btn-supprimer">
+                    X
+                  </button>
+                </div>
+
               </td>
-              <td v-if="editMode">
-                <button @click="confirmDeleteLivreur(livreur.id)" class="btn-supprimer">
-                  X
-                </button>
-              </td>
+
+
             </tr>
           </tbody>
         </table>
