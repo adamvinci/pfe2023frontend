@@ -33,7 +33,7 @@
               <router-link class="nav-link" to="/assigner">Assigner commande</router-link>
             </li>
             -->
-            <li class="nav-item">
+            <li class="nav-item" v-if="!isAdmin">
               <router-link class="nav-link" to="/tournees">Choisir une tournée</router-link>
             </li>
             <li class="nav-item">
