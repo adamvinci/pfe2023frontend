@@ -1,19 +1,19 @@
 <template>
-    <div>
-     <!-- Bouton StockCamion -->
-     <router-link to="/stockcamion">
+  <div>
+    <!-- Bouton StockCamion -->
+    <router-link to="/stockcamion">
       <button v-if="!isadmin" class="btn-StockCamion">Stock Camion</button>
     </router-link>
     <!-- Bouton en haut à gauche -->
     <router-link to="/stockCamionSupp">
       <button v-if="!isadmin" class="btn-StockCamion">Stock Supplémentaire</button>
     </router-link>
-       
+
     <div class="date-title">
       <h1>{{ formattedDate }}</h1>
       <h2>Aujourd'hui</h2>
     </div>
-</div>
+  </div>
 </template>
 
 <script setup>
@@ -48,7 +48,6 @@ const fetchData = async () => {
           });
           tournee.selected = false;
         });
-        console.log('Livraisons data:', tournees.value);
       } else {
         console.warn('Data received is not an array:', data);
       }
@@ -87,12 +86,11 @@ const updateFormattedDate = () => {
 
 
 <style scoped>
-
 .btn-StockCamion {
   width: 80%;
   height: 40px;
-  border: 1px solid ;
-  background: #F6BA4E ;
+  border: 1px solid;
+  background: #F6BA4E;
   color: black;
   cursor: pointer;
   border-radius: 3px;
@@ -106,22 +104,31 @@ const updateFormattedDate = () => {
 /* Styles pour le titre de la date */
 .date-title {
   text-align: center;
-  margin-bottom: 20px; /* Increased margin for better separation */
-  background-color: #F6BA4E; /* Background color */
-  padding: 20px; /* Increased padding for more space */
-  border-radius: 15px; /* Rounded corners */
-  color: #213979; /* Text color */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slightly adjusted box shadow for a subtle effect */
+  margin-bottom: 20px;
+  /* Increased margin for better separation */
+  background-color: #F6BA4E;
+  /* Background color */
+  padding: 20px;
+  /* Increased padding for more space */
+  border-radius: 15px;
+  /* Rounded corners */
+  color: #213979;
+  /* Text color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Slightly adjusted box shadow for a subtle effect */
 }
 
 .date-title h1 {
-  font-size: 28px; /* Slightly increased font size */
+  font-size: 28px;
+  /* Slightly increased font size */
   margin: 0;
-  font-weight: bold; /* Added bold font weight for emphasis */
+  font-weight: bold;
+  /* Added bold font weight for emphasis */
 }
 
 .date-title h2 {
-  font-size: 18px; /* Slightly increased font size */
+  font-size: 18px;
+  /* Slightly increased font size */
   margin: 0;
 }
 
@@ -133,6 +140,7 @@ const updateFormattedDate = () => {
   transition: all 0.1s;
   transition-delay: 0.1s;
 }
+
 .hidden-id {
   display: none;
 }
@@ -143,6 +151,7 @@ const updateFormattedDate = () => {
     font-size: 18px;
     margin-bottom: 10px;
   }
+
   .button {
     height: 0.8rem;
     top: 0.5rem;

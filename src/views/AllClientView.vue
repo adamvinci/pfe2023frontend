@@ -106,7 +106,6 @@ const editMode = ref(false);
 const selectedTournee = ref('');
 
 const fetchData = async () => {
-  console.log('Avant la requête API');
 
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches`, {
@@ -141,7 +140,6 @@ const fetchData = async () => {
 
     if (tourneesResponse.ok) {
       apiTournees.value = await tourneesResponse.json();
-      console.log('tournees:', apiTournees.value);
 
     } else {
       const responseData = await response.json();
@@ -251,8 +249,6 @@ const addToTournee = async () => {
     }
 
     const clientIds = selectedClients.map((creche) => creche.id);
-    console.log('clientIds:', clientIds);
-
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/updateOne`, {
       method: 'POST',
       headers: {
@@ -350,7 +346,6 @@ const confirmDelete = (crecheId) => {
   }
 };
 const confirmDeleteTournee = (tourneeId) => {
-  console.log('tourneeId:', tourneeId); // Add this line to check the value
   const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette tournée ?');
 
   if (confirmed) {

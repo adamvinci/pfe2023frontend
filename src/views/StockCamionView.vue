@@ -64,7 +64,6 @@ const fetchData = async () => {
     if (response.ok) {
       const data = await response.json();
       tournées.value = data;
-      console.log(tournées.value)
     } else {
       const errorData = await response.json();
       const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
@@ -114,7 +113,7 @@ onMounted(() => {
 .btn-back {
   width: 20%;
   height: 40px;
-  border: 1px solid ;
+  border: 1px solid;
   background: #F6BA4E;
   color: #fff;
   cursor: pointer;
@@ -123,24 +122,28 @@ onMounted(() => {
   margin-top: 30px;
   margin-left: 15px;
 }
+
 /* Styles pour la page-container */
 .page-container {
   position: relative;
-  color:white;
+  color: white;
 }
+
 #tableHomeView {
   width: 100%;
   border-collapse: collapse;
 }
+
 #tableHomeView thead {
-  background-color: #00549a; /* Set your desired background color */
-  color: white; /* Set the text color for the header */
+  background-color: #00549a;
+  /* Set your desired background color */
+  color: white;
+  /* Set the text color for the header */
 }
+
 #tableHomeView th,
 td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-}
-
-</style>
+}</style>

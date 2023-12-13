@@ -52,7 +52,6 @@ const ajouterClient = async () => {
         timer: 1500,
       });
       crecheId.value = responseData.id; // Stockez l'ID de la crèche associée au client
-      console.log('Crèche ID:', crecheId.value); // Déboguez la valeur de crecheId
       $router.push(`/addCommand/${crecheId.value}`); // Utilisez l'ID dans l'URL
     } else {
       const responseData = await response.json();
@@ -108,7 +107,8 @@ const ajouterClient = async () => {
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 10px;
-  background-color: #F6BA4E; /* Nouvelle couleur de fond */
+  background-color: #F6BA4E;
+  /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
 }
@@ -138,5 +138,4 @@ button {
     margin-bottom: 8px;
   }
 }
-
 </style>

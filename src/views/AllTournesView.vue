@@ -42,13 +42,10 @@ let selectedTourneeId = null;
 
 
 const selectionnerTournee = (tourneeId) => {
-  console.log('Selectionner tournee:', selectedTourneeId);
   selectedTourneeId = tourneeId;
-  console.log('Selectionner tournee:', selectedTourneeId);
-
 };
 const enregistrer = () => {
-  console.log('Tournee sélectionnée:', selectedTourneeId);
+
 
   if (selectedTourneeId !== null) {
     fetchData2(selectedTourneeId);
@@ -126,12 +123,11 @@ const fetchData2 = async () => {
 };
 
 
-console.log('idDelivery:', selectedTourneeId);
-console.log('idDeliveryMan:', parseduser.id);
+
 onMounted(() => {
   fetchData();
 });
-console.log(tournees);
+
 
 </script>
   

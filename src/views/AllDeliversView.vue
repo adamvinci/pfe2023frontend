@@ -91,7 +91,7 @@ const selectedLivreurHiddenId = ref(null);
 const editLivreur = (hiddenId) => {
   // Mettre à jour le hiddenId du livreur sélectionné
   selectedLivreurHiddenId.value = hiddenId;
-  console.log('id à envoyer:', selectedLivreurHiddenId.value);
+
 
   // Appeler fetchData pour mettre à jour les données si nécessaire
   fetchData2();
@@ -102,8 +102,7 @@ const fetchData2 = async () => {
     const hiddenId = selectedLivreurHiddenId.value;
     const index = livreurs.value.findIndex((livreur) => livreur.id === hiddenId);
     const passwordToUpdate = livreurPasswords.value[index];
-    console.log('id à envoyer:', hiddenId);
-    console.log('Mot de passe à envoyer:', passwordToUpdate);
+
 
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/updatePassword`, {
       method: 'POST',
@@ -218,7 +217,7 @@ const confirmDeleteLivreur = (hiddenId) => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #213979;
   margin-top: 2rem;
-  color:white;
+  color: white;
 }
 
 /* Styles pour le wrapper du tableau */
@@ -271,12 +270,14 @@ button {
 button:hover {
   opacity: 0.8;
 }
+
 .edit-mode #tableHomeView {
   display: block;
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
 }
+
 /* Styles spécifiques pour les smartphones */
 @media only screen and (max-width: 600px) {
   #homeView {
@@ -290,13 +291,13 @@ button:hover {
   #tableHomeView th,
   td {
     padding: 6px;
-    font-size: 12px; 
+    font-size: 12px;
   }
 
   .btn-modifier,
   .btn-enregistrer,
   .btn-supprimer {
-    font-size: 12px; 
+    font-size: 12px;
   }
 }
 

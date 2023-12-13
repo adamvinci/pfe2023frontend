@@ -61,9 +61,6 @@ const forgotPasswordHandler = async async => {
 }
 const login = async () => {
   try {
-    console.log('nom:', nom.value);
-    console.log('Password:', password.value);
-
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/auth/login`, {
       method: 'POST',
       headers: {
@@ -77,14 +74,10 @@ const login = async () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('Réponse du serveur:', data);
 
       accessToken.value = data.token.token;
-      console.log('Token d\'accès:', accessToken.value);
 
       accessUser.value = data.user;
-      console.log('user d\'accès:', accessUser.value);
-      console.log('user d\'accès:', accessUser.value.is_admin);
 
 
       // Stocke le token dans le localStorage

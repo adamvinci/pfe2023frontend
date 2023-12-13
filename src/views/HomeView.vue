@@ -87,7 +87,6 @@ const fetchData = async () => {
         'Authorization': `Bearer ${accessToken}`,
       },
     });
-    console.log(response)
     if (response.ok) {
       const data = await response.json();
 
