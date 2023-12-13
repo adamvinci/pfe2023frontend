@@ -39,9 +39,13 @@
               </td>
               <td>{{ creche.adresse }}</td><!-- Ajout de la colonne pour les adresses -->
               <td>
-                {{
-                  tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom
-                }}
+                <router-link :to="{ name: 'tournee-details', params: { id: creche.tournee_id } }">
+                  {{
+
+                    tournees.find(tournee => tournee.creches.some(c => c.id === creche.id)).nom
+                  }}
+                </router-link>
+
               </td>
 
             </tr>
@@ -153,9 +157,9 @@ const updateFormattedDate = () => {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #213979  ;
+  background: #213979;
   margin-top: 2rem;
-  color:white;
+  color: white;
 }
 
 #homeViewDiv {
@@ -186,10 +190,14 @@ const updateFormattedDate = () => {
 .hidden-id {
   display: none;
 }
+
 #tableHomeView thead {
-  background-color: #00549a ; /* Set your desired background color */
-  color: white; /* Set the text color for the header */
+  background-color: #00549a;
+  /* Set your desired background color */
+  color: white;
+  /* Set the text color for the header */
 }
+
 /* Styles pour la table-container sur les smartphones */
 @media only screen and (max-width: 600px) {
   .table-container {
@@ -217,6 +225,6 @@ const updateFormattedDate = () => {
     padding: 6px;
     font-size: 12px;
   }
-  
+
 }
 </style>

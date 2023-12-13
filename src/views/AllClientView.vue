@@ -19,7 +19,7 @@
 
       <h3>Modifier les crèches d'une tournée</h3>
       <select v-if="editMode" class="select" v-model="selectedTournee">
-        <option value="" disabled selected>Choisissez une tournée</option>
+        <option value="" selected>Choisissez une tournée</option>
         <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
           {{ tournee.nom }}
 
@@ -60,16 +60,23 @@
               <td class="hidden-id">{{ livraison.id }}</td>
               <td @click="navigateToCrecheDetails(livraison.id)" class="nomClient">
                 <router-link :to="{ name: 'creche-details', params: { id: livraison.id } }">
-                    {{ livraison.nom }}
+                  {{ livraison.nom }}
                 </router-link>
-                </td>
+              </td>
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
               <td v-if="editMode">
                 <input type="checkbox" :checked="isSelected(livraison)" v-model="livraison.selected" />
               </td>
               <td>
-                {{ getTourneeName(livraison.id) }}
+                <router-link v-if="livraison.tournee_id !== null"
+                  :to="{ name: 'tournee-details', params: { id: livraison.tournee_id } }">
+                  {{ getTourneeName(livraison.id) }}
+                </router-link>
+
+                <span v-else>
+                  {{ getTourneeName(livraison.id) }}
+                </span>
               </td>
               <td v-if="deleteMode">
                 <button @click="confirmDelete(livraison.id)" class="btn-supprimer">
@@ -171,7 +178,14 @@ const createTournee = async () => {
       });
       return;
     }
-
+    const { value: supplement } = await Swal.value.fire({
+      title: "Enter a % of box supplement to take",
+      input: "number",
+      inputValue: 5, // Set your default value here
+      inputAttributes: {
+        min: 0,
+      },
+    });
     const crecheIds = selectedCreches.map(creche => creche.id);
 
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees`, {
@@ -183,6 +197,7 @@ const createTournee = async () => {
       body: JSON.stringify({
         nom: newTournee.value,
         creches: crecheIds,
+        pourcentageSupplementaire: supplement
       }),
     });
 
@@ -192,9 +207,11 @@ const createTournee = async () => {
         icon: "success",
         title: "Success",
         html: "Tournee has been added",
-        timer: 1500,
+        didClose: () => {
+          window.location.reload();
+        }
       });
-      window.location.reload();
+
 
     } else {
       const responseData = await response.json();
@@ -254,8 +271,10 @@ const addToTournee = async () => {
         title: "Success",
         html: "Tournee updated successfully",
         timer: 1500,
+        didClose: () => {
+          window.location.reload();
+        }
       });
-      window.location.reload();
     } else {
       const errorData = await response.json();
       const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
@@ -420,7 +439,7 @@ button {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #213979;
   margin-top: 4rem;
-  color:white;
+  color: white;
 }
 
 #homeViewDiv {
@@ -433,10 +452,14 @@ button {
   width: 100%;
   border-collapse: collapse;
 }
+
 #tableHomeView thead {
-  background-color: #00549a; /* Set your desired background color */
-  color: white; /* Set the text color for the header */
+  background-color: #00549a;
+  /* Set your desired background color */
+  color: white;
+  /* Set the text color for the header */
 }
+
 #tableHomeView th,
 td {
   border: 1px solid #ddd;

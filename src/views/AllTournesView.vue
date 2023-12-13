@@ -157,7 +157,7 @@ console.log(tournees);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #213979;
   margin-top: 2rem;
-  color:white;
+  color: white;
 }
 
 /* Styles pour le wrapper du tableau */

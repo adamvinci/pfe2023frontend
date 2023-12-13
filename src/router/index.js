@@ -7,6 +7,7 @@ import AddCommandView from '../views/AddCommandView.vue';
 import AddLivreurView from '../views/AddLivreurView.vue';
 import StockCamion from '../views/StockCamionView.vue';
 import LivraisonClient from '../views/LivraisonClientView.vue';
+import TourneeDetail from '../views/TourneeDetail.vue'
 
 import AllDeliver from '../views/AllDeliversView.vue';
 import AllClient from '../views/AllClientView.vue';
@@ -77,6 +78,11 @@ const router = createRouter({
       path: '/creches/:id',
       name: 'creche-details',
       component: LivraisonClient // Assure-toi d'ajuster le chemin correctement
+    },
+    {
+      path: '/tournee/:id',
+      name: 'tournee-details',
+      component: TourneeDetail // Assure-toi d'ajuster le chemin correctement
     },
     {
       path: '/stockCamionSupp/:id',

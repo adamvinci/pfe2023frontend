@@ -97,15 +97,13 @@ export default {
 
 .navbar-nav .nav-item,
 .navbar-brand {
-  color: white ;
+  color: white;
   font-weight: bold;
   margin-right: 10px;
 }
 
 /* Set the text color to white for all links in the navbar */
 .navbar-nav .nav-link {
-  color: white ;
+  color: white;
 }
-
-
 </style>
