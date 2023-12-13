@@ -13,7 +13,7 @@
                         <tr>
                             <th>Article</th>
                             <th>Quantité A Prendre | </th>
-                            <th>Quantité Supplementaire A Prendre </th>
+                            <th>Quantité Supplementaire A Prendre</th>
                         </tr>
                     </thead>
 
