@@ -15,7 +15,7 @@
         <p v-if="isAdmin" class="tourneeName" contenteditable>
             Livreur :
             <select class="select" v-model="selectedUser">
-                <option value="">You can add a delivery man or change it</option>
+                <option value="">You can choose a delivery man </option>
                 <option v-for="livreur in livreurs" :key="livreur.id" :value="livreur.id">
                     {{ livreur.nom }}
                 </option>
