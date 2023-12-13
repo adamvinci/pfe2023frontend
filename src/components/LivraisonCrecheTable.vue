@@ -42,7 +42,7 @@
             <tr>
               <th>Article</th>
               <th>Quantité Commande</th>
-              <th v-if="!isAdmin">Quantité Livrée</th>
+              <th v-if="!isAdmin">Quantité Livrée </th>
 
             </tr>
           </thead>
