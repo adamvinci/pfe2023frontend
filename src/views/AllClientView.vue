@@ -18,7 +18,7 @@
       </form>
 
       <h3>Modifier les crèches d'une tournée</h3>
-      <select v-if="editMode" class="select" v-model="selectedTournee">
+      <select v-if="editMode" class="select" v-model="selectedTournee" @change="handleTourneeChange(selectedTournee)">
         <option value="" selected>Choisissez une tournée</option>
         <option v-for="tournee in apiTournees" :key="tournee.id" :value="tournee.id">
           {{ tournee.nom }}
@@ -66,7 +66,7 @@
               <td>{{ livraison.gsm }}</td>
               <td>{{ livraison.adresse }}</td>
               <td v-if="editMode">
-                <input type="checkbox" :checked="isSelected(livraison)" v-model="livraison.selected" />
+                <input type="checkbox" v-model="livraison.selected" />
               </td>
               <td>
                 <router-link v-if="livraison.tournee_id !== null"
@@ -160,9 +160,19 @@ const toggleEditMode = () => {
   editMode.value = !editMode.value;
 };
 
-const isSelected = (creche) => {
-  return selectedTournee.value === creche.tournee_id;
+const handleTourneeChange = (selectedTournee) => {
+  livraisons.value.creches.forEach((creche) => {
+    if (creche.tournee_id === selectedTournee) {
+      creche.selected = true;
+    } else {
+      creche.selected = false;
+    }
+  })
+
+
 }
+
+
 
 const createTournee = async () => {
   try {
@@ -179,7 +189,7 @@ const createTournee = async () => {
     const { value: supplement } = await Swal.value.fire({
       title: "Enter a % of box supplement to take",
       input: "number",
-      inputValue: 5, // Set your default value here
+      inputValue: 10, // Set your default value here
       inputAttributes: {
         min: 0,
       },
@@ -346,6 +356,15 @@ const confirmDelete = (crecheId) => {
   }
 };
 const confirmDeleteTournee = (tourneeId) => {
+  if (tourneeId.length === 0) {
+    console.log("conditin")
+    Swal.value.fire({
+      title: "Sélectionnez une tournee a supprimer",
+      icon: "info",
+      timer: 1500,
+    });
+    return;
+  }
   const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette tournée ?');
 
   if (confirmed) {
@@ -354,6 +373,11 @@ const confirmDeleteTournee = (tourneeId) => {
 };
 
 const deleteTournee = async (tourneeId) => {
+  livraisons.value.creches.forEach((creche) => {
+    if (creche.tournee_id === tourneeId) {
+      creche.selected = false
+    }
+  })
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/${tourneeId}`, {
       method: 'DELETE',

@@ -3,8 +3,31 @@
         <router-link to="/home">
             <button class="btn-back">Retour</button>
         </router-link>
-        <h2 class="tourneeName">{{ tourneeDetails.nom }}</h2>
+        <p v-if="isAdmin" class="tourneeName" contenteditable @input="updateNom">
+            {{ tourneeDetails.nom }}
+        </p>
+        <p v-else class="tourneeName">
+            {{ tourneeDetails.nom }}
+        </p>
+        <p v-if="isAdmin" class="tourneeName" contenteditable @input="updatePourcentage">
+            {{ tourneeDetails.pourcentage_supplementaire }}
+        </p>
+        <p v-if="isAdmin" class="tourneeName" contenteditable>
+            Livreur :
+            <select class="select" v-model="selectedUser">
+                <option value="">You can add a delivery man or change it</option>
+                <option v-for="livreur in livreurs" :key="livreur.id" :value="livreur.id">
+                    {{ livreur.nom }}
+                </option>
+            </select>
+        </p>
+
         <h4 class="crecheName">Nom des crèches a livrer : {{ nomCreches }}</h4>
+        <div>
+            <button @click="enregistrer" class="btn-enregistrer" v-if="isAdmin">
+                Enregistrer
+            </button>
+        </div>
 
         <div class="table-container" id="homeView">
             <div class="table-wrapper" id="homeViewDiv">
@@ -79,12 +102,10 @@
                                 {{ tourneeDetails.nombre_caisse_insert_supplementaire }}
                             </td>
                         </tr>
-
-
                     </tbody>
 
-                </table>
 
+                </table>
             </div>
         </div>
     </div>
@@ -99,8 +120,15 @@ const route = useRoute();
 const accessToken = localStorage.getItem('accessToken');
 
 const editMode = ref(false);
-
+const isAdmin = ref(false);
+const storedUser = localStorage.getItem('user');
+if (storedUser) {
+    const parsedUser = JSON.parse(storedUser);
+    isAdmin.value = parsedUser.is_admin || false;
+}
 const tourneeDetails = ref({});
+const selectedUser = ref('')
+const livreurs = ref([])
 const nomCreches = ref({})
 const fetchData = async () => {
     try {
@@ -112,10 +140,12 @@ const fetchData = async () => {
         });
 
         if (response.ok) {
-
             const data = await response.json();
             if (data && data.tournee) {
                 tourneeDetails.value = data.tournee[0]
+                if (tourneeDetails.value.user_id) {
+                    selectedUser.value = tourneeDetails.value.user_id;
+                }
                 nomCreches.value = data.tournee[0].creches.map((creche) => creche.nom);
                 nomCreches.value = nomCreches.value.join(",")
             }
@@ -135,11 +165,91 @@ const fetchData = async () => {
     }
 };
 
+const fetchUser = async () => {
+    try {
+        const response = await fetch(`${process.env.VUE_APP_BASEURL}/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
 
+        if (response.ok) {
+
+            const data = await response.json();
+            if (data) {
+                livreurs.value = data
+                livreurs.value = livreurs.value.filter(livreur => !livreur.is_admin);
+            }
+        } else {
+
+        }
+    } catch (error) {
+        console.error('Erreur lors de la requête POST:', error);
+        console.log('Response Text:', await error.text());
+    }
+};
 onMounted(() => {
     fetchData();
+    fetchUser();
 });
+const updateNom = (event) => {
+    tourneeDetails.value.nom = event.target.textContent;
+};
+const updatePourcentage = (event) => {
+    tourneeDetails.value.pourcentage_supplementaire = event.target.textContent;
+};
 
+const enregistrer = async () => {
+    const requestBody = {
+        deliveryId: `${route.params.id}`,
+        nom: tourneeDetails.value.nom,
+        pourcentageSupplementaire: tourneeDetails.value.pourcentage_supplementaire,
+    };
+    console.log(requestBody)
+    if (selectedUser.value !== "") {
+        requestBody.deliveryMan = selectedUser.value;
+    }
+    console.log(requestBody)
+    try {
+        const response = await fetch(`${process.env.VUE_APP_BASEURL}/tournees/updateOne`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+            Swal.value.fire({
+                icon: "success",
+                title: "Success",
+                html: "Nursery updated successfully",
+                timer: 1500,
+                didClose: () => {
+                    window.location.reload();
+                }
+            });
+
+        } else {
+            const errorData = await response.json();
+            const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+            Swal.value.fire({
+                icon: "error",
+                title: "Oops...",
+                html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+            });
+
+        }
+    } catch (error) {
+        console.error('Erreur lors de la requête POST:', error);
+        console.log('Response Text:', await error.text());
+    }
+
+    editMode.value = false; // Disable edit mode after saving
+};
 
 </script>
     
@@ -186,6 +296,10 @@ button {
     background-color: #4CAF50;
     color: white;
     font-size: 16px;
+}
+
+.btn-enregistrer {
+    margin-top: 20px;
 }
 
 button:hover {

@@ -6,7 +6,34 @@
     <router-link to="/home">
       <button class="btn-back">Retour</button>
     </router-link>
-    <h2 class="clientName">{{ crecheDetails.nom }}</h2>
+    <p v-if="isAdmin" class="clientName" contenteditable @input="updateNom">
+      {{ crecheDetails.nom }}
+    </p>
+    <p v-else class="clientName">
+      {{ crecheDetails.nom }}
+    </p>
+    <p v-if="isAdmin" class="clientOther" contenteditable @input="updateAdresse">
+      {{ crecheDetails.adresse }}
+    </p>
+    <p v-else class="clientOther">
+      {{ crecheDetails.adresse }}
+    </p>
+    <p v-if="isAdmin" class="clientOther" contenteditable @input="updateVille">
+      {{ crecheDetails.ville }}
+    </p>
+    <p v-else class="clientOther">
+      {{ crecheDetails.ville }}
+    </p>
+    <p v-if="isAdmin" class="clientOther" contenteditable @input="updateGsm">
+      {{ crecheDetails.gsm > 0 ? crecheDetails.gsm :
+        'gsm' }}
+    </p>
+    <p v-else class="clientOther">
+      {{ crecheDetails.gsm > 0 ? crecheDetails.gsm :
+        'gsm' }}
+    </p>
+
+
 
     <div class="table-container" id="homeView">
       <div class="table-wrapper" id="homeViewDiv">
@@ -125,6 +152,7 @@ const editMode = ref(false);
 
 const crecheDetails = ref({});
 
+
 const nombreCaisseLingeS = ref(0);
 const nombreCaisseLingeM = ref(0);
 const nombreCaisseLingeL = ref(0);
@@ -132,7 +160,18 @@ const nombreCaisseInsert = ref(0);
 const nombreCaisseSacPoubelle = ref(0);
 const nombreCaisseGant = ref(0);
 
-
+const updateNom = (event) => {
+  crecheDetails.value.nom = event.target.textContent;
+};
+const updateAdresse = (event) => {
+  crecheDetails.value.adresse = event.target.textContent;
+};
+const updateGsm = (event) => {
+  crecheDetails.value.gsm = event.target.textContent;
+};
+const updateVille = (event) => {
+  crecheDetails.value.ville = event.target.textContent;
+};
 const fetchData = async () => {
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches/${route.params.id}`, {
@@ -186,6 +225,23 @@ onMounted(() => {
   fetchData();
 });
 const enregistrer = async () => {
+
+  const requestBody = {
+    // Add the properties you want to update on the backend
+    nombreCaisseLingeS: crecheDetails.value.nombre_caisse_linge_s,
+    nombreCaisseLingeM: crecheDetails.value.nombre_caisse_linge_m,
+    nombreCaisseLingeL: crecheDetails.value.nombre_caisse_linge_l,
+    nombreCaisseInsert: crecheDetails.value.nombre_caisse_insert,
+    nombreCaisseSacPoubelle: crecheDetails.value.nombre_caisse_sac_poubelle,
+    nombreCaisseGant: crecheDetails.value.nombre_caisse_gant,
+    nom: crecheDetails.value.nom,
+    adresse: crecheDetails.value.adresse,
+    ville: crecheDetails.value.ville
+  };
+
+  if (crecheDetails.value.gsm !== " ") {
+    requestBody.gsm = crecheDetails.value.gsm;
+  }
   try {
     const response = await fetch(`${process.env.VUE_APP_BASEURL}/creches/${route.params.id}`, {
       method: 'POST',
@@ -193,15 +249,7 @@ const enregistrer = async () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({
-        // Add the properties you want to update on the backend
-        nombreCaisseLingeS: crecheDetails.value.nombre_caisse_linge_s,
-        nombreCaisseLingeM: crecheDetails.value.nombre_caisse_linge_m,
-        nombreCaisseLingeL: crecheDetails.value.nombre_caisse_linge_l,
-        nombreCaisseInsert: crecheDetails.value.nombre_caisse_insert,
-        nombreCaisseSacPoubelle: crecheDetails.value.nombre_caisse_sac_poubelle,
-        nombreCaisseGant: crecheDetails.value.nombre_caisse_gant,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (response.ok) {
@@ -210,9 +258,21 @@ const enregistrer = async () => {
         title: "Success",
         html: "Nursery updated successfully",
         timer: 1500,
+        didClose: () => {
+          window.location.reload();
+        }
       });
+
     } else {
-      console.error('Erreur lors de l\'enregistrement des modifications:', response.status);
+      const errorData = await response.json();
+      const errorMessages = (errorData.errors || []).map(element => element.message).join('<br>');
+
+      Swal.value.fire({
+        icon: "error",
+        title: "Oops...",
+        html: errorMessages || errorData.message || errorData.error || 'An unknown error occurred',
+      });
+
     }
   } catch (error) {
     console.error('Erreur lors de la requête POST:', error);
@@ -333,4 +393,17 @@ button:hover {
   /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
-}</style>
+}
+
+.clientOther {
+  font-size: 15px;
+  margin: auto;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  background-color: #F6BA4E;
+  /* Nouvelle couleur de fond */
+  padding: 10px;
+  border-radius: 10px;
+}
+</style>
