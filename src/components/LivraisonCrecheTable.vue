@@ -188,7 +188,6 @@ const fetchData = async () => {
       if (data && data.creche) {
         crecheDetails.value = data.creche;
 
-        // Assuming crecheDetails.value has the necessary properties
         crecheDetails.value.selected = false;
         crecheDetails.value.quantiteLivre = 0;
         nombreCaisseLingeS.value = crecheDetails.value.nombre_caisse_linge_s;
@@ -228,7 +227,6 @@ onMounted(() => {
 const enregistrer = async () => {
 
   const requestBody = {
-    // Add the properties you want to update on the backend
     nombreCaisseLingeS: crecheDetails.value.nombre_caisse_linge_s,
     nombreCaisseLingeM: crecheDetails.value.nombre_caisse_linge_m,
     nombreCaisseLingeL: crecheDetails.value.nombre_caisse_linge_l,
@@ -280,7 +278,7 @@ const enregistrer = async () => {
     console.log('Response Text:', await error.text());
   }
 
-  editMode.value = false; // Disable edit mode after saving
+  editMode.value = false; 
 };
 
 
@@ -293,7 +291,6 @@ const enregistrer2 = async () => {
       'Authorization': `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      // Add the properties you want to update on the backend
       nurseryId: crecheDetails.value.id,
       deliveryId: crecheDetails.value.tournee_id,
       nombreCaisseGantLivre: nombreCaisseGant.value,
@@ -340,7 +337,6 @@ const enregistrer2 = async () => {
   flex-direction: column;
   align-items: center;
   width: 90%;
-  /* Ajustement de la largeur pour les smartphones */
   margin: auto;
   text-align: center;
   padding: 20px;
@@ -377,9 +373,7 @@ button:hover {
 
 #tableHomeView thead {
   background-color: #00549a;
-  /* Set your desired background color */
   color: white;
-  /* Set the text color for the header */
 }
 
 .clientName {
@@ -391,7 +385,6 @@ button:hover {
   letter-spacing: 2px;
   margin-bottom: 10px;
   background-color: #F6BA4E;
-  /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
 }
@@ -403,7 +396,6 @@ button:hover {
   letter-spacing: 2px;
   margin-bottom: 10px;
   background-color: #F6BA4E;
-  /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
 }

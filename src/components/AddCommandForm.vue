@@ -37,7 +37,7 @@ import Bouton from '@/components/Bouton.vue';
 import swal from 'sweetalert2';
 const Swal = ref(swal);
 const $router = useRouter();
-const { params } = useRoute(); // Utilisez useRoute pour accéder aux paramètres de l'URL
+const { params } = useRoute(); // useRoute pour accéder aux paramètres de l'URL
 const clientId = ref(params.clientId); // Accédez aux paramètres de l'URL
 
 const nombreCaisseLingeS = ref(0);
@@ -131,7 +131,6 @@ const submitCommand = async () => {
   letter-spacing: 2px;
   margin-bottom: 10px;
   background-color: #F6BA4E;
-  /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
 }

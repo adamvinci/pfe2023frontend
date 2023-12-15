@@ -4,7 +4,7 @@
     <router-link to="/stockcamion">
       <button v-if="!isadmin" class="btn-StockCamion">Stock Camion</button>
     </router-link>
-    <!-- Bouton en haut à gauche -->
+    <!-- Bouton en StockCamionSupplémentaire -->
     <router-link to="/stockCamionSupp">
       <button v-if="!isadmin" class="btn-StockCamion">Stock Supplémentaire</button>
     </router-link>
@@ -105,30 +105,21 @@ const updateFormattedDate = () => {
 .date-title {
   text-align: center;
   margin-bottom: 20px;
-  /* Increased margin for better separation */
   background-color: #F6BA4E;
-  /* Background color */
   padding: 20px;
-  /* Increased padding for more space */
   border-radius: 15px;
-  /* Rounded corners */
   color: #213979;
-  /* Text color */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* Slightly adjusted box shadow for a subtle effect */
 }
 
 .date-title h1 {
   font-size: 28px;
-  /* Slightly increased font size */
   margin: 0;
   font-weight: bold;
-  /* Added bold font weight for emphasis */
 }
 
 .date-title h2 {
   font-size: 18px;
-  /* Slightly increased font size */
   margin: 0;
 }
 

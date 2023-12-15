@@ -58,7 +58,6 @@ const ajouterLivreur = async () => {
 </script>
 
 <style scoped>
-/* AddLivreurView styles */
 .addLivreur {
   display: flex;
   flex-direction: column;
