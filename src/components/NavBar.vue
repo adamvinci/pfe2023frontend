@@ -102,7 +102,6 @@ export default {
   margin-right: 10px;
 }
 
-/* Set the text color to white for all links in the navbar */
 .navbar-nav .nav-link {
   color: white;
 }

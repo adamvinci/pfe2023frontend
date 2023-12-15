@@ -33,7 +33,7 @@ import swal from 'sweetalert2';
 const Swal = ref(swal);
 
 
-const userId = 1; // replace with your actual user ID
+const userId = 1; 
 const tournées = ref([]);
 const langes_s = ref(0) || 0;
 const langes_m = ref(0) || 0;
@@ -87,7 +87,6 @@ watch(tournées, () => {
   sacs_poubelles.value = 0;
   gants_de_toilette.value = 0;
 
-  // Iterate through tournées and update quantities
   tournées.value.forEach((tournee) => {
     langes_s.value += tournee.nombre_caisse_linge_s_aprendre || 0;
     langes_m.value += tournee.nombre_caisse_linge_m_aprendre || 0;
@@ -123,7 +122,6 @@ onMounted(() => {
   margin-left: 15px;
 }
 
-/* Styles pour la page-container */
 .page-container {
   position: relative;
   color: white;
@@ -136,9 +134,7 @@ onMounted(() => {
 
 #tableHomeView thead {
   background-color: #00549a;
-  /* Set your desired background color */
   color: white;
-  /* Set the text color for the header */
 }
 
 #tableHomeView th,

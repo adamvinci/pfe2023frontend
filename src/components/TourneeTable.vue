@@ -248,7 +248,7 @@ const enregistrer = async () => {
         console.log('Response Text:', await error.text());
     }
 
-    editMode.value = false; // Disable edit mode after saving
+    editMode.value = false; 
 };
 
 </script>
@@ -267,7 +267,6 @@ const enregistrer = async () => {
     flex-direction: column;
     align-items: center;
     width: 90%;
-    /* Ajustement de la largeur pour les smartphones */
     margin: auto;
     text-align: center;
     padding: 20px;
@@ -308,9 +307,7 @@ button:hover {
 
 #tableHomeView thead {
     background-color: #00549a;
-    /* Set your desired background color */
     color: white;
-    /* Set the text color for the header */
 }
 
 .tourneeName {
@@ -322,7 +319,6 @@ button:hover {
     letter-spacing: 2px;
     margin-bottom: 10px;
     background-color: #F6BA4E;
-    /* Nouvelle couleur de fond */
     padding: 10px;
     border-radius: 10px;
 }
@@ -334,7 +330,6 @@ button:hover {
     letter-spacing: 2px;
 
     background-color: #F6BA4E;
-    /* Nouvelle couleur de fond */
     padding: 10px;
     border-radius: 10px;
 }

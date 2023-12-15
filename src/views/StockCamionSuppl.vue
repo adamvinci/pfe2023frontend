@@ -97,7 +97,6 @@ watch(tournées, () => {
   sacs_poubelles.value = 0;
   gants_de_toilette.value = 0;
 
-  // Iterate through tournées and update quantities
   tournées.value.forEach((tournee) => {
     langes_s.value += tournee.nombre_caisse_linge_s_supplementaire || 0;
     langes_m.value += tournee.nombre_caisse_linge_m_supplementaire || 0;
@@ -144,9 +143,7 @@ onMounted(() => {
 
 #tableHomeView thead {
   background-color: #00549a;
-  /* Set your desired background color */
   color: white;
-  /* Set the text color for the header */
 }
 
 #tableHomeView th,

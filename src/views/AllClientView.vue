@@ -189,7 +189,7 @@ const createTournee = async () => {
     const { value: supplement } = await Swal.value.fire({
       title: "Enter a % of box supplement to take",
       input: "number",
-      inputValue: 10, // Set your default value here
+      inputValue: 10, 
       inputAttributes: {
         min: 0,
       },
@@ -210,7 +210,6 @@ const createTournee = async () => {
     });
 
     if (response.ok) {
-      // Handle success if needed
       Swal.value.fire({
         icon: "success",
         title: "Success",
@@ -266,7 +265,7 @@ const addToTournee = async () => {
         'Authorization': `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        deliveryId: selectedTournee.value,  // Assurez-vous que le nom du champ est correct
+        deliveryId: selectedTournee.value,  
         creches: clientIds,
       }),
     });
@@ -318,7 +317,6 @@ const deleteClient = async (crecheId) => {
     });
 
     if (response.ok) {
-      // Supprime le client de la liste locale
       const index = livraisons.value.creches.findIndex((creche) => creche.id === crecheId);
       livraisons.value.creches.splice(index, 1);
 
@@ -416,7 +414,6 @@ const deleteTournee = async (tourneeId) => {
   
   
 <style scoped>
-/* Common styles for both desktop and mobile */
 .btn-supprimer {
   background-color: red;
   color: white;
@@ -474,9 +471,7 @@ button {
 
 #tableHomeView thead {
   background-color: #00549a;
-  /* Set your desired background color */
   color: white;
-  /* Set the text color for the header */
 }
 
 #tableHomeView th,
@@ -498,24 +493,19 @@ td {
   margin-right: 10px;
 }
 
-/* Media query for screens smaller than 600px (adjust as needed) */
 @media (max-width: 600px) {
   #homeView {
     width: 90%;
-    /* Adjust the width for smaller screens */
     padding: 10px;
-    /* Adjust padding for smaller screens */
   }
 
   #homeViewDiv {
     padding: 10px;
-    /* Adjust padding for smaller screens */
   }
 
   #tableHomeView th,
   td {
     font-size: 12px;
-    /* Adjust font size for smaller screens */
   }
 }
 

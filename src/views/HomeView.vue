@@ -12,7 +12,7 @@
               <th>État de Livraison</th>
               <th v-if="isadmin">Livreur</th>
               <th v-if="isadmin">Stock Camion</th>
-              <th>Adresse</th> <!-- Nouvelle colonne pour les adresses -->
+              <th>Adresse</th> 
               <th>Tournee</th>
             </tr>
           </thead>
@@ -37,7 +37,7 @@
                   Stock Camion
                 </router-link>
               </td>
-              <td>{{ creche.adresse }}</td><!-- Ajout de la colonne pour les adresses -->
+              <td>{{ creche.adresse }}</td>
               <td>
                 <router-link :to="{ name: 'tournee-details', params: { id: creche.tournee_id } }">
                   {{
@@ -192,9 +192,7 @@ const updateFormattedDate = () => {
 
 #tableHomeView thead {
   background-color: #00549a;
-  /* Set your desired background color */
   color: white;
-  /* Set the text color for the header */
 }
 
 /* Styles pour la table-container sur les smartphones */

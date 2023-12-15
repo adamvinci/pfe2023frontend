@@ -84,7 +84,6 @@ const login = async () => {
       localStorage.setItem('accessToken', accessToken.value);
       localStorage.setItem('user', JSON.stringify(accessUser.value));
 
-      // Utilisation de la navigation avec la référence à $router
       $router.push('/home');
     } else {
 
@@ -98,14 +97,11 @@ const login = async () => {
       });
     }
   } catch (error) {
-    // Affichage du message d'erreur
     console.error('Erreur lors de la connexion:', error);
   }
 };
 </script>
 <style scoped>
-/* Style pour LoginView*/
-/* Réinitialisation des styles de base pour une meilleure compatibilité mobile */
 
 body {
   font-family: 'Arial', sans-serif;
@@ -128,7 +124,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: white;
   margin-top: 8rem;
-  /* Ajuste la marge en haut pour rapprocher du navbar */
   display: flex;
   flex-direction: column;
   align-items: center;

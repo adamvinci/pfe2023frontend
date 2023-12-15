@@ -156,14 +156,12 @@ onMounted(() => {
   color: white;
 }
 
-/* Styles pour le wrapper du tableau */
 #tourneeViewDiv {
   border: 2px solid #ddd;
   padding: 10px;
   border-radius: 10px;
 }
 
-/* Styles pour le tableau */
 #tableTourneeView {
   width: 100%;
   border-collapse: collapse;
@@ -180,7 +178,6 @@ onMounted(() => {
   background-color: #00549a;
 }
 
-/* Styles pour le bouton Enregistrer */
 .btn-enregistrer {
   margin-top: 20px;
   padding: 10px;

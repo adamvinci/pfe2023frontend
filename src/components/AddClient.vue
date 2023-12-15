@@ -108,7 +108,6 @@ const ajouterClient = async () => {
   letter-spacing: 2px;
   margin-bottom: 10px;
   background-color: #F6BA4E;
-  /* Nouvelle couleur de fond */
   padding: 10px;
   border-radius: 10px;
 }

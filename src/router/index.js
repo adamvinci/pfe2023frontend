@@ -77,12 +77,12 @@ const router = createRouter({
     {
       path: '/creches/:id',
       name: 'creche-details',
-      component: LivraisonClient // Assure-toi d'ajuster le chemin correctement
+      component: LivraisonClient 
     },
     {
       path: '/tournee/:id',
       name: 'tournee-details',
-      component: TourneeDetail // Assure-toi d'ajuster le chemin correctement
+      component: TourneeDetail 
     },
     {
       path: '/stockCamionSupp/:id',

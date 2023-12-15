@@ -182,7 +182,6 @@ const confirmEditLivreur = (hiddenId) => {
   const confirmed = window.confirm('Êtes-vous sûr de vouloir modifier ce livreur ?');
 
   if (confirmed) {
-    // Appeler votre fonction d'édition ici
     editLivreur(hiddenId);
   }
 };
@@ -191,7 +190,6 @@ const confirmDeleteLivreur = (hiddenId) => {
   const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce livreur ?');
 
   if (confirmed) {
-    // Appeler votre fonction de suppression ici
     deleteLivreur(hiddenId);
   }
 };
@@ -214,7 +212,6 @@ const confirmDeleteLivreur = (hiddenId) => {
   margin: auto;
   text-align: center;
   padding: 20px;
-  /* Ajustement de l'espace intérieur pour les smartphones */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -223,14 +220,12 @@ const confirmDeleteLivreur = (hiddenId) => {
   color: white;
 }
 
-/* Styles pour le wrapper du tableau */
 #homeViewDiv {
   border: 2px solid #ddd;
   padding: 10px;
   border-radius: 10px;
 }
 
-/* Styles pour le tableau */
 #tableHomeView {
   width: 100%;
   border-collapse: collapse;
@@ -250,11 +245,8 @@ td {
 /* Styles pour le bouton Modifier et Enregistrer */
 button {
   width: 100%;
-  /* Remplir la largeur pour les smartphones */
   margin-bottom: 10px;
-  /* Espace entre les boutons pour les smartphones */
   padding: 10px;
-  /* Ajustement de la taille des boutons pour les smartphones */
   cursor: pointer;
   border: none;
   border-radius: 4px;
